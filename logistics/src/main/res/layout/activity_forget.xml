@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorViewBg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorTitleBar">
+
+        <ImageView
+            style="@style/title_iv_back"
+            android:id="@+id/activity_forget_iv_back" />
+
+        <TextView
+            android:id="@+id/activity_forget_tv_forget"
+            android:text="@string/str_forget_pwd"
+            style="@style/title_tv_style"
+            />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:background="@color/color_white">
+
+        <EditText
+            android:hint="@string/et_login_name"
+            style="@style/edit_style"
+            android:drawableLeft="@mipmap/dl_shoujihao"
+            android:inputType="phone"
+            />
+        <TextView
+            style="@style/divide_line"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:drawablePadding="5dp"
+                android:background="@null"
+                android:textColorHint="#D3D3D3"
+                android:textSize="@dimen/content_tv_size"
+                android:hint="@string/et_check_num"
+                android:drawableLeft="@mipmap/yanzhengma"
+                android:inputType="textPassword"
+                />
+
+            <TextView
+               style="@style/divide_line_02"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/content_tv_size"
+                android:text="获取验证码"
+                android:textColor="#999999"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:background="#EEEEEE"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/activity_forget_btn_next"
+        style="@style/btn_login"
+        android:text="下一步"
+        />
+
+
+</LinearLayout>

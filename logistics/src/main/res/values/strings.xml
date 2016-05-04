@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Logistics</string>
+    <string name="str_login">登录</string>
+    <string name="str_register_title">注册</string>
+    <string name="str_chat">聊天</string>
+    <string name="et_login_name">请输入手机号</string>
+    <string name="et_login_pwd">请输入密码</string>
+    <string name="et_check_num">请输入验证码</string>
+    <string name="str_forget_pwd">忘记密码</string>
+    <string name="str_change_pwd">修改密码</string>
+    <string name="str_no_account">还没有账号？</string>
+    <string name="str_register">点击注册</string>
+    <string name="et_input_pwd">请输入新密码</string>
+    <string name="et_input_again">请确认新密码</string>
+
+</resources>

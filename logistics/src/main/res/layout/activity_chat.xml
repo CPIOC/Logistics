@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ChatMainActivity">
+
+    <FrameLayout
+        android:id="@+id/activity_main_framlayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </FrameLayout>
+
+    <TextView
+       style="@style/divide_line"/>
+
+    <RadioGroup
+        android:id="@+id/main_activity_rgroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <RadioButton
+        android:id="@+id/main_activity_rbtn_message"
+        style="@style/MainViewRbtnStyle"
+        android:tag="0"
+        android:text="消息"
+        android:drawableTop="@drawable/rbtn_msg"/>
+
+        <TextView
+          style="@style/divide_line_02"/>
+
+    <RadioButton
+        android:id="@+id/main_activity_rbtn_contacts"
+        style="@style/MainViewRbtnStyle"
+        android:tag="1"
+        android:text="通讯录"
+        android:drawableTop="@drawable/rbtn_contacts"/>
+
+    </RadioGroup>
+</LinearLayout>

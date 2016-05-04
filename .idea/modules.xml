@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CpiocApp.iml" filepath="$PROJECT_DIR$/CpiocApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logistics/logistics.iml" filepath="$PROJECT_DIR$/logistics/logistics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CarTravel/myapplication.iml" filepath="$PROJECT_DIR$/CarTravel/myapplication.iml" />
+    </modules>
+  </component>
+</project>
