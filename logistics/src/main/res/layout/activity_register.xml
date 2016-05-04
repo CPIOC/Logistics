@@ -61,7 +61,6 @@
                 android:textSize="@dimen/content_tv_size"
                 android:hint="@string/et_check_num"
                 android:drawableLeft="@mipmap/yanzhengma"
-                android:inputType="textPassword"
                 />
 
             <TextView

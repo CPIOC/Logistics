@@ -65,9 +65,8 @@ public class LoginActivity extends BaseActivity{
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.show();
-//                intent = new Intent(LoginActivity.this,HomeActivity.class);
-//                startActivity(intent);
+                intent = new Intent(LoginActivity.this,HomeActivity.class);
+                startActivity(intent);
             }
         });
     }
