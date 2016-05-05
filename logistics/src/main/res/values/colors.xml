@@ -9,4 +9,7 @@
     <color name="color_white">#FFFFFF</color>
     <color name="color_login">#3395FF</color>
     <color name="no_back">#00000000</color>
+    <color name="home_rbtn">#448ACA</color>
+    <color name="home_rbtn_nocheck">#989898</color>
+    <color name="line_btn">#FF8903</color>
 </resources>

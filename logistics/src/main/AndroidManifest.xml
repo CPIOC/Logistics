@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cpic.taylor.logistics">
 
+    <uses-sdk android:minSdkVersion="14"
+        android:targetSdkVersion="23"/>
+
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -27,7 +31,8 @@
 
         <activity android:name=".activity.ChatMainActivity">
         </activity>
-        <activity android:name=".activity.HomeActivity">
+        <activity android:name=".activity.HomeActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity android:name=".activity.LoginActivity">
@@ -40,6 +45,8 @@
         <activity android:name=".activity.ForgetPwdActivity"></activity>
         <activity android:name=".activity.ChangePwdActivity"></activity>
         <activity android:name=".activity.RegisterActivity"></activity>
+        <service android:name="com.amap.api.location.APSService" >
+        </service>
     </application>
 
 </manifest>

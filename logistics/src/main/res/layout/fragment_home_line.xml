@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.amap.api.maps.MapView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_home_address"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_line_tv_start"
+                style="@style/home_tv_address"
+                android:text="出发地" />
+
+            <TextView
+                style="@style/divide_line"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/fragment_line_tv_stop"
+                style="@style/home_tv_address"
+                android:text="目的地" />
+
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_line_ensure_select"
+            android:layout_marginTop="5dp"
+            android:text="确认查询"
+            android:textColor="@color/color_white"
+            android:textSize="15sp"
+            />
+
+
+    </LinearLayout>
+
+</FrameLayout>

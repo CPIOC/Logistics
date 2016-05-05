@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="我的资料"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"/>
+    <TextView
+        style="@style/divide_line"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="头   像"
+            android:layout_marginLeft="15dp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/huanying_logo"/>
+
+    </LinearLayout>
+    <TextView
+        style="@style/divide_line"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="昵   称"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="Bruce"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <TextView
+        style="@style/divide_line"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="车   牌"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="皖A.66666"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <TextView
+        style="@style/divide_line"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="车   型"
+            android:layout_marginLeft="15dp"
+            />
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="布加迪威龙"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <TextView
+        style="@style/divide_line"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/content_tv_size"
+            android:text="行驶证"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/content_tv_size"
+                android:text="行驶证信息"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/huanying_logo"
+                android:layout_marginBottom="15dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+    <TextView
+        style="@style/divide_line"
+        />
+
+
+
+</LinearLayout>

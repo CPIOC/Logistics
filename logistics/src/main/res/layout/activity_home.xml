@@ -7,8 +7,8 @@
     <RelativeLayout
         android:id="@+id/activity_home_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/activity_home_title"
             android:layout_width="match_parent"
@@ -16,53 +16,64 @@
             android:background="@color/color_white">
 
             <ImageView
-                style="@style/title_iv_back"
-                android:id="@+id/activity_home_iv_mine" />
+                android:id="@+id/activity_home_iv_mine"
+                style="@style/title_iv_back" />
 
             <TextView
                 android:id="@+id/activity_home_chat"
-                android:text="@string/str_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textSize="@dimen/content_tv_size"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/title_margin"
-                />
+                android:text="@string/str_chat"
+                android:textSize="@dimen/content_tv_size" />
         </RelativeLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/activity_home_title"
-            android:orientation="vertical"
-            >
-            <TextView
-                style="@style/divide_line" />
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/colorViewBg"
-                    android:padding="5dp">
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        />
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-                </RadioGroup>
+            android:orientation="vertical">
 
+            <TextView style="@style/divide_line" />
+
+            <RadioGroup
+                android:id="@+id/activity_home_rgroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorViewBg"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <RadioButton
+                    android:id="@+id/activity_home_rbtn_line"
+                    style="@style/home_rbtn_style"
+                    android:tag="0"
+                    android:text="路线" />
+
+                <RadioButton
+                    style="@style/home_rbtn_style"
+                    android:tag="1"
+                    android:text="路况" />
+
+                <RadioButton
+                    style="@style/home_rbtn_style"
+                    android:tag="2"
+                    android:text="报警" />
+            </RadioGroup>
 
             <TextView
+                android:id="@+id/line"
                 style="@style/divide_line" />
+
+            <FrameLayout
+                android:id="@+id/activity_home_framelayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
 
 
         </LinearLayout>
@@ -74,14 +85,162 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:background="#FFFFFF"
-        android:clickable="true" >
+        android:clickable="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="这是一个侧滑菜单"
-            android:textSize="20sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:text="我的资料"
+                android:textSize="18sp" />
+
+            <TextView style="@style/divide_line" />
+
+            <LinearLayout
+                android:id="@+id/layout_icon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="头   像"
+                    android:textSize="@dimen/content_tv_size" />
+
+                <ImageView
+                    android:id="@+id/layout_iv_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/huanying_logo" />
+
+            </LinearLayout>
+
+            <TextView style="@style/divide_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="昵   称"
+                    android:textSize="@dimen/content_tv_size"
+                    android:focusableInTouchMode="true"/>
+
+                <EditText
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bruce"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/content_tv_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView style="@style/divide_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="车   牌"
+                    android:textSize="@dimen/content_tv_size" />
+
+                <EditText
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="皖A.66666"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/content_tv_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView style="@style/divide_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="车   型"
+                    android:textSize="@dimen/content_tv_size" />
+
+                <EditText
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="布加迪威龙"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/content_tv_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView style="@style/divide_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="行驶证"
+                    android:textSize="@dimen/content_tv_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="行驶证信息"
+                        android:textColor="#333333"
+                        android:textSize="@dimen/content_tv_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="15dp"
+                        android:src="@mipmap/huanying_logo" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <TextView style="@style/divide_line" />
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>
