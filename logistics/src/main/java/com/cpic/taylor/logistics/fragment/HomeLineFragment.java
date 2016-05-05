@@ -1,5 +1,6 @@
 package com.cpic.taylor.logistics.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.activity.ChooseAreaActivity;
 import com.cpic.taylor.logistics.overlay.DrivingRouteOverlay;
 import com.cpic.taylor.logistics.utils.AMapUtil;
 
@@ -55,6 +57,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
 
     private TextView tvStart,tvStop;
+    private Intent intent;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,11 +75,14 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         return view;
     }
 
+
     private void registerListener() {
         tvStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "出发地", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "出发地", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getActivity(), ChooseAreaActivity.class);
+                startActivity(intent);
             }
         });
 

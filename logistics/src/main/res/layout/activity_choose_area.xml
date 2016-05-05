@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorViewBg">
+
+    <TextView
+      style="@style/divide_line" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="广州"
+            android:textColor="#999999"
+            android:drawableRight="@mipmap/down"
+            android:drawablePadding="5dp"
+            android:textSize="15sp"
+            />
+        <TextView
+            style="@style/divide_line_02"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="您从哪出发"
+            android:background="@null"
+            android:textColorHint="#C3C3C9"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textColor="#FF8A06"
+            android:textSize="15sp"
+            />
+    </LinearLayout>
+    <TextView
+        style="@style/divide_line" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>
