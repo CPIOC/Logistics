@@ -140,4 +140,5 @@ public class HomeActivity extends BaseActivity {
             lastTime = currentTime;
         }
     }
+
 }

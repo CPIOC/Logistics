@@ -46,7 +46,8 @@
         <activity android:name=".activity.ChangePwdActivity"></activity>
         <activity android:name=".activity.RegisterActivity"></activity>
         <activity android:name=".activity.ChooseAreaActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"
+           ></activity>
 
         <service android:name="com.amap.api.location.APSService" >
         </service>

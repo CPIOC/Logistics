@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,8 +56,14 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
     private RadioGroup mGPSModeGroup;
 
+    private Button btnQuery;
 
+    /**
+     * 起点终点
+     */
     private TextView tvStart,tvStop;
+    private final static int START = 0;
+    private final static int STOP = 1;
     private Intent intent;
     @Nullable
     @Override
@@ -66,10 +73,11 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         mapView = (MapView) view.findViewById(R.id.map);
         tvStart = (TextView) view.findViewById(R.id.fragment_line_tv_start);
         tvStop = (TextView) view.findViewById(R.id.fragment_line_tv_stop);
+        btnQuery = (Button) view.findViewById(R.id.fragment_line_btn_query);
 
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         init(view);
-        setfromandtoMarker();
+//        setfromandtoMarker();
         registerListener();
 
         return view;
@@ -82,18 +90,27 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             public void onClick(View view) {
 //                Toast.makeText(getActivity(), "出发地", Toast.LENGTH_SHORT).show();
                 intent = new Intent(getActivity(), ChooseAreaActivity.class);
-                startActivity(intent);
+                intent.putExtra("action",START);
+                startActivityForResult(intent,START);
             }
         });
 
         tvStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "目的地", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "目的地", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getActivity(), ChooseAreaActivity.class);
+                intent.putExtra("action", STOP);
+                startActivityForResult(intent, STOP);
             }
         });
 
-
+        btnQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setfromandtoMarker();
+            }
+        });
     }
 
     private void setfromandtoMarker() {
@@ -282,5 +299,24 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     @Override
     public void onMapClick(LatLng latLng) {
 
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == -1){
+            switch (requestCode){
+                case START:
+                    tvStart.setText(data.getStringExtra("areaName"));
+                    tvStart.setTextColor(getResources().getColor(R.color.home_tv_area));
+                    break;
+                case STOP:
+                    tvStop.setText(data.getStringExtra("areaName"));
+                    tvStop.setTextColor(getResources().getColor(R.color.home_tv_area));
+                    break;
+            }
+        }
     }
 }

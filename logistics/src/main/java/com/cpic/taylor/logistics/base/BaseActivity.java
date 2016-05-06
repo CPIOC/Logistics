@@ -9,6 +9,7 @@ import android.widget.Toast;
  */
 public abstract class BaseActivity extends FragmentActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -22,21 +23,25 @@ public abstract class BaseActivity extends FragmentActivity {
 
     /**
      * 得到上一个Activity传来的Intent数据
+     *
      * @param savedInstanceState
      */
     protected abstract void getIntentData(Bundle savedInstanceState);
+
     /**
      * 加载布局
      */
-    protected abstract void loadXml() ;
+    protected abstract void loadXml();
+
     /**
      * 初始化控件
      */
     protected abstract void initView();
+
     /**
      * 初始化数据
      */
-    protected abstract void initData() ;
+    protected abstract void initData();
 
     /**
      * 设置监听
@@ -46,16 +51,19 @@ public abstract class BaseActivity extends FragmentActivity {
 
     /**
      * Toast长显示
+     *
      * @param msg
      */
-    protected void showLongToast(String msg){
+    protected void showLongToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
+
     /**
      * Toast短显示
+     *
      * @param msg
      */
-    protected void showShortToast(String msg){
+    protected void showShortToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 

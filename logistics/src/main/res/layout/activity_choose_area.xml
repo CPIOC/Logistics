@@ -11,45 +11,55 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="12dp">
+        >
         <TextView
+            android:id="@+id/activity_choose_area_tv_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="广州"
+            android:text="省区"
             android:textColor="#999999"
             android:drawableRight="@mipmap/down"
             android:drawablePadding="5dp"
+            android:padding="10dp"
             android:textSize="15sp"
             />
         <TextView
             style="@style/divide_line_02"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="8dp"/>
 
-        <EditText
+        <AutoCompleteTextView
+            android:id="@+id/activity_choose_et_dest"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:hint="您从哪出发"
             android:background="@null"
+            android:inputType="text|textAutoComplete"
+            android:maxLength="20"
             android:textColorHint="#C3C3C9"
             android:textSize="14sp"/>
 
         <TextView
+            android:id="@+id/activity_choose_tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消"
             android:textColor="#FF8A06"
+            android:paddingRight="8dp"
             android:textSize="15sp"
             />
     </LinearLayout>
     <TextView
+        android:id="@+id/divide_line"
         style="@style/divide_line" />
 
     <ListView
+        android:id="@+id/activity_choose_area_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </ListView>
 
 </LinearLayout>
