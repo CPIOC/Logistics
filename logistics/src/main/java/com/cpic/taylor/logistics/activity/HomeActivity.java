@@ -73,8 +73,8 @@ public class HomeActivity extends BaseActivity {
         // TODO Auto-generated method stub
         mFragList = new ArrayList<Fragment>();
         mFragList.add(new HomeLineFragment());
-        mFragList.add(new HomePoliceFragment());
         mFragList.add(new HomeRoadFragment());
+        mFragList.add(new HomePoliceFragment());
 
         mManager = getSupportFragmentManager();
         mTrans = mManager.beginTransaction();

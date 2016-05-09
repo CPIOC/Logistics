@@ -2,10 +2,11 @@ package com.cpic.taylor.logistics.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,17 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     private PoiResult poiResult; // poi返回的结果
     private Dialog dialog;
 
+
+    /**
+     * 判断是目的地还是出发地
+     */
+    private int status = 0;
+
+    /**
+     * 保存当前地址
+     */
+    private SharedPreferences sp;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,7 +111,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         init(view);
-//        setfromandtoMarker();
         aMap.setOnMarkerClickListener(this);
         registerListener();
 
@@ -114,6 +125,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 //                Toast.makeText(getActivity(), "出发地", Toast.LENGTH_SHORT).show();
                 intent = new Intent(getActivity(), ChooseAreaActivity.class);
                 intent.putExtra("action",START);
+                status = START;
                 startActivityForResult(intent,START);
             }
         });
@@ -124,6 +136,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 //                Toast.makeText(getActivity(), "目的地", Toast.LENGTH_SHORT).show();
                 intent = new Intent(getActivity(), ChooseAreaActivity.class);
                 intent.putExtra("action", STOP);
+                status = STOP;
                 startActivityForResult(intent, STOP);
             }
         });
@@ -209,6 +222,11 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        if (!"出发地".equals(tvStart.getText().toString())&&!"目的地".equals(tvStop.getText().toString())){
+            btnQuery.setVisibility(View.VISIBLE);
+        }else{
+            btnQuery.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -239,9 +257,15 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             if (aMapLocation != null
                     && aMapLocation.getErrorCode() == 0) {
                 mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+                sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("now_address",aMapLocation.getAddress());
+                editor.commit();
+//                Log.i("oye",aMapLocation.getAddress());
+
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
-                Log.i("oye", errText);
+                Toast.makeText(getActivity(),"定位失败，请检查GPS是否开启",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -295,8 +319,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Toast.makeText(getActivity(), marker.getPosition().latitude+"----"+marker.getPosition().longitude ,Toast.LENGTH_SHORT).show();
-
+                if (status == 0){
+                    mStartPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
+                    aMap.clear();
+                }else if (status == 1){
+                    mEndPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
+                    aMap.clear();
+                }
             }
         });
         return view;
@@ -366,6 +395,8 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     }
 
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -384,6 +415,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     String area2 =  data.getStringExtra("areaProvice");
                     tvStop.setText(area2+name2);
                     tvStop.setTextColor(getResources().getColor(R.color.home_tv_area));
+                    doSearchQuery(area2,name2);
                     break;
             }
         }

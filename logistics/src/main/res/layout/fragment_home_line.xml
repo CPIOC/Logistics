@@ -48,6 +48,7 @@
             android:background="@drawable/btn_line_ensure_select"
             android:layout_marginTop="5dp"
             android:text="确认查询"
+            android:visibility="gone"
             android:textColor="@color/color_white"
             android:textSize="15sp"
             />
