@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwitchGroup">
+        <attr name="orientation1">
+            <flag name="horizontal" value="0"></flag>
+            <flag name="vertical" value="1"></flag>
+        </attr>
+        <attr name="pinned_view1" format="reference" />
+        <attr name="pinned_item1" format="reference" />
+        <attr name="pinned_item_array1" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="PullLayout">
+        <attr name="pull_limit" format="dimension" />
+        <attr name="support_over" format="boolean" />
+        <attr name="hold_adjust_type">
+            <flag name="not_adjust" value="0"></flag>
+            <flag name="adjust_content" value="1"></flag>
+            <flag name="elasticity_adjust" value="2"></flag>
+        </attr>
+    </declare-styleable>
+
+
+</resources>

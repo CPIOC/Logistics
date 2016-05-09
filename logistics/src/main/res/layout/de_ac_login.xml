@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/de_img_backgroud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginRight="-300dp"
+            android:scaleType="center"
+            android:src="@drawable/de_bg" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <include layout="@layout/de_merge_public" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/de_login_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dip"
+            android:layout_marginRight="85dip"
+            android:layout_marginTop="91dip"
+            android:src="@drawable/de_btn_login_logo" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dip"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/liner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/app_username_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rc_ed_public_service_search_selector"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/app_login_show"
+                    android:singleLine="true"
+                    android:textColor="@color/main_regist"
+                    android:textColorHint="@color/main_regist" />
+
+                <FrameLayout
+                    android:id="@+id/fr_username_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/app_username_et"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip"
+                        android:src="@drawable/de_register_delete" />
+                </FrameLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/liner2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:layout_marginTop="37dip"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/app_password_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rc_ed_public_service_search_selector"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/app_login_password"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/main_regist"
+                    android:textColorHint="@color/main_regist" />
+
+                <FrameLayout
+                    android:id="@+id/fr_pass_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/app_password_et"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip"
+                        android:src="@drawable/de_register_delete" />
+                </FrameLayout>
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/app_sign_in_bt"
+                style="@style/DemoTextStyleBig1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:layout_marginTop="24dip"
+                android:background="@drawable/de_login_selector"
+                android:text="@string/app_sign_in"
+                android:textColor="@color/main_regist" />
+
+            <TextView
+                android:id="@+id/de_login_forgot"
+                style="@style/DemoTextStyleMiddle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="11dp"
+                android:text="@string/app_fogot_password" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/de_login_register"
+        style="@style/DemoTextStyleMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:text="@string/app_sign_up" />
+
+</RelativeLayout>

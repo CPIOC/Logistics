@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <io.rong.imkit.widget.AsyncImageView
+        android:id="@+id/iv_chatroom_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:padding="4dp"
+        android:src="@drawable/icon1" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_chatroom_icon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_chatroom_title"
+            style="@style/DemoTextStyleBigBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:singleLine="true"
+            android:text="融云客服" />
+
+        <TextView
+            android:id="@+id/tv_chatroom_d_a"
+            style="@style/DemoTextStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:singleLine="true"
+            android:text="#在线服务#" />
+
+        <TextView
+            android:id="@+id/tv_chatroom_d_b"
+            style="@style/DemoTextStyleMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="多年专注于移动互联网即时通" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

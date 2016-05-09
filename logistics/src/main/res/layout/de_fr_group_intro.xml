@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <io.rong.imkit.widget.AsyncImageView
+                android:id="@+id/group_portrait"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/de_group_default_portrait"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/group_name"
+                style="@style/DemoTextStyleBigBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/group_portrait"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/group_id"
+                style="@style/DemoTextStyleMiddle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_name"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/group_portrait" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_group_intro"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp">
+
+            <TextView
+                style="@style/DemoTextStyleBigBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:text="@string/group_intro" />
+
+            <TextView
+                android:id="@+id/group_intro"
+                style="@style/DemoTextStyleMiddle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:singleLine="true" />
+        </RelativeLayout>
+
+        <include layout="@layout/de_merge_view" />
+
+        <RelativeLayout
+            android:id="@+id/rel_group_number"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="24dp">
+
+            <TextView
+                style="@style/DemoTextStyleBigBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:text="@string/group_number" />
+
+            <TextView
+                android:id="@+id/group_number"
+                style="@style/DemoTextStyleMiddle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:singleLine="true" />
+        </RelativeLayout>
+
+        <include layout="@layout/de_merge_view" />
+
+        <RelativeLayout
+            android:id="@+id/rel_group_myname"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="24dp"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/DemoTextStyleBigBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/group_myname" />
+
+            <TextView
+                android:id="@+id/group_myname"
+                style="@style/DemoTextStyleMiddle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:singleLine="true" />
+        </RelativeLayout>
+
+        <fragment
+            android:id="@+id/f1"
+            android:name="io.rong.imkit.fragment.SetConversationNotificationFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
+            android:id="@+id/f2"
+            android:name="io.rong.imkit.fragment.SetConversationToTopFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
+            android:id="@+id/f3"
+            android:name="io.rong.imkit.fragment.ClearConversationMsgFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <RelativeLayout
+            android:id="@+id/rel_group_clear_message"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="24dp"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/DemoTextStyleBigBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/de_set_clear_message" />
+
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/join_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/de_green_selector"
+            android:text="@string/group_join"
+            android:textColor="@color/rc_text_color_secondary_inverse" />
+
+        <Button
+            android:id="@+id/chat_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/de_green_selector"
+            android:text="@string/group_chat"
+            android:textColor="@color/rc_text_color_secondary_inverse" />
+
+        <Button
+            android:id="@+id/quit_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/de_red_selector"
+            android:text="@string/group_quit"
+            android:textColor="@color/rc_text_color_secondary_inverse" />
+    </LinearLayout>
+
+</ScrollView>

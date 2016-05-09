@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <fragment
+        android:id="@+id/set_to_add"
+        android:name="com.cpic.taylor.logistics.RongCloudFragment.setting.RongConversationAddMemberFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/set_to_top"
+        android:name="com.cpic.taylor.logistics.RongCloudFragment.setting.RongSetConversationToTopFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/set_to_noti"
+        android:name="com.cpic.taylor.logistics.RongCloudFragment.setting.RongSetConversationNotificationFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <fragment
+        android:id="@+id/set_to_clear"
+        android:name="com.cpic.taylor.logistics.RongCloudFragment.setting.RongClearConversationMsgFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -1,0 +1,200 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_show"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cpic.taylor.logistics.RongCloudActivity.MainActivity">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:onClick="backTo"
+            android:src="@drawable/dingbu_fanhui2"/>
+        <TextView
+            android:id="@+id/main_activity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="聊天(6)"
+            android:textSize="18sp"/>
+        <ImageView
+            android:id="@+id/main_activity_plus_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:onClick="plusFunction"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/wode_guanyuwomen"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#e9e9e9"></View>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:visibility="gone"
+        android:background="@color/group_list_liner">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/main_title_backgroud"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/main_conversation_liner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/main_conversation_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/main_conversation"
+                    android:textColor="@color/black_textview"
+
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/de_num"
+                    style="@style/DemoMainNewMassage"
+                    android:layout_marginRight="7dp"
+                    android:paddingBottom="2dp"
+                    android:text="18"
+                    android:textColor="@color/main_regist"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/main_group_liner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/main_group_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/main_group"
+                    android:textColor="@color/black_textview"
+                    android:textSize="16sp" />
+
+                <TextView
+                    style="@style/DemoMainNewMassage"
+                    android:layout_marginRight="7dp"
+                    android:textColor="@color/main_regist"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/main_chatroom_liner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/main_chatroom_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/main_chatroom"
+                    android:textColor="@color/black_textview"
+                    android:textSize="16sp" />
+
+                <TextView
+                    style="@style/DemoMainNewMassage"
+                    android:layout_marginRight="4dp"
+                    android:textColor="@color/main_regist"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/main_customer_liner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/main_customer_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/main_customer"
+                    android:textColor="@color/black_textview"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/customer_noread"
+                    style="@style/DemoMainNewMassage1"
+                    android:layout_marginRight="14dp"
+                    android:textColor="@color/main_regist"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/main_switch_img"
+            style="@style/DemoMainPublic" />
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+    <RadioGroup
+        android:id="@+id/main_activity_rgroup_rc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/main_activity_rbtn_message_rc"
+            style="@style/MainViewRbtnStyle"
+            android:tag="0"
+            android:text="消息"
+            android:drawableTop="@drawable/rbtn_msg"/>
+
+        <TextView
+            style="@style/divide_line_02"/>
+
+        <RadioButton
+            android:id="@+id/main_activity_rbtn_contacts_rc"
+            style="@style/MainViewRbtnStyle"
+            android:tag="1"
+            android:text="通讯录"
+            android:drawableTop="@drawable/rbtn_contacts"/>
+
+    </RadioGroup>
+
+
+
+</LinearLayout>

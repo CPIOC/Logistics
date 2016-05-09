@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <item
+        android:id="@+id/per_menu"
+        android:icon="@drawable/de_ic_setting"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom|withText">
+        <menu>
+            <item
+                android:id="@+id/per_item1"
+                android:icon="@drawable/de_join_blackban"
+                android:title="@string/join_the_blacklist" />
+            <item
+                android:id="@+id/per_item2"
+                android:icon="@drawable/de_delete"
+                android:title="@string/de_item_delete_friend" />
+
+        </menu>
+    </item>
+</menu>

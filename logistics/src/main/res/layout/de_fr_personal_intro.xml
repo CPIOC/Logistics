@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <io.rong.imkit.widget.AsyncImageView
+            android:id="@+id/personal_portrait"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rc_default_portrait"
+            android:padding="0dp" />
+
+        <TextView
+            android:id="@+id/personal_name"
+            style="@style/DemoTextStyleBigBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/personal_portrait"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/personal_id"
+            style="@style/DemoTextStyleMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personal_name"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/personal_portrait" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/de_group_join_in"
+        android:text="@string/personal_send_message"
+        android:textColor="@color/rc_text_color_secondary_inverse" />
+
+    <Button
+        android:id="@+id/add_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/de_group_join_in"
+        android:text="@string/add_friend"
+        android:textColor="@color/rc_text_color_secondary_inverse" />
+
+
+</LinearLayout>
+
+

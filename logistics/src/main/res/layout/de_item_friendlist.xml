@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <io.rong.imkit.widget.AsyncImageView
+        android:id="@+id/de_ui_friend_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/rc_default_portrait"
+        app:RCDefDrawable="@drawable/rc_default_portrait"
+        app:RCShape="square" />
+
+    <TextView
+        android:id="@+id/de_ui_friend_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/group_list_black_textview"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/de_ui_friend_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="24dp"
+        android:button="@drawable/de_ui_friend_check_selector"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:maxHeight="12.0dip" />
+
+</LinearLayout>

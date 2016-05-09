@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.cpic.taylor.logistics.RongCloudWidget.PinnedHeaderListView
+        android:id="@+id/de_ui_friend_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none"
+        android:background="@color/main_backgroud_search"
+        android:fastScrollEnabled="false"
+        android:scrollbars="none" />
+
+    <com.cpic.taylor.logistics.RongCloudWidget.SwitchGroup
+        android:id="@+id/de_ui_friend_message"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:paddingTop="10dp"
+        app:orientation1="vertical"
+        app:pinned_item1="@layout/de_item_pinned"
+        app:pinned_item_array1="@array/de_search_letters" />
+
+</RelativeLayout>

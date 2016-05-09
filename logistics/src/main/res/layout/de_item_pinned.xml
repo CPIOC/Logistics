@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cpic.taylor.logistics.RongCloudWidget.SwitchItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textColor="@color/black_textview"
+    android:gravity="center"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:textSize="12sp" />
