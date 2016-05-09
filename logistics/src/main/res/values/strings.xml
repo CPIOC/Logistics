@@ -13,4 +13,165 @@
     <string name="et_input_pwd">请输入新密码</string>
     <string name="et_input_again">请确认新密码</string>
 
+    <!--融云定义Strings-->
+    <!-- 登录 -->
+    <string name="app_login_show">用户名</string>
+    <string name="app_login_password">密码</string>
+    <string name="app_sign_in">登录</string>
+    <string name="app_sign_up">注册</string>
+    <string name="app_fogot_password">忘记密码?</string>
+    <string name="app_pass_error">密码错误</string>
+    <string name="app_user_error">账号错误</string>
+    <string name="app_user_cookie">cookie 错误</string>
+    <string name="app_first_login">请先登陆</string>
+    <string name="app_cookie_null">cookie 为空</string>
+    <string name="login_erro_is_null">"用户名、密码不能为空"</string>
+
+    <!--主页-->
+    <string name="main_name">融云</string>
+    <string name="main_conversation">会话</string>
+    <string name="main_group">群组</string>
+    <string name="main_chatroom">聊天室</string>
+    <string name="main_customer">客服</string>
+    <string name="add_chat">发起聊天</string>
+    <string name="add_select_group">选择群组</string>
+    <string name="add_voip">网络电话</string>
+    <string name="add_contacts">通讯录</string>
+    <string name="red_packet">红包</string>
+    <string name="set_personal_information">我的账号</string>
+    <string name="set_news_reminded">新消息提醒</string>
+    <string name="set_privacy">隐私</string>
+    <string name="set_set">设置</string>
+    <string name="set_rongcloud">关于融云</string>
+    <string name="set_sign_out">退出</string>
+    <string name="set_logout">注销</string>
+    <string name="de_save">"保存"</string>
+
+    <string name="register_user_exits">"该邮箱已注册"</string>
+    <string name="no_read_message">"···"</string>
+
+    <!--register activity -->
+    <string name="register_is_null">"邮箱、密码、昵称 不能为空"</string>
+    <string name="register_success">"注册成功"</string>
+    <string name="register_failure">"注册失败"</string>
+    <string name="register_input_email">"输入邮箱"</string>
+    <string name="register_input_password">"输入密码"</string>
+    <string name="register_input_nickname">"昵称"</string>
+    <string name="register_btn_argee">"注册"</string>
+    <string name="register_email_error">"邮箱地址不合法"</string>
+    <string name="login_success">"登录成功"</string>
+    <string name="login_failure">"登录失败"</string>
+    <string name="register_user_agreement">"阅读用户协议"</string>
+    <string name="register_agree">"同意并注册"</string>
+    <string name="register_declaration">"仅供演示融云SDK功能使用"</string>
+
+    <!--设置-->
+    <string name="new_message_notice">消息免打扰</string>
+    <string name="new_message_show">新消息提醒</string>
+    <string name="new_message_voice">声音</string>
+    <string name="new_message_vibration">震动</string>
+    <string name="new_message_prompt_voice">新消息提示音</string>
+    <string name="new_message_follow_system">跟随系统</string>
+    <string name="add_validation">加我时需要验证</string>
+    <string name="the_blacklist">黑名单</string>
+    <string name="join_the_blacklist">加入黑名单</string>
+    <string name="portrait">头像</string>
+    <string name="my_username">昵称</string>
+    <string name="good_name">好的名字可以让你的朋友更容易记住</string>
+    <string name="new_name">新昵称</string>
+    <string name="update_log">更新日志</string>
+    <string name="function_introduce">功能介绍</string>
+    <string name="version_number">V2.1.0</string>
+    <string name="dv_document">开发者文档</string>
+    <string name="rongcloud_web">官方网站</string>
+    <string name="new_version_update">当前版本</string>
+    <string name="update_profile_success">昵称修改成功</string>
+    <string name="update_profile_faiture">昵称修改失败</string>
+    <string name="profile_not_null">昵称不能为空</string>
+    <string name="de_set_clear_message">清空聊天记录</string>
+    <string name="de_notification_start">开始时间</string>
+    <string name="de_notification_end">结束时间</string>
+    <string name="de_fr_delete">删除并退出</string>
+    <string name="de_discussion_name">"讨论组名称"</string>
+    <string name="de_setting_set_top">置顶</string>
+    <string name="de_setting_conversation_notify">新消息通知</string>
+    <string name="de_setting_clear_msg_name">清空聊天信息</string>
+
+    <string name="commoditydescription">现货文化生活杂志 homeland家园2014年10月第106期</string>
+    <string name="the_price">￥13.00</string>
+
+    <string name="rc_connect">Connect</string>
+    <string name="rc_app_self_chat">Self Chat</string>
+    <string name="rc_friend">Friend</string>
+    <string name="rc_information">send Information message</string>
+
+    <string name="rc_app_conversationlist">enter conversationlist</string>
+    <!-- friend list -->
+    <string name="friend_list_multi_choice_comfirt_btn">"确定(%1$s)"</string>
+    <string name="de_item_delete_friend">"删除"</string>
+    <string name="de_new_friends">"新的朋友"</string>
+    <string name="friend_id">"Id:"</string>
+
+    <!--group-->
+    <string name="group_intro">"群简介"</string>
+    <string name="group_number">"群人数"</string>
+    <string name="group_myname">"我在本群的昵称"</string>
+    <string name="group_join">"加入"</string>
+    <string name="group_quit">"删除并退出"</string>
+    <string name="group_chat">"聊天"</string>
+    <string name="group_join_success">"加入群组成功"</string>
+    <string name="group_quit_success">"退出群组成功"</string>
+    <string name="group_is_full">"群组人数已满"</string>
+    <string name="group_user_info">"群名片"</string>
+    <string name="group_user_intro">修改你的群名片</string>
+
+    <!--personal-->
+    <string name="personal_title">"详细资料"</string>
+    <string name="personal_area">"地区"</string>
+    <string name="personal_signature">"个性签名"</string>
+    <string name="personal_send_message">"发消息"</string>
+    <string name="add_friend">"添加到通讯录"</string>
+    <string name="personal_send_voip">"语音聊天"</string>
+
+
+    <!--public account -->
+    <string name="public_account_search">"搜索"</string>
+    <string name="public_add_address">"添加好友"</string>
+    <string name="friend_send">"好友请求已发送"</string>
+    <string name="friend_send_success">"发送好友请求成功"</string>
+    <!--actionbar title -->
+    <string name="de_actionbar_myacc">"个人账号"</string>
+    <string name="de_actionbar_detail">"个人详情"</string>
+    <string name="de_actionbar_sub_group">"群组"</string>
+    <string name="de_actionbar_sub_private">"我的私人会话"</string>
+    <string name="de_actionbar_sub_discussion">"我的讨论组"</string>
+    <string name="de_actionbar_sub_system">"系统消息"</string>
+    <string name="de_actionbar_sub_defult">"聊天"</string>
+    <string name="de_actionbar_set_conversation">"聊天设置"</string>
+    <string name="de_actionbar_set_public">"公众号"</string>
+    <string name="de_actionbar_update_discussion">"修改讨论组昵称"</string>
+    <string name="de_actionbar_update_group">"修改群组昵称"</string>
+    <string name="de_actionbar_discussion">"聊天室"</string>
+    <string name="de_actionbar_system">"系统消息"</string>
+    <string name="phone_camera">Camera</string>
+    <string name="de_actionbar_file">"文件预览"</string>
+
+    <string name="de_dialog_item_message_delete">删除消息</string>
+    <string name="de_notification_information">开启后，在设定时间段内收到新消息时不会响铃或振动。</string>
+
+    <string name="de_plugins_image">图片</string>
+    <string name="de_plugins_file">文件</string>
+    <string name="de_plugins_camera">相机</string>
+    <string name="de_group_list_default_discussion_name">讨论组</string>
+    <string name="de_message_content_draft">[草稿]</string>
+    <string name="de_message_at_me">[有人@我]</string>
+
+    <!-- Aming 10月重构版 -->
+    <string name="folder_all">所有图片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

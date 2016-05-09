@@ -1,1 +1,1 @@
-include ':logistics'
+include ':logistics', ':IMKit'
