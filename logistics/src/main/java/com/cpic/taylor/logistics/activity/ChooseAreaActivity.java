@@ -201,11 +201,17 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
             lvArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    intent = new Intent();
-                    intent.putExtra("areaName",listString.get(i));
-                    setResult(RESULT_OK,intent);
-                    finish();
-                    popupDetails.dismiss();
+
+                    if (tvArea.getText().toString().equals("省区")){
+                        showShortToast("请填写省份");
+                    }else{
+                        intent = new Intent();
+                        intent.putExtra("areaProvice",tvArea.getText().toString());
+                        intent.putExtra("areaName",listString.get(i));
+                        setResult(RESULT_OK,intent);
+                        finish();
+                        popupDetails.dismiss();
+                    }
                 }
             });
 

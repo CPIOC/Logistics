@@ -1,5 +1,6 @@
 package com.cpic.taylor.logistics.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +26,12 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.overlay.PoiOverlay;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.core.SuggestionCity;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveRouteResult;
@@ -34,13 +41,16 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.activity.ChooseAreaActivity;
 import com.cpic.taylor.logistics.overlay.DrivingRouteOverlay;
 import com.cpic.taylor.logistics.utils.AMapUtil;
+import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
+
+import java.util.List;
 
 /**
  * Created by Taylor on 2016/4/29.
  */
 public class HomeLineFragment extends Fragment implements LocationSource,
         AMapLocationListener, AMap.OnMapClickListener,
-        AMap.OnMarkerClickListener, AMap.OnInfoWindowClickListener, AMap.InfoWindowAdapter, RouteSearch.OnRouteSearchListener {
+        AMap.OnMarkerClickListener, AMap.OnInfoWindowClickListener, AMap.InfoWindowAdapter, RouteSearch.OnRouteSearchListener ,PoiSearch.OnPoiSearchListener {
     //定位
     private MapView mapView;
     private AMap aMap;
@@ -65,6 +75,17 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     private final static int START = 0;
     private final static int STOP = 1;
     private Intent intent;
+
+
+    /**
+     * 检索功能
+     */
+    private int currentPage = 0;// 当前页面，从0开始计数
+    private PoiSearch.Query query;// Poi查询条件类
+    private PoiSearch poiSearch;// POI搜索
+    private PoiResult poiResult; // poi返回的结果
+    private Dialog dialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,10 +95,12 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvStart = (TextView) view.findViewById(R.id.fragment_line_tv_start);
         tvStop = (TextView) view.findViewById(R.id.fragment_line_tv_stop);
         btnQuery = (Button) view.findViewById(R.id.fragment_line_btn_query);
+        dialog = ProgressDialogHandle.getProgressDialog(getActivity(),null);
 
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         init(view);
 //        setfromandtoMarker();
+        aMap.setOnMarkerClickListener(this);
         registerListener();
 
         return view;
@@ -160,9 +183,28 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+        aMap.setOnMarkerClickListener(this);// 添加点击marker监听事件
+        aMap.setInfoWindowAdapter(this);// 添加显示infowindow监听事件
     }
 
 
+
+    /**
+     * 开始进行poi搜索
+     */
+    protected void doSearchQuery(String keyWord,String area) {
+        if (dialog!=null){
+            dialog.show();
+        }
+        currentPage = 0;
+        query = new PoiSearch.Query(keyWord, "", area);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query.setPageSize(10);// 设置每页最多返回多少条poiitem
+        query.setPageNum(currentPage);// 设置查第一页
+
+        poiSearch = new PoiSearch(getActivity(), query);
+        poiSearch.setOnPoiSearchListener(this);
+        poiSearch.searchPOIAsyn();
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -204,6 +246,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         }
     }
 
+
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
@@ -236,8 +279,27 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
 
     @Override
-    public View getInfoWindow(Marker marker) {
-        return null;
+    public View getInfoWindow(final Marker marker) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.poikeywordsearch_uri,
+                null);
+        TextView title = (TextView) view.findViewById(R.id.title);
+        title.setText(marker.getTitle());
+
+        title.setTextColor(getResources().getColor(R.color.home_tv_area));
+        TextView snippet = (TextView) view.findViewById(R.id.snippet);
+        snippet.setText(marker.getSnippet());
+        snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
+        ImageButton button = (ImageButton) view
+                .findViewById(R.id.start_amap_app);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Toast.makeText(getActivity(), marker.getPosition().latitude+"----"+marker.getPosition().longitude ,Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        return view;
     }
 
     @Override
@@ -252,6 +314,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
         return false;
     }
 
@@ -262,6 +325,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
     @Override
     public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
+
         if (i == 1000) {
             if (driveRouteResult != null && driveRouteResult.getPaths() != null) {
                 if (driveRouteResult.getPaths().size() > 0) {
@@ -309,14 +373,62 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         if (resultCode == -1){
             switch (requestCode){
                 case START:
-                    tvStart.setText(data.getStringExtra("areaName"));
+                    String name1 = data.getStringExtra("areaName");
+                    String area1 =  data.getStringExtra("areaProvice");
+                    tvStart.setText(area1+name1);
                     tvStart.setTextColor(getResources().getColor(R.color.home_tv_area));
+                    doSearchQuery(name1,area1);
                     break;
                 case STOP:
-                    tvStop.setText(data.getStringExtra("areaName"));
+                    String name2 = data.getStringExtra("areaName");
+                    String area2 =  data.getStringExtra("areaProvice");
+                    tvStop.setText(area2+name2);
                     tvStop.setTextColor(getResources().getColor(R.color.home_tv_area));
                     break;
             }
         }
     }
+
+    @Override
+    public void onPoiSearched(PoiResult result, int rCode) {
+
+        if (dialog != null){
+            dialog.dismiss();
+        }
+        if (rCode == 1000) {
+            if (result != null && result.getQuery() != null) {// 搜索poi的结果
+                if (result.getQuery().equals(query)) {// 是否是同一条
+                    poiResult = result;
+                    // 取得搜索到的poiitems有多少页
+                    List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+                    List<SuggestionCity> suggestionCities = poiResult
+                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
+
+                    if (poiItems != null && poiItems.size() > 0) {
+                        aMap.clear();// 清理之前的图标
+                        PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);
+                        poiOverlay.removeFromMap();
+                        poiOverlay.addToMap();
+                        poiOverlay.zoomToSpan();
+                    } else if (suggestionCities != null
+                            && suggestionCities.size() > 0) {
+
+                    } else {
+
+                    }
+                }
+            } else {
+
+            }
+        } else {
+
+        }
+    }
+
+    @Override
+    public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+    }
+
+
 }

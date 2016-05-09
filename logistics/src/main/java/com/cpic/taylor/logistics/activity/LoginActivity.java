@@ -108,8 +108,8 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             @Override
             public void onClick(View view) {
                 dialog.show();
-                intent = new Intent(LoginActivity.this,HomeActivity.class);
-                startActivity(intent);
+//                intent = new Intent(LoginActivity.this,HomeActivity.class);
+//                startActivity(intent);
                 loginRongCloud();
             }
         });
@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
      */
     private void loginRongCloud() {
 
-        userName = "1149140370@qq.com";
+        userName = "727737812@qq.com";
         String passWord = "12345";
         String name = null;
 
@@ -403,7 +403,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             if (mDialog != null)
                 mDialog.dismiss();
 
-            WinToast.toast(LoginActivity.this, R.string.login_failure);
+           // WinToast.toast(LoginActivity.this, R.string.login_failure);
 
         } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
 
@@ -412,7 +412,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             /**
              * 融云登录成功
              */
-            WinToast.toast(LoginActivity.this, R.string.login_success);
+           // WinToast.toast(LoginActivity.this, R.string.login_success);
             startActivity(new Intent(this,HomeActivity.class));
             finish();
         } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
