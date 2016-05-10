@@ -1,18 +1,18 @@
 [
     {
-        "merged": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_warning.png",
-        "source": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_warning.png"
+        "merged": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png",
+        "source": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png"
     },
     {
-        "merged": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
-        "source": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
+        "merged": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
+        "source": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
     },
     {
-        "merged": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
-        "source": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
+        "merged": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
+        "source": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
     },
     {
-        "merged": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png",
-        "source": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png"
+        "merged": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_warning.png",
+        "source": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_warning.png"
     }
 ]

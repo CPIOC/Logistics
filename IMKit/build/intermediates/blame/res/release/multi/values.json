@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
+        "outputFile": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -12,14 +12,14 @@
                     "endOffset": 4322
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_emoji.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_emoji.xml",
                     "position": {
                         "startLine": 133,
                         "startColumn": 4,
-                        "startOffset": 4947,
+                        "startOffset": 5080,
                         "endLine": 262,
                         "endColumn": 24,
-                        "endOffset": 9214
+                        "endOffset": 9476
                     }
                 }
             },
@@ -33,14 +33,14 @@
                     "endOffset": 9213
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_emoji.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_emoji.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 55,
+                        "startOffset": 57,
                         "endLine": 131,
                         "endColumn": 12,
-                        "endOffset": 4941
+                        "endOffset": 5072
                     }
                 }
             },
@@ -53,13 +53,13 @@
                     "endOffset": 9274
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 192,
+                        "startOffset": 198,
                         "endColumn": 60,
-                        "endOffset": 248
+                        "endOffset": 254
                     }
                 }
             },
@@ -72,13 +72,13 @@
                     "endOffset": 9328
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 284,
+                        "startOffset": 293,
                         "endColumn": 53,
-                        "endOffset": 333
+                        "endOffset": 342
                     }
                 }
             },
@@ -91,13 +91,13 @@
                     "endOffset": 9373
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 359,
+                        "startOffset": 371,
                         "endColumn": 44,
-                        "endOffset": 399
+                        "endOffset": 411
                     }
                 }
             },
@@ -110,13 +110,13 @@
                     "endOffset": 9419
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 810,
+                        "startOffset": 835,
                         "endColumn": 45,
-                        "endOffset": 851
+                        "endOffset": 876
                     }
                 }
             },
@@ -129,13 +129,13 @@
                     "endOffset": 9476
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 459,
+                        "startOffset": 469,
                         "endColumn": 56,
-                        "endOffset": 511
+                        "endOffset": 521
                     }
                 }
             },
@@ -148,13 +148,13 @@
                     "endOffset": 9525
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 820,
+                        "startOffset": 839,
                         "endColumn": 48,
-                        "endOffset": 864
+                        "endOffset": 883
                     }
                 }
             },
@@ -167,13 +167,13 @@
                     "endOffset": 9571
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 564,
+                        "startOffset": 576,
                         "endColumn": 45,
-                        "endOffset": 605
+                        "endOffset": 617
                     }
                 }
             },
@@ -186,13 +186,13 @@
                     "endOffset": 9626
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 350,
+                        "startOffset": 357,
                         "endColumn": 54,
-                        "endOffset": 400
+                        "endOffset": 407
                     }
                 }
             },
@@ -205,13 +205,13 @@
                     "endOffset": 9673
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 303,
+                        "startOffset": 309,
                         "endColumn": 46,
-                        "endOffset": 345
+                        "endOffset": 351
                     }
                 }
             },
@@ -224,13 +224,13 @@
                     "endOffset": 9726
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 717,
+                        "startOffset": 733,
                         "endColumn": 52,
-                        "endOffset": 765
+                        "endOffset": 781
                     }
                 }
             },
@@ -243,13 +243,13 @@
                     "endOffset": 9775
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 770,
+                        "startOffset": 787,
                         "endColumn": 48,
-                        "endOffset": 814
+                        "endOffset": 831
                     }
                 }
             },
@@ -262,13 +262,13 @@
                     "endOffset": 9829
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 663,
+                        "startOffset": 678,
                         "endColumn": 53,
-                        "endOffset": 712
+                        "endOffset": 727
                     }
                 }
             },
@@ -281,13 +281,13 @@
                     "endOffset": 9882
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 406,
+                        "startOffset": 415,
                         "endColumn": 52,
-                        "endOffset": 454
+                        "endOffset": 463
                     }
                 }
             },
@@ -300,13 +300,13 @@
                     "endOffset": 9930
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 516,
+                        "startOffset": 527,
                         "endColumn": 47,
-                        "endOffset": 559
+                        "endOffset": 570
                     }
                 }
             },
@@ -319,13 +319,13 @@
                     "endOffset": 9986
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 55,
+                        "startOffset": 57,
                         "endColumn": 55,
-                        "endOffset": 106
+                        "endOffset": 108
                     }
                 }
             },
@@ -338,13 +338,13 @@
                     "endOffset": 10063
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 226,
+                        "startOffset": 231,
                         "endColumn": 76,
-                        "endOffset": 298
+                        "endOffset": 303
                     }
                 }
             },
@@ -357,13 +357,13 @@
                     "endOffset": 10121
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 111,
+                        "startOffset": 114,
                         "endColumn": 57,
-                        "endOffset": 164
+                        "endOffset": 167
                     }
                 }
             },
@@ -376,13 +376,13 @@
                     "endOffset": 10178
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 169,
+                        "startOffset": 173,
                         "endColumn": 56,
-                        "endOffset": 221
+                        "endOffset": 225
                     }
                 }
             },
@@ -395,13 +395,13 @@
                     "endOffset": 10226
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 610,
+                        "startOffset": 623,
                         "endColumn": 47,
-                        "endOffset": 653
+                        "endOffset": 666
                     }
                 }
             },
@@ -414,13 +414,13 @@
                     "endOffset": 10275
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_color.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_color.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 869,
+                        "startOffset": 889,
                         "endColumn": 48,
-                        "endOffset": 913
+                        "endOffset": 933
                     }
                 }
             },
@@ -433,13 +433,13 @@
                     "endOffset": 11679
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_dimens.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 118,
+                        "startOffset": 122,
                         "endColumn": 61,
-                        "endOffset": 175
+                        "endOffset": 179
                     }
                 }
             },
@@ -452,13 +452,13 @@
                     "endOffset": 11741
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_dimens.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 56,
+                        "startOffset": 59,
                         "endColumn": 61,
-                        "endOffset": 113
+                        "endOffset": 116
                     }
                 }
             },
@@ -471,13 +471,13 @@
                     "endOffset": 11806
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_dimens.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_dimens.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 180,
+                        "startOffset": 185,
                         "endColumn": 64,
-                        "endOffset": 240
+                        "endOffset": 245
                     }
                 }
             },
@@ -490,13 +490,13 @@
                     "endOffset": 11848
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 481,
+                        "startOffset": 494,
                         "endColumn": 41,
-                        "endOffset": 518
+                        "endOffset": 531
                     }
                 }
             },
@@ -509,13 +509,13 @@
                     "endOffset": 11885
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 444,
+                        "startOffset": 456,
                         "endColumn": 36,
-                        "endOffset": 476
+                        "endOffset": 488
                     }
                 }
             },
@@ -528,13 +528,13 @@
                     "endOffset": 11928
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 45,
                         "startColumn": 4,
-                        "startOffset": 1849,
+                        "startOffset": 1894,
                         "endColumn": 42,
-                        "endOffset": 1887
+                        "endOffset": 1932
                     }
                 }
             },
@@ -547,13 +547,13 @@
                     "endOffset": 11967
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 46,
                         "startColumn": 4,
-                        "startOffset": 1892,
+                        "startOffset": 1938,
                         "endColumn": 38,
-                        "endOffset": 1926
+                        "endOffset": 1972
                     }
                 }
             },
@@ -566,13 +566,13 @@
                     "endOffset": 12008
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 44,
                         "startColumn": 4,
-                        "startOffset": 1808,
+                        "startOffset": 1852,
                         "endColumn": 40,
-                        "endOffset": 1844
+                        "endOffset": 1888
                     }
                 }
             },
@@ -585,13 +585,13 @@
                     "endOffset": 12048
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 237,
+                        "startOffset": 244,
                         "endColumn": 40,
-                        "endOffset": 273
+                        "endOffset": 280
                     }
                 }
             },
@@ -604,13 +604,13 @@
                     "endOffset": 12101
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 4,
-                        "startOffset": 1312,
+                        "startOffset": 1346,
                         "endColumn": 52,
-                        "endOffset": 1360
+                        "endOffset": 1394
                     }
                 }
             },
@@ -623,13 +623,13 @@
                     "endOffset": 12156
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 36,
                         "startColumn": 4,
-                        "startOffset": 1415,
+                        "startOffset": 1451,
                         "endColumn": 54,
-                        "endOffset": 1465
+                        "endOffset": 1501
                     }
                 }
             },
@@ -642,13 +642,13 @@
                     "endOffset": 12208
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 4,
-                        "startOffset": 2129,
+                        "startOffset": 2181,
                         "endColumn": 52,
-                        "endOffset": 2177
+                        "endOffset": 2229
                     }
                 }
             },
@@ -661,13 +661,13 @@
                     "endOffset": 12258
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
-                        "startOffset": 1365,
+                        "startOffset": 1400,
                         "endColumn": 49,
-                        "endOffset": 1410
+                        "endOffset": 1445
                     }
                 }
             },
@@ -680,13 +680,13 @@
                     "endOffset": 12309
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 33,
                         "startColumn": 4,
-                        "startOffset": 1261,
+                        "startOffset": 1294,
                         "endColumn": 50,
-                        "endOffset": 1307
+                        "endOffset": 1340
                     }
                 }
             },
@@ -699,13 +699,13 @@
                     "endOffset": 12350
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 49,
                         "startColumn": 4,
-                        "startOffset": 2006,
+                        "startOffset": 2055,
                         "endColumn": 40,
-                        "endOffset": 2042
+                        "endOffset": 2091
                     }
                 }
             },
@@ -718,13 +718,13 @@
                     "endOffset": 12388
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
-                        "startOffset": 2047,
+                        "startOffset": 2097,
                         "endColumn": 37,
-                        "endOffset": 2080
+                        "endOffset": 2130
                     }
                 }
             },
@@ -737,13 +737,13 @@
                     "endOffset": 12425
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 55,
+                        "startOffset": 57,
                         "endColumn": 36,
-                        "endOffset": 87
+                        "endOffset": 89
                     }
                 }
             },
@@ -756,13 +756,13 @@
                     "endOffset": 12461
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 201,
+                        "startOffset": 207,
                         "endColumn": 35,
-                        "endOffset": 232
+                        "endOffset": 238
                     }
                 }
             },
@@ -775,13 +775,13 @@
                     "endOffset": 12509
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 43,
                         "startColumn": 4,
-                        "startOffset": 1760,
+                        "startOffset": 1803,
                         "endColumn": 47,
-                        "endOffset": 1803
+                        "endOffset": 1846
                     }
                 }
             },
@@ -794,13 +794,13 @@
                     "endOffset": 12552
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 42,
                         "startColumn": 4,
-                        "startOffset": 1717,
+                        "startOffset": 1759,
                         "endColumn": 42,
-                        "endOffset": 1755
+                        "endOffset": 1797
                     }
                 }
             },
@@ -813,13 +813,13 @@
                     "endOffset": 12597
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 41,
                         "startColumn": 4,
-                        "startOffset": 1672,
+                        "startOffset": 1713,
                         "endColumn": 44,
-                        "endOffset": 1712
+                        "endOffset": 1753
                     }
                 }
             },
@@ -832,13 +832,13 @@
                     "endOffset": 12635
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 680,
+                        "startOffset": 698,
                         "endColumn": 37,
-                        "endOffset": 713
+                        "endOffset": 731
                     }
                 }
             },
@@ -851,13 +851,13 @@
                     "endOffset": 12673
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 718,
+                        "startOffset": 737,
                         "endColumn": 37,
-                        "endOffset": 751
+                        "endOffset": 770
                     }
                 }
             },
@@ -870,13 +870,13 @@
                     "endOffset": 12711
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 756,
+                        "startOffset": 776,
                         "endColumn": 37,
-                        "endOffset": 789
+                        "endOffset": 809
                     }
                 }
             },
@@ -889,13 +889,13 @@
                     "endOffset": 12749
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 794,
+                        "startOffset": 815,
                         "endColumn": 37,
-                        "endOffset": 827
+                        "endOffset": 848
                     }
                 }
             },
@@ -908,13 +908,13 @@
                     "endOffset": 12787
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 832,
+                        "startOffset": 854,
                         "endColumn": 37,
-                        "endOffset": 865
+                        "endOffset": 887
                     }
                 }
             },
@@ -927,13 +927,13 @@
                     "endOffset": 12825
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 870,
+                        "startOffset": 893,
                         "endColumn": 37,
-                        "endOffset": 903
+                        "endOffset": 926
                     }
                 }
             },
@@ -946,13 +946,13 @@
                     "endOffset": 12863
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 908,
+                        "startOffset": 932,
                         "endColumn": 37,
-                        "endOffset": 941
+                        "endOffset": 965
                     }
                 }
             },
@@ -965,13 +965,13 @@
                     "endOffset": 12901
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 946,
+                        "startOffset": 971,
                         "endColumn": 37,
-                        "endOffset": 979
+                        "endOffset": 1004
                     }
                 }
             },
@@ -984,13 +984,13 @@
                     "endOffset": 12939
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 984,
+                        "startOffset": 1010,
                         "endColumn": 37,
-                        "endOffset": 1017
+                        "endOffset": 1043
                     }
                 }
             },
@@ -1003,13 +1003,13 @@
                     "endOffset": 12977
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
-                        "startOffset": 1022,
+                        "startOffset": 1049,
                         "endColumn": 37,
-                        "endOffset": 1055
+                        "endOffset": 1082
                     }
                 }
             },
@@ -1022,13 +1022,13 @@
                     "endOffset": 13027
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 39,
                         "startColumn": 4,
-                        "startOffset": 1570,
+                        "startOffset": 1609,
                         "endColumn": 49,
-                        "endOffset": 1615
+                        "endOffset": 1654
                     }
                 }
             },
@@ -1041,13 +1041,13 @@
                     "endOffset": 13066
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 278,
+                        "startOffset": 286,
                         "endColumn": 39,
-                        "endOffset": 313
+                        "endOffset": 321
                     }
                 }
             },
@@ -1060,13 +1060,13 @@
                     "endOffset": 13103
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
-                        "startOffset": 1060,
+                        "startOffset": 1088,
                         "endColumn": 36,
-                        "endOffset": 1092
+                        "endOffset": 1120
                     }
                 }
             },
@@ -1079,13 +1079,13 @@
                     "endOffset": 13140
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 92,
+                        "startOffset": 95,
                         "endColumn": 36,
-                        "endOffset": 124
+                        "endOffset": 127
                     }
                 }
             },
@@ -1098,13 +1098,13 @@
                     "endOffset": 13177
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 523,
+                        "startOffset": 537,
                         "endColumn": 36,
-                        "endOffset": 555
+                        "endOffset": 569
                     }
                 }
             },
@@ -1117,13 +1117,13 @@
                     "endOffset": 13229
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 4,
-                        "startOffset": 1620,
+                        "startOffset": 1660,
                         "endColumn": 51,
-                        "endOffset": 1667
+                        "endOffset": 1707
                     }
                 }
             },
@@ -1136,13 +1136,13 @@
                     "endOffset": 13265
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 165,
+                        "startOffset": 170,
                         "endColumn": 35,
-                        "endOffset": 196
+                        "endOffset": 201
                     }
                 }
             },
@@ -1155,13 +1155,13 @@
                     "endOffset": 13301
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 599,
+                        "startOffset": 615,
                         "endColumn": 35,
-                        "endOffset": 630
+                        "endOffset": 646
                     }
                 }
             },
@@ -1174,13 +1174,13 @@
                     "endOffset": 13339
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 4,
-                        "startOffset": 1931,
+                        "startOffset": 1978,
                         "endColumn": 37,
-                        "endOffset": 1964
+                        "endOffset": 2011
                     }
                 }
             },
@@ -1193,13 +1193,13 @@
                     "endOffset": 13380
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 4,
-                        "startOffset": 1173,
+                        "startOffset": 1204,
                         "endColumn": 40,
-                        "endOffset": 1209
+                        "endOffset": 1240
                     }
                 }
             },
@@ -1212,13 +1212,13 @@
                     "endOffset": 13427
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1214,
+                        "startOffset": 1246,
                         "endColumn": 46,
-                        "endOffset": 1256
+                        "endOffset": 1288
                     }
                 }
             },
@@ -1231,13 +1231,13 @@
                     "endOffset": 13468
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 318,
+                        "startOffset": 327,
                         "endColumn": 40,
-                        "endOffset": 354
+                        "endOffset": 363
                     }
                 }
             },
@@ -1250,13 +1250,13 @@
                     "endOffset": 13513
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 399,
+                        "startOffset": 410,
                         "endColumn": 44,
-                        "endOffset": 439
+                        "endOffset": 450
                     }
                 }
             },
@@ -1269,13 +1269,13 @@
                     "endOffset": 13551
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
-                        "startOffset": 1097,
+                        "startOffset": 1126,
                         "endColumn": 37,
-                        "endOffset": 1130
+                        "endOffset": 1159
                     }
                 }
             },
@@ -1288,13 +1288,13 @@
                     "endOffset": 13588
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 48,
                         "startColumn": 4,
-                        "startOffset": 1969,
+                        "startOffset": 2017,
                         "endColumn": 36,
-                        "endOffset": 2001
+                        "endOffset": 2049
                     }
                 }
             },
@@ -1307,13 +1307,13 @@
                     "endOffset": 13632
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 51,
                         "startColumn": 4,
-                        "startOffset": 2085,
+                        "startOffset": 2136,
                         "endColumn": 43,
-                        "endOffset": 2124
+                        "endOffset": 2175
                     }
                 }
             },
@@ -1326,13 +1326,13 @@
                     "endOffset": 13669
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1135,
+                        "startOffset": 1165,
                         "endColumn": 37,
-                        "endOffset": 1168
+                        "endOffset": 1198
                     }
                 }
             },
@@ -1345,13 +1345,13 @@
                     "endOffset": 13707
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 560,
+                        "startOffset": 575,
                         "endColumn": 38,
-                        "endOffset": 594
+                        "endOffset": 609
                     }
                 }
             },
@@ -1364,13 +1364,13 @@
                     "endOffset": 13752
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 635,
+                        "startOffset": 652,
                         "endColumn": 44,
-                        "endOffset": 675
+                        "endOffset": 692
                     }
                 }
             },
@@ -1383,13 +1383,13 @@
                     "endOffset": 13788
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 129,
+                        "startOffset": 133,
                         "endColumn": 35,
-                        "endOffset": 160
+                        "endOffset": 164
                     }
                 }
             },
@@ -1402,13 +1402,13 @@
                     "endOffset": 13835
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 37,
                         "startColumn": 4,
-                        "startOffset": 1470,
+                        "startOffset": 1507,
                         "endColumn": 46,
-                        "endOffset": 1512
+                        "endOffset": 1549
                     }
                 }
             },
@@ -1421,13 +1421,13 @@
                     "endOffset": 13888
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
-                        "startOffset": 1517,
+                        "startOffset": 1555,
                         "endColumn": 52,
-                        "endOffset": 1565
+                        "endOffset": 1603
                     }
                 }
             },
@@ -1440,13 +1440,13 @@
                     "endOffset": 13928
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_ids.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 359,
+                        "startOffset": 369,
                         "endColumn": 39,
-                        "endOffset": 394
+                        "endOffset": 404
                     }
                 }
             },
@@ -1459,13 +1459,13 @@
                     "endOffset": 13990
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 590,
+                        "startOffset": 608,
                         "endColumn": 61,
-                        "endOffset": 647
+                        "endOffset": 665
                     }
                 }
             },
@@ -1478,13 +1478,13 @@
                     "endOffset": 14060
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 82,
+                        "startOffset": 85,
                         "endColumn": 69,
-                        "endOffset": 147
+                        "endOffset": 150
                     }
                 }
             },
@@ -1497,13 +1497,13 @@
                     "endOffset": 14131
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 489,
+                        "startOffset": 505,
                         "endColumn": 70,
-                        "endOffset": 555
+                        "endOffset": 571
                     }
                 }
             },
@@ -1516,13 +1516,13 @@
                     "endOffset": 14181
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 671,
+                        "startOffset": 692,
                         "endColumn": 49,
-                        "endOffset": 716
+                        "endOffset": 737
                     }
                 }
             },
@@ -1535,13 +1535,13 @@
                     "endOffset": 14229
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_config.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_config.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 740,
+                        "startOffset": 763,
                         "endColumn": 47,
-                        "endOffset": 783
+                        "endOffset": 806
                     }
                 }
             },
@@ -1554,13 +1554,13 @@
                     "endOffset": 14284
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 115,
                         "startColumn": 4,
-                        "startOffset": 6105,
+                        "startOffset": 6220,
                         "endColumn": 54,
-                        "endOffset": 6155
+                        "endOffset": 6270
                     }
                 }
             },
@@ -1573,13 +1573,13 @@
                     "endOffset": 14341
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 111,
                         "startColumn": 4,
-                        "startOffset": 5902,
+                        "startOffset": 6013,
                         "endColumn": 56,
-                        "endOffset": 5954
+                        "endOffset": 6065
                     }
                 }
             },
@@ -1592,13 +1592,13 @@
                     "endOffset": 14396
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 114,
                         "startColumn": 4,
-                        "startOffset": 6050,
+                        "startOffset": 6164,
                         "endColumn": 54,
-                        "endOffset": 6100
+                        "endOffset": 6214
                     }
                 }
             },
@@ -1611,13 +1611,13 @@
                     "endOffset": 14448
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 110,
                         "startColumn": 4,
-                        "startOffset": 5850,
+                        "startOffset": 5960,
                         "endColumn": 51,
-                        "endOffset": 5897
+                        "endOffset": 6007
                     }
                 }
             },
@@ -1630,13 +1630,13 @@
                     "endOffset": 14520
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1963,
+                        "startOffset": 1995,
                         "endColumn": 71,
-                        "endOffset": 2030
+                        "endOffset": 2062
                     }
                 }
             },
@@ -1649,13 +1649,13 @@
                     "endOffset": 14595
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 1467,
+                        "startOffset": 1492,
                         "endColumn": 74,
-                        "endOffset": 1537
+                        "endOffset": 1562
                     }
                 }
             },
@@ -1668,13 +1668,13 @@
                     "endOffset": 14674
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 33,
                         "startColumn": 4,
-                        "startOffset": 2035,
+                        "startOffset": 2068,
                         "endColumn": 78,
-                        "endOffset": 2109
+                        "endOffset": 2142
                     }
                 }
             },
@@ -1687,13 +1687,13 @@
                     "endOffset": 14746
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
-                        "startOffset": 1681,
+                        "startOffset": 1709,
                         "endColumn": 71,
-                        "endOffset": 1748
+                        "endOffset": 1776
                     }
                 }
             },
@@ -1706,13 +1706,13 @@
                     "endOffset": 14818
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
-                        "startOffset": 1753,
+                        "startOffset": 1782,
                         "endColumn": 71,
-                        "endOffset": 1820
+                        "endOffset": 1849
                     }
                 }
             },
@@ -1725,13 +1725,13 @@
                     "endOffset": 14888
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
-                        "startOffset": 1611,
+                        "startOffset": 1638,
                         "endColumn": 69,
-                        "endOffset": 1676
+                        "endOffset": 1703
                     }
                 }
             },
@@ -1744,13 +1744,13 @@
                     "endOffset": 14959
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 4,
-                        "startOffset": 2114,
+                        "startOffset": 2148,
                         "endColumn": 70,
-                        "endOffset": 2180
+                        "endOffset": 2214
                     }
                 }
             },
@@ -1763,13 +1763,13 @@
                     "endOffset": 15026
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 1252,
+                        "startOffset": 1274,
                         "endColumn": 66,
-                        "endOffset": 1314
+                        "endOffset": 1336
                     }
                 }
             },
@@ -1782,13 +1782,13 @@
                     "endOffset": 15100
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 1319,
+                        "startOffset": 1342,
                         "endColumn": 73,
-                        "endOffset": 1388
+                        "endOffset": 1411
                     }
                 }
             },
@@ -1801,13 +1801,13 @@
                     "endOffset": 15169
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 1183,
+                        "startOffset": 1204,
                         "endColumn": 68,
-                        "endOffset": 1247
+                        "endOffset": 1268
                     }
                 }
             },
@@ -1820,13 +1820,13 @@
                     "endOffset": 15232
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1120,
+                        "startOffset": 1140,
                         "endColumn": 62,
-                        "endOffset": 1178
+                        "endOffset": 1198
                     }
                 }
             },
@@ -1839,13 +1839,13 @@
                     "endOffset": 15312
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1040,
+                        "startOffset": 1059,
                         "endColumn": 79,
-                        "endOffset": 1115
+                        "endOffset": 1134
                     }
                 }
             },
@@ -1858,13 +1858,13 @@
                     "endOffset": 15383
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
-                        "startOffset": 2185,
+                        "startOffset": 2220,
                         "endColumn": 70,
-                        "endOffset": 2251
+                        "endOffset": 2286
                     }
                 }
             },
@@ -1877,13 +1877,13 @@
                     "endOffset": 15454
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 4,
-                        "startOffset": 1892,
+                        "startOffset": 1923,
                         "endColumn": 70,
-                        "endOffset": 1958
+                        "endOffset": 1989
                     }
                 }
             },
@@ -1896,13 +1896,13 @@
                     "endOffset": 15521
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1825,
+                        "startOffset": 1855,
                         "endColumn": 66,
-                        "endOffset": 1887
+                        "endOffset": 1917
                     }
                 }
             },
@@ -1915,13 +1915,13 @@
                     "endOffset": 15590
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 1542,
+                        "startOffset": 1568,
                         "endColumn": 68,
-                        "endOffset": 1606
+                        "endOffset": 1632
                     }
                 }
             },
@@ -1934,13 +1934,13 @@
                     "endOffset": 15664
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 1393,
+                        "startOffset": 1417,
                         "endColumn": 73,
-                        "endOffset": 1462
+                        "endOffset": 1486
                     }
                 }
             },
@@ -1953,13 +1953,13 @@
                     "endOffset": 15708
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 124,
                         "startColumn": 4,
-                        "startOffset": 6485,
+                        "startOffset": 6609,
                         "endColumn": 43,
-                        "endOffset": 6524
+                        "endOffset": 6648
                     }
                 }
             },
@@ -1972,13 +1972,13 @@
                     "endOffset": 15768
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 121,
                         "startColumn": 4,
-                        "startOffset": 6319,
+                        "startOffset": 6440,
                         "endColumn": 59,
-                        "endOffset": 6374
+                        "endOffset": 6495
                     }
                 }
             },
@@ -1991,13 +1991,13 @@
                     "endOffset": 15830
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 122,
                         "startColumn": 4,
-                        "startOffset": 6379,
+                        "startOffset": 6501,
                         "endColumn": 61,
-                        "endOffset": 6436
+                        "endOffset": 6558
                     }
                 }
             },
@@ -2010,13 +2010,13 @@
                     "endOffset": 15874
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 123,
                         "startColumn": 4,
-                        "startOffset": 6441,
+                        "startOffset": 6564,
                         "endColumn": 43,
-                        "endOffset": 6480
+                        "endOffset": 6603
                     }
                 }
             },
@@ -2029,13 +2029,13 @@
                     "endOffset": 15922
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 60,
                         "startColumn": 4,
-                        "startOffset": 3417,
+                        "startOffset": 3477,
                         "endColumn": 47,
-                        "endOffset": 3460
+                        "endOffset": 3520
                     }
                 }
             },
@@ -2048,13 +2048,13 @@
                     "endOffset": 15983
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 44,
                         "startColumn": 4,
-                        "startOffset": 2618,
+                        "startOffset": 2662,
                         "endColumn": 60,
-                        "endOffset": 2674
+                        "endOffset": 2718
                     }
                 }
             },
@@ -2067,13 +2067,13 @@
                     "endOffset": 16046
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 43,
                         "startColumn": 4,
-                        "startOffset": 2555,
+                        "startOffset": 2598,
                         "endColumn": 62,
-                        "endOffset": 2613
+                        "endOffset": 2656
                     }
                 }
             },
@@ -2086,13 +2086,13 @@
                     "endOffset": 16090
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 61,
                         "startColumn": 4,
-                        "startOffset": 3465,
+                        "startOffset": 3526,
                         "endColumn": 43,
-                        "endOffset": 3504
+                        "endOffset": 3565
                     }
                 }
             },
@@ -2105,13 +2105,13 @@
                     "endOffset": 16171
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 484,
+                        "startOffset": 495,
                         "endColumn": 80,
-                        "endOffset": 560
+                        "endOffset": 571
                     }
                 }
             },
@@ -2124,13 +2124,13 @@
                     "endOffset": 16252
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 403,
+                        "startOffset": 413,
                         "endColumn": 80,
-                        "endOffset": 479
+                        "endOffset": 489
                     }
                 }
             },
@@ -2143,13 +2143,13 @@
                     "endOffset": 16324
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 565,
+                        "startOffset": 577,
                         "endColumn": 71,
-                        "endOffset": 632
+                        "endOffset": 644
                     }
                 }
             },
@@ -2162,13 +2162,13 @@
                     "endOffset": 16413
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 950,
+                        "startOffset": 967,
                         "endColumn": 88,
-                        "endOffset": 1034
+                        "endOffset": 1051
                     }
                 }
             },
@@ -2181,13 +2181,13 @@
                     "endOffset": 16501
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 862,
+                        "startOffset": 878,
                         "endColumn": 87,
-                        "endOffset": 945
+                        "endOffset": 961
                     }
                 }
             },
@@ -2200,13 +2200,13 @@
                     "endOffset": 16579
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 637,
+                        "startOffset": 650,
                         "endColumn": 77,
-                        "endOffset": 710
+                        "endOffset": 723
                     }
                 }
             },
@@ -2219,13 +2219,13 @@
                     "endOffset": 16660
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 322,
+                        "startOffset": 331,
                         "endColumn": 80,
-                        "endOffset": 398
+                        "endOffset": 407
                     }
                 }
             },
@@ -2238,13 +2238,13 @@
                     "endOffset": 16746
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 715,
+                        "startOffset": 729,
                         "endColumn": 85,
-                        "endOffset": 796
+                        "endOffset": 810
                     }
                 }
             },
@@ -2257,13 +2257,13 @@
                     "endOffset": 16807
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 801,
+                        "startOffset": 816,
                         "endColumn": 60,
-                        "endOffset": 857
+                        "endOffset": 872
                     }
                 }
             },
@@ -2276,13 +2276,13 @@
                     "endOffset": 16861
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 112,
                         "startColumn": 4,
-                        "startOffset": 5959,
+                        "startOffset": 6071,
                         "endColumn": 53,
-                        "endOffset": 6008
+                        "endOffset": 6120
                     }
                 }
             },
@@ -2295,13 +2295,13 @@
                     "endOffset": 16913
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 106,
                         "startColumn": 4,
-                        "startOffset": 5635,
+                        "startOffset": 5741,
                         "endColumn": 51,
-                        "endOffset": 5682
+                        "endOffset": 5788
                     }
                 }
             },
@@ -2314,13 +2314,13 @@
                     "endOffset": 16979
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 100,
                         "startColumn": 4,
-                        "startOffset": 5356,
+                        "startOffset": 5456,
                         "endColumn": 65,
-                        "endOffset": 5417
+                        "endOffset": 5517
                     }
                 }
             },
@@ -2333,13 +2333,13 @@
                     "endOffset": 17044
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 99,
                         "startColumn": 4,
-                        "startOffset": 5291,
+                        "startOffset": 5390,
                         "endColumn": 64,
-                        "endOffset": 5351
+                        "endOffset": 5450
                     }
                 }
             },
@@ -2352,13 +2352,13 @@
                     "endOffset": 17104
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 97,
                         "startColumn": 4,
-                        "startOffset": 5155,
+                        "startOffset": 5252,
                         "endColumn": 59,
-                        "endOffset": 5210
+                        "endOffset": 5307
                     }
                 }
             },
@@ -2371,13 +2371,13 @@
                     "endOffset": 17166
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 95,
                         "startColumn": 4,
-                        "startOffset": 5038,
+                        "startOffset": 5133,
                         "endColumn": 61,
-                        "endOffset": 5095
+                        "endOffset": 5190
                     }
                 }
             },
@@ -2390,13 +2390,13 @@
                     "endOffset": 17221
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 96,
                         "startColumn": 4,
-                        "startOffset": 5100,
+                        "startOffset": 5196,
                         "endColumn": 54,
-                        "endOffset": 5150
+                        "endOffset": 5246
                     }
                 }
             },
@@ -2409,13 +2409,13 @@
                     "endOffset": 17271
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 126,
                         "startColumn": 4,
-                        "startOffset": 6586,
+                        "startOffset": 6712,
                         "endColumn": 49,
-                        "endOffset": 6631
+                        "endOffset": 6757
                     }
                 }
             },
@@ -2428,13 +2428,13 @@
                     "endOffset": 17316
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 62,
                         "startColumn": 4,
-                        "startOffset": 3509,
+                        "startOffset": 3571,
                         "endColumn": 44,
-                        "endOffset": 3549
+                        "endOffset": 3611
                     }
                 }
             },
@@ -2447,13 +2447,13 @@
                     "endOffset": 17365
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 4,
-                        "startOffset": 2738,
+                        "startOffset": 2785,
                         "endColumn": 48,
-                        "endOffset": 2782
+                        "endOffset": 2829
                     }
                 }
             },
@@ -2466,13 +2466,13 @@
                     "endOffset": 17426
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 101,
                         "startColumn": 4,
-                        "startOffset": 5422,
+                        "startOffset": 5523,
                         "endColumn": 60,
-                        "endOffset": 5478
+                        "endOffset": 5579
                     }
                 }
             },
@@ -2485,13 +2485,13 @@
                     "endOffset": 17484
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 41,
                         "startColumn": 4,
-                        "startOffset": 2496,
+                        "startOffset": 2537,
                         "endColumn": 57,
-                        "endOffset": 2549
+                        "endOffset": 2590
                     }
                 }
             },
@@ -2504,13 +2504,13 @@
                     "endOffset": 17542
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 37,
                         "startColumn": 4,
-                        "startOffset": 2257,
+                        "startOffset": 2294,
                         "endColumn": 57,
-                        "endOffset": 2310
+                        "endOffset": 2347
                     }
                 }
             },
@@ -2523,13 +2523,13 @@
                     "endOffset": 17603
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 4,
-                        "startOffset": 2435,
+                        "startOffset": 2475,
                         "endColumn": 60,
-                        "endOffset": 2491
+                        "endOffset": 2531
                     }
                 }
             },
@@ -2542,13 +2542,13 @@
                     "endOffset": 17665
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 39,
                         "startColumn": 4,
-                        "startOffset": 2373,
+                        "startOffset": 2412,
                         "endColumn": 61,
-                        "endOffset": 2430
+                        "endOffset": 2469
                     }
                 }
             },
@@ -2561,13 +2561,13 @@
                     "endOffset": 17723
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
-                        "startOffset": 2315,
+                        "startOffset": 2353,
                         "endColumn": 57,
-                        "endOffset": 2368
+                        "endOffset": 2406
                     }
                 }
             },
@@ -2580,13 +2580,13 @@
                     "endOffset": 17784
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 93,
                         "startColumn": 4,
-                        "startOffset": 4976,
+                        "startOffset": 5069,
                         "endColumn": 60,
-                        "endOffset": 5032
+                        "endOffset": 5125
                     }
                 }
             },
@@ -2599,13 +2599,13 @@
                     "endOffset": 17842
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 46,
                         "startColumn": 4,
-                        "startOffset": 2680,
+                        "startOffset": 2726,
                         "endColumn": 57,
-                        "endOffset": 2733
+                        "endOffset": 2779
                     }
                 }
             },
@@ -2618,13 +2618,13 @@
                     "endOffset": 17881
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 1,
-                        "startOffset": 52,
+                        "startOffset": 54,
                         "endColumn": 35,
-                        "endOffset": 86
+                        "endOffset": 88
                     }
                 }
             },
@@ -2637,13 +2637,13 @@
                     "endOffset": 17933
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 108,
                         "startColumn": 4,
-                        "startOffset": 5739,
+                        "startOffset": 5847,
                         "endColumn": 51,
-                        "endOffset": 5786
+                        "endOffset": 5894
                     }
                 }
             },
@@ -2656,13 +2656,13 @@
                     "endOffset": 17992
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 109,
                         "startColumn": 4,
-                        "startOffset": 5791,
+                        "startOffset": 5900,
                         "endColumn": 58,
-                        "endOffset": 5845
+                        "endOffset": 5954
                     }
                 }
             },
@@ -2675,13 +2675,13 @@
                     "endOffset": 18044
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 107,
                         "startColumn": 4,
-                        "startOffset": 5687,
+                        "startOffset": 5794,
                         "endColumn": 51,
-                        "endOffset": 5734
+                        "endOffset": 5841
                     }
                 }
             },
@@ -2694,13 +2694,13 @@
                     "endOffset": 18101
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 83,
                         "startColumn": 4,
-                        "startOffset": 4403,
+                        "startOffset": 4486,
                         "endColumn": 56,
-                        "endOffset": 4455
+                        "endOffset": 4538
                     }
                 }
             },
@@ -2713,13 +2713,13 @@
                     "endOffset": 18165
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 84,
                         "startColumn": 4,
-                        "startOffset": 4460,
+                        "startOffset": 4544,
                         "endColumn": 63,
-                        "endOffset": 4519
+                        "endOffset": 4603
                     }
                 }
             },
@@ -2732,13 +2732,13 @@
                     "endOffset": 18234
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 85,
                         "startColumn": 4,
-                        "startOffset": 4524,
+                        "startOffset": 4609,
                         "endColumn": 68,
-                        "endOffset": 4588
+                        "endOffset": 4673
                     }
                 }
             },
@@ -2751,13 +2751,13 @@
                     "endOffset": 18294
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 88,
                         "startColumn": 4,
-                        "startOffset": 4722,
+                        "startOffset": 4810,
                         "endColumn": 59,
-                        "endOffset": 4777
+                        "endOffset": 4865
                     }
                 }
             },
@@ -2770,13 +2770,13 @@
                     "endOffset": 18352
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 81,
                         "startColumn": 4,
-                        "startOffset": 4289,
+                        "startOffset": 4370,
                         "endColumn": 57,
-                        "endOffset": 4342
+                        "endOffset": 4423
                     }
                 }
             },
@@ -2789,13 +2789,13 @@
                     "endOffset": 18410
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 90,
                         "startColumn": 4,
-                        "startOffset": 4842,
+                        "startOffset": 4932,
                         "endColumn": 57,
-                        "endOffset": 4895
+                        "endOffset": 4985
                     }
                 }
             },
@@ -2808,13 +2808,13 @@
                     "endOffset": 18469
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 86,
                         "startColumn": 4,
-                        "startOffset": 4593,
+                        "startOffset": 4679,
                         "endColumn": 58,
-                        "endOffset": 4647
+                        "endOffset": 4733
                     }
                 }
             },
@@ -2827,13 +2827,13 @@
                     "endOffset": 18539
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 87,
                         "startColumn": 4,
-                        "startOffset": 4652,
+                        "startOffset": 4739,
                         "endColumn": 69,
-                        "endOffset": 4717
+                        "endOffset": 4804
                     }
                 }
             },
@@ -2846,13 +2846,13 @@
                     "endOffset": 18599
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 89,
                         "startColumn": 4,
-                        "startOffset": 4782,
+                        "startOffset": 4871,
                         "endColumn": 59,
-                        "endOffset": 4837
+                        "endOffset": 4926
                     }
                 }
             },
@@ -2865,13 +2865,13 @@
                     "endOffset": 18665
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 80,
                         "startColumn": 4,
-                        "startOffset": 4223,
+                        "startOffset": 4303,
                         "endColumn": 65,
-                        "endOffset": 4284
+                        "endOffset": 4364
                     }
                 }
             },
@@ -2884,13 +2884,13 @@
                     "endOffset": 18740
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 91,
                         "startColumn": 4,
-                        "startOffset": 4900,
+                        "startOffset": 4991,
                         "endColumn": 74,
-                        "endOffset": 4970
+                        "endOffset": 5061
                     }
                 }
             },
@@ -2903,13 +2903,13 @@
                     "endOffset": 18796
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 82,
                         "startColumn": 4,
-                        "startOffset": 4347,
+                        "startOffset": 4429,
                         "endColumn": 55,
-                        "endOffset": 4398
+                        "endOffset": 4480
                     }
                 }
             },
@@ -2922,13 +2922,13 @@
                     "endOffset": 18863
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 128,
                         "startColumn": 4,
-                        "startOffset": 6701,
+                        "startOffset": 6829,
                         "endColumn": 66,
-                        "endOffset": 6763
+                        "endOffset": 6891
                     }
                 }
             },
@@ -2941,13 +2941,13 @@
                     "endOffset": 18941
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 129,
                         "startColumn": 4,
-                        "startOffset": 6768,
+                        "startOffset": 6897,
                         "endColumn": 77,
-                        "endOffset": 6841
+                        "endOffset": 6970
                     }
                 }
             },
@@ -2960,13 +2960,13 @@
                     "endOffset": 19006
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 127,
                         "startColumn": 4,
-                        "startOffset": 6636,
+                        "startOffset": 6763,
                         "endColumn": 64,
-                        "endOffset": 6696
+                        "endOffset": 6823
                     }
                 }
             },
@@ -2979,13 +2979,13 @@
                     "endOffset": 19055
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 66,
                         "startColumn": 4,
-                        "startOffset": 3654,
+                        "startOffset": 3720,
                         "endColumn": 48,
-                        "endOffset": 3698
+                        "endOffset": 3764
                     }
                 }
             },
@@ -2998,13 +2998,13 @@
                     "endOffset": 19103
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 65,
                         "startColumn": 4,
-                        "startOffset": 3606,
+                        "startOffset": 3671,
                         "endColumn": 47,
-                        "endOffset": 3649
+                        "endOffset": 3714
                     }
                 }
             },
@@ -3017,13 +3017,13 @@
                     "endOffset": 19154
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 64,
                         "startColumn": 4,
-                        "startOffset": 3555,
+                        "startOffset": 3619,
                         "endColumn": 50,
-                        "endOffset": 3601
+                        "endOffset": 3665
                     }
                 }
             },
@@ -3036,13 +3036,13 @@
                     "endOffset": 19203
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 116,
                         "startColumn": 4,
-                        "startOffset": 6160,
+                        "startOffset": 6276,
                         "endColumn": 48,
-                        "endOffset": 6204
+                        "endOffset": 6320
                     }
                 }
             },
@@ -3055,13 +3055,13 @@
                     "endOffset": 19268
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 78,
                         "startColumn": 4,
-                        "startOffset": 4157,
+                        "startOffset": 4235,
                         "endColumn": 64,
-                        "endOffset": 4217
+                        "endOffset": 4295
                     }
                 }
             },
@@ -3074,13 +3074,13 @@
                     "endOffset": 19333
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 74,
                         "startColumn": 4,
-                        "startOffset": 3912,
+                        "startOffset": 3986,
                         "endColumn": 64,
-                        "endOffset": 3972
+                        "endOffset": 4046
                     }
                 }
             },
@@ -3093,13 +3093,13 @@
                     "endOffset": 19393
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 75,
                         "startColumn": 4,
-                        "startOffset": 3977,
+                        "startOffset": 4052,
                         "endColumn": 59,
-                        "endOffset": 4032
+                        "endOffset": 4107
                     }
                 }
             },
@@ -3112,13 +3112,13 @@
                     "endOffset": 19451
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 76,
                         "startColumn": 4,
-                        "startOffset": 4037,
+                        "startOffset": 4113,
                         "endColumn": 57,
-                        "endOffset": 4090
+                        "endOffset": 4166
                     }
                 }
             },
@@ -3131,13 +3131,13 @@
                     "endOffset": 19513
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 77,
                         "startColumn": 4,
-                        "startOffset": 4095,
+                        "startOffset": 4172,
                         "endColumn": 61,
-                        "endOffset": 4152
+                        "endOffset": 4229
                     }
                 }
             },
@@ -3150,13 +3150,13 @@
                     "endOffset": 19570
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 125,
                         "startColumn": 4,
-                        "startOffset": 6529,
+                        "startOffset": 6654,
                         "endColumn": 56,
-                        "endOffset": 6581
+                        "endOffset": 6706
                     }
                 }
             },
@@ -3169,13 +3169,13 @@
                     "endOffset": 19615
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 117,
                         "startColumn": 4,
-                        "startOffset": 6209,
+                        "startOffset": 6326,
                         "endColumn": 44,
-                        "endOffset": 6249
+                        "endOffset": 6366
                     }
                 }
             },
@@ -3188,13 +3188,13 @@
                     "endOffset": 19691
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 98,
                         "startColumn": 4,
-                        "startOffset": 5215,
+                        "startOffset": 5313,
                         "endColumn": 75,
-                        "endOffset": 5286
+                        "endOffset": 5384
                     }
                 }
             },
@@ -3207,13 +3207,13 @@
                     "endOffset": 19743
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 103,
                         "startColumn": 4,
-                        "startOffset": 5484,
+                        "startOffset": 5587,
                         "endColumn": 51,
-                        "endOffset": 5531
+                        "endOffset": 5634
                     }
                 }
             },
@@ -3226,13 +3226,13 @@
                     "endOffset": 19804
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 4,
-                        "startOffset": 2965,
+                        "startOffset": 3017,
                         "endColumn": 60,
-                        "endOffset": 3021
+                        "endOffset": 3073
                     }
                 }
             },
@@ -3245,13 +3245,13 @@
                     "endOffset": 19865
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 51,
                         "startColumn": 4,
-                        "startOffset": 2904,
+                        "startOffset": 2955,
                         "endColumn": 60,
-                        "endOffset": 2960
+                        "endOffset": 3011
                     }
                 }
             },
@@ -3264,13 +3264,13 @@
                     "endOffset": 19934
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
-                        "startOffset": 2835,
+                        "startOffset": 2885,
                         "endColumn": 68,
-                        "endOffset": 2899
+                        "endOffset": 2949
                     }
                 }
             },
@@ -3283,13 +3283,13 @@
                     "endOffset": 19998
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 53,
                         "startColumn": 4,
-                        "startOffset": 3026,
+                        "startOffset": 3079,
                         "endColumn": 63,
-                        "endOffset": 3085
+                        "endOffset": 3138
                     }
                 }
             },
@@ -3302,13 +3302,13 @@
                     "endOffset": 20063
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 56,
                         "startColumn": 4,
-                        "startOffset": 3199,
+                        "startOffset": 3255,
                         "endColumn": 64,
-                        "endOffset": 3259
+                        "endOffset": 3315
                     }
                 }
             },
@@ -3321,13 +3321,13 @@
                     "endOffset": 20137
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 57,
                         "startColumn": 4,
-                        "startOffset": 3264,
+                        "startOffset": 3321,
                         "endColumn": 73,
-                        "endOffset": 3333
+                        "endOffset": 3390
                     }
                 }
             },
@@ -3340,13 +3340,13 @@
                     "endOffset": 20215
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 58,
                         "startColumn": 4,
-                        "startOffset": 3338,
+                        "startOffset": 3396,
                         "endColumn": 77,
-                        "endOffset": 3411
+                        "endOffset": 3469
                     }
                 }
             },
@@ -3359,13 +3359,13 @@
                     "endOffset": 20262
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 49,
                         "startColumn": 4,
-                        "startOffset": 2788,
+                        "startOffset": 2837,
                         "endColumn": 46,
-                        "endOffset": 2830
+                        "endOffset": 2879
                     }
                 }
             },
@@ -3378,13 +3378,13 @@
                     "endOffset": 20312
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 4,
-                        "startOffset": 3090,
+                        "startOffset": 3144,
                         "endColumn": 49,
-                        "endOffset": 3135
+                        "endOffset": 3189
                     }
                 }
             },
@@ -3397,13 +3397,13 @@
                     "endOffset": 20371
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 55,
                         "startColumn": 4,
-                        "startOffset": 3140,
+                        "startOffset": 3195,
                         "endColumn": 58,
-                        "endOffset": 3194
+                        "endOffset": 3249
                     }
                 }
             },
@@ -3416,13 +3416,13 @@
                     "endOffset": 20425
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 69,
                         "startColumn": 4,
-                        "startOffset": 3755,
+                        "startOffset": 3824,
                         "endColumn": 53,
-                        "endOffset": 3804
+                        "endOffset": 3873
                     }
                 }
             },
@@ -3435,13 +3435,13 @@
                     "endOffset": 20491
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 152,
+                        "startOffset": 157,
                         "endColumn": 65,
-                        "endOffset": 213
+                        "endOffset": 218
                     }
                 }
             },
@@ -3454,13 +3454,13 @@
                     "endOffset": 20551
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 92,
+                        "startOffset": 96,
                         "endColumn": 59,
-                        "endOffset": 147
+                        "endOffset": 151
                     }
                 }
             },
@@ -3473,13 +3473,13 @@
                     "endOffset": 20613
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 218,
+                        "startOffset": 224,
                         "endColumn": 61,
-                        "endOffset": 275
+                        "endOffset": 281
                     }
                 }
             },
@@ -3492,13 +3492,13 @@
                     "endOffset": 20664
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 71,
                         "startColumn": 4,
-                        "startOffset": 3859,
+                        "startOffset": 3930,
                         "endColumn": 50,
-                        "endOffset": 3905
+                        "endOffset": 3976
                     }
                 }
             },
@@ -3511,13 +3511,13 @@
                     "endOffset": 20715
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 68,
                         "startColumn": 4,
-                        "startOffset": 3704,
+                        "startOffset": 3772,
                         "endColumn": 50,
-                        "endOffset": 3750
+                        "endOffset": 3818
                     }
                 }
             },
@@ -3530,13 +3530,13 @@
                     "endOffset": 20765
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 70,
                         "startColumn": 4,
-                        "startOffset": 3809,
+                        "startOffset": 3879,
                         "endColumn": 49,
-                        "endOffset": 3854
+                        "endOffset": 3924
                     }
                 }
             },
@@ -3549,13 +3549,13 @@
                     "endOffset": 20828
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 119,
                         "startColumn": 4,
-                        "startOffset": 6255,
+                        "startOffset": 6374,
                         "endColumn": 62,
-                        "endOffset": 6313
+                        "endOffset": 6432
                     }
                 }
             },
@@ -3568,13 +3568,13 @@
                     "endOffset": 20871
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 105,
                         "startColumn": 4,
-                        "startOffset": 5592,
+                        "startOffset": 5697,
                         "endColumn": 42,
-                        "endOffset": 5630
+                        "endOffset": 5735
                     }
                 }
             },
@@ -3587,13 +3587,13 @@
                     "endOffset": 20908
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 113,
                         "startColumn": 4,
-                        "startOffset": 6013,
+                        "startOffset": 6126,
                         "endColumn": 36,
-                        "endOffset": 6045
+                        "endOffset": 6158
                     }
                 }
             },
@@ -3606,13 +3606,13 @@
                     "endOffset": 20964
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_string.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_string.xml",
                     "position": {
                         "startLine": 104,
                         "startColumn": 4,
-                        "startOffset": 5536,
+                        "startOffset": 5640,
                         "endColumn": 55,
-                        "endOffset": 5587
+                        "endOffset": 5691
                     }
                 }
             },
@@ -3626,14 +3626,14 @@
                     "endOffset": 21595
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 115,
+                        "startOffset": 118,
                         "endLine": 11,
                         "endColumn": 12,
-                        "endOffset": 741
+                        "endOffset": 752
                     }
                 }
             },
@@ -3647,14 +3647,14 @@
                     "endOffset": 21817
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 91,
                         "startColumn": 4,
-                        "startOffset": 3418,
+                        "startOffset": 3509,
                         "endLine": 94,
                         "endColumn": 12,
-                        "endOffset": 3635
+                        "endOffset": 3729
                     }
                 }
             },
@@ -3668,14 +3668,14 @@
                     "endOffset": 22025
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 72,
                         "startColumn": 4,
-                        "startOffset": 2763,
+                        "startOffset": 2835,
                         "endLine": 75,
                         "endColumn": 12,
-                        "endOffset": 2966
+                        "endOffset": 3041
                     }
                 }
             },
@@ -3689,14 +3689,14 @@
                     "endOffset": 22293
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 80,
                         "startColumn": 4,
-                        "startOffset": 3027,
+                        "startOffset": 3107,
                         "endLine": 84,
                         "endColumn": 12,
-                        "endOffset": 3290
+                        "endOffset": 3374
                     }
                 }
             },
@@ -3710,14 +3710,14 @@
                     "endOffset": 22788
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 56,
                         "startColumn": 4,
-                        "startOffset": 2154,
+                        "startOffset": 2210,
                         "endLine": 64,
                         "endColumn": 12,
-                        "endOffset": 2644
+                        "endOffset": 2708
                     }
                 }
             },
@@ -3731,14 +3731,14 @@
                     "endOffset": 22871
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 748,
+                        "startOffset": 762,
                         "endLine": 16,
                         "endColumn": 12,
-                        "endOffset": 826
+                        "endOffset": 842
                     }
                 }
             },
@@ -3752,14 +3752,14 @@
                     "endOffset": 22953
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 915,
+                        "startOffset": 937,
                         "endLine": 24,
                         "endColumn": 12,
-                        "endOffset": 992
+                        "endOffset": 1016
                     }
                 }
             },
@@ -3773,14 +3773,14 @@
                     "endOffset": 23131
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1082,
+                        "startOffset": 1112,
                         "endLine": 32,
                         "endColumn": 12,
-                        "endOffset": 1255
+                        "endOffset": 1287
                     }
                 }
             },
@@ -3794,14 +3794,14 @@
                     "endOffset": 23214
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 998,
+                        "startOffset": 1024,
                         "endLine": 28,
                         "endColumn": 12,
-                        "endOffset": 1076
+                        "endOffset": 1104
                     }
                 }
             },
@@ -3815,14 +3815,14 @@
                     "endOffset": 23502
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
-                        "startOffset": 1262,
+                        "startOffset": 1297,
                         "endLine": 39,
                         "endColumn": 12,
-                        "endOffset": 1545
+                        "endOffset": 1584
                     }
                 }
             },
@@ -3836,14 +3836,14 @@
                     "endOffset": 23584
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 832,
+                        "startOffset": 850,
                         "endLine": 20,
                         "endColumn": 12,
-                        "endOffset": 909
+                        "endOffset": 929
                     }
                 }
             },
@@ -3857,14 +3857,14 @@
                     "endOffset": 24046
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_theme.xml",
                     "position": {
                         "startLine": 41,
                         "startColumn": 4,
-                        "startOffset": 1551,
+                        "startOffset": 1592,
                         "endLine": 48,
                         "endColumn": 12,
-                        "endOffset": 2008
+                        "endOffset": 2056
                     }
                 }
             },
@@ -3878,14 +3878,14 @@
                     "endOffset": 24224
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_style.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_style.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 56,
+                        "startOffset": 59,
                         "endLine": 5,
                         "endColumn": 12,
-                        "endOffset": 229
+                        "endOffset": 234
                     }
                 }
             },
@@ -3899,14 +3899,14 @@
                     "endOffset": 24478
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_style.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_style.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 413,
+                        "startOffset": 424,
                         "endLine": 15,
                         "endColumn": 12,
-                        "endOffset": 662
+                        "endOffset": 677
                     }
                 }
             },
@@ -3920,14 +3920,14 @@
                     "endOffset": 24655
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_style.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_style.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 235,
+                        "startOffset": 242,
                         "endLine": 9,
                         "endColumn": 12,
-                        "endOffset": 407
+                        "endOffset": 416
                     }
                 }
             },
@@ -3941,14 +3941,14 @@
                     "endOffset": 24907
                 },
                 "from": {
-                    "file": "C:\\Users\\xuan\\Desktop\\workspace\\Logistics\\IMKit\\src\\main\\res\\values\\rc_style.xml",
+                    "file": "C:\\Users\\Taylor\\AndroidStudioProjects\\CpiocApp\\IMKit\\src\\main\\res\\values\\rc_style.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 668,
+                        "startOffset": 685,
                         "endLine": 21,
                         "endColumn": 12,
-                        "endOffset": 915
+                        "endOffset": 936
                     }
                 }
             }

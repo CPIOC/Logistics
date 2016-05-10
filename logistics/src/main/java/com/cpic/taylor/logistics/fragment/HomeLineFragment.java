@@ -108,8 +108,8 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvStop = (TextView) view.findViewById(R.id.fragment_line_tv_stop);
         btnQuery = (Button) view.findViewById(R.id.fragment_line_btn_query);
         dialog = ProgressDialogHandle.getProgressDialog(getActivity(),null);
-
         mapView.onCreate(savedInstanceState);// 此方法必须重写
+
         init(view);
         aMap.setOnMarkerClickListener(this);
         registerListener();
