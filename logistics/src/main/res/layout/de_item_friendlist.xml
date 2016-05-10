@@ -4,6 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
+    <CheckBox
+        android:id="@+id/de_ui_friend_checkbox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:button="@drawable/de_ui_friend_check_selector"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:maxHeight="12.0dip" />
 
     <io.rong.imkit.widget.AsyncImageView
         android:id="@+id/de_ui_friend_icon"
@@ -42,6 +55,7 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
-        android:maxHeight="12.0dip" />
+        android:maxHeight="12.0dip"
+        android:visibility="gone"/>
 
 </LinearLayout>

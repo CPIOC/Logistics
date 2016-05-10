@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
      */
     private void loginRongCloud() {
 
-        userName = "727737812@qq.com";
+        userName = "1149140370@qq.com";
         String passWord = "12345";
         String name = null;
 

@@ -67,7 +67,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
         getSupportActionBar().setTitle(R.string.de_actionbar_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
-
+        getSupportActionBar().hide();
         mPersonalImg = (AsyncImageView) findViewById(R.id.personal_portrait);
         mPersonalName = (TextView) findViewById(R.id.personal_name);
         mPersonalId = (TextView) findViewById(R.id.personal_id);

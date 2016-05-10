@@ -1,6 +1,7 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.cpic.taylor.logistics.R;
 
@@ -19,7 +20,11 @@ public class ConversationSettingActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_setting);
-
         getSupportActionBar().setTitle(R.string.de_actionbar_set_conversation);
+        getSupportActionBar().hide();
+    }
+
+    public void backTo(View veiw){
+        finish();
     }
 }

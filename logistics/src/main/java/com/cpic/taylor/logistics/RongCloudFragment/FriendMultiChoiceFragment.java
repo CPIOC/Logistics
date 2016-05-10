@@ -10,14 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
-import com.cpic.taylor.logistics.RongCloudaAdapter.FriendMultiChoiceAdapter;
-import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
+import com.cpic.taylor.logistics.RongCloudaAdapter.FriendMultiChoiceAdapter;
+import com.cpic.taylor.logistics.base.RongYunContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,9 +104,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         setMultiChoice(true, new ArrayList<String>(mMemberIds));
 
         selectButton = (Button) view.findViewById(R.id.send_message_friend);
-        ImageView tilefinish = (ImageView) view.findViewById(R.id.send_message_finish);
-        mLinearFinish = (LinearLayout) view.findViewById(R.id.liner_click);
-        mLinearFinish.setOnClickListener(new View.OnClickListener() {
+        TextView tilefinish = (TextView) view.findViewById(R.id.send_message_finish);
+        //mLinearFinish = (LinearLayout) view.findViewById(R.id.liner_click);
+        tilefinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
@@ -160,7 +160,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         if (selectedCount > 0) {
             selectButton.setEnabled(true);
             mConfirmFromatString = getResources().getString(R.string.friend_list_multi_choice_comfirt_btn);
-            selectButton.setTextColor(getResources().getColor(R.color.rc_text_color_secondary_inverse));
+            selectButton.setTextColor(getResources().getColor(R.color.choose_chat_number));
             selectButton.setText(String.format(mConfirmFromatString, selectedCount + hasSelect));
 
         } else {

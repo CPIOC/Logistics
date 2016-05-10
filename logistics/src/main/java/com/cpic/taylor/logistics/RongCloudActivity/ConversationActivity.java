@@ -107,14 +107,17 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     public static final int SET_VOICE_TYPING_TITLE = 2;
     public static final int SET_TARGETID_TITLE = 0;
 
+    private TextView chatNameTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
-
+        chatNameTv = (TextView) findViewById(R.id.chat_activity_title);
         mDialog = new LoadingDialog(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.dingbu_fanhui2);
+        getSupportActionBar().hide();
 
         Intent intent = getIntent();
 
@@ -180,6 +183,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             }
         });
 
+    }
+
+    public void backTo(View view) {
+        finish();
+    }
+
+    public void goToNext(View view) {
+        enterSettingActivity();
     }
 
     @Override
@@ -375,16 +386,20 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             setDiscussionActionBar(targetId, mTargetIds);
         } else if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
             getSupportActionBar().setTitle(title);
+            chatNameTv.setText(title);
         } else if (conversationType.equals(Conversation.ConversationType.SYSTEM)) {
             getSupportActionBar().setTitle(R.string.de_actionbar_system);
+            chatNameTv.setText(R.string.de_actionbar_system);
         } else if (conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
             setAppPublicServiceActionBar(targetId);
         } else if (conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
             setPublicServiceActionBar(targetId);
         } else if (conversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
             getSupportActionBar().setTitle(R.string.main_customer);
+            chatNameTv.setText(R.string.main_customer);
         } else {
             getSupportActionBar().setTitle(R.string.de_actionbar_sub_defult);
+            chatNameTv.setText(R.string.de_actionbar_sub_defult);
         }
 
     }
@@ -400,6 +415,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
         if (RongYunContext.getInstance() != null) {
             getSupportActionBar().setTitle(RongYunContext.getInstance().getGroupNameById(targetId));
+            chatNameTv.setText(RongYunContext.getInstance().getGroupNameById(targetId));
         }
     }
 
@@ -416,6 +432,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                         @Override
                         public void onSuccess(PublicServiceProfile publicServiceProfile) {
                             getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                            chatNameTv.setText(publicServiceProfile.getName().toString());
                         }
 
                         @Override
@@ -444,6 +461,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                             if (publicServiceProfile != null && publicServiceProfile.getName() != null)
 
                                 getSupportActionBar().setTitle(publicServiceProfile.getName());
+                                chatNameTv.setText(publicServiceProfile.getName());
                         }
 
                         @Override
@@ -466,12 +484,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                         @Override
                         public void onSuccess(Discussion discussion) {
                             getSupportActionBar().setTitle(discussion.getName());
+                            chatNameTv.setText(discussion.getName());
                         }
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
                             if (e.equals(RongIMClient.ErrorCode.NOT_IN_DISCUSSION)) {
                                 getSupportActionBar().setTitle("不在讨论组中");
+                                chatNameTv.setText("不在讨论组中");
                                 isDiscussion = true;
                                 supportInvalidateOptionsMenu();
                             }
@@ -481,6 +501,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             setDiscussionName(targetIds);
         } else {
             getSupportActionBar().setTitle("讨论组");
+            chatNameTv.setText("讨论组");
         }
     }
 
@@ -494,6 +515,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
         StringBuilder sb = new StringBuilder();
         getSupportActionBar().setTitle(targetIds);
+        chatNameTv.setText(targetIds);
         String[] ids = targetIds.split(",");
 
         if (RongYunContext.getInstance() != null) {
@@ -508,6 +530,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         }
 
         getSupportActionBar().setTitle(sb);
+        chatNameTv.setText(sb);
     }
 
     /**
@@ -521,8 +544,10 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
             if (userInfos == null) {
                 getSupportActionBar().setTitle("");
+                chatNameTv.setText("");
             } else {
                 getSupportActionBar().setTitle(userInfos.getUsername().toString());
+                chatNameTv.setText(userInfos.getUsername().toString());
             }
         }
 
@@ -974,9 +999,11 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         switch (msg.what) {
             case SET_TEXT_TYPING_TITLE:
                 getSupportActionBar().setTitle(TextTypingTitle);
+                chatNameTv.setText(TextTypingTitle);
                 break;
             case SET_VOICE_TYPING_TITLE:
                 getSupportActionBar().setTitle(VoiceTypingTitle);
+                chatNameTv.setText(VoiceTypingTitle);
                 break;
             case SET_TARGETID_TITLE:
                 setActionBarTitle(mConversationType, mTargetId);
