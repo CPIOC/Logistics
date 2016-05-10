@@ -102,6 +102,9 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
         initData();
     }
+    public void backTo(View view){
+        finish();
+    }
 
     protected void initData() {
 

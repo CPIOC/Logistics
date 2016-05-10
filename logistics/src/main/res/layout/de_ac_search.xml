@@ -46,12 +46,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/edit_bar_search"
-            android:drawableLeft="@drawable/tilku_shousuo"
-            android:drawablePadding="10dp"
-            android:ems="15"
-            android:hint="昵称"
+            android:queryHint="昵称"
             android:imeOptions="actionSearch"
-            android:paddingLeft="15dp"
             android:textSize="12sp" >
         </SearchView>
 

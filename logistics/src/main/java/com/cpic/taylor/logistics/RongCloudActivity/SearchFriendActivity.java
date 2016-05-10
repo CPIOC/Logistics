@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
@@ -17,6 +19,7 @@ import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -72,7 +75,26 @@ public class SearchFriendActivity extends BaseApiActivity {
                 return false;
             }
         });*/
+        mEtSearch.setIconifiedByDefault(false);
+        mEtSearch.setOnQueryTextListener(new OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                String userName = s;
+                if (mDialog != null && !mDialog.isShowing())
+                    mDialog.show();
 
+                if (RongYunContext.getInstance() != null) {
+                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchFriendActivity.this);
+                }
+                Toast.makeText(SearchFriendActivity.this,"0", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         mListSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -21,7 +21,6 @@ import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +37,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudFragment.ChatRoomListFragment;
@@ -565,41 +563,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
-
-            final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);
-            alterDialog.setMessage("确定退出应用？");
-            alterDialog.setCancelable(true);
-
-            alterDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (RongIM.getInstance() != null)
-                        RongIM.getInstance().disconnect(true);
-
-                    try {
-                        Thread.sleep(500);
-                        Process.killProcess(Process.myPid());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-            alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            alterDialog.show();
-        }
-
-        return false;
-    }
 
     @Override
     protected void onDestroy() {
