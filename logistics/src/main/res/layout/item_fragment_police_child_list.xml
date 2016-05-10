@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingRight="10dp"
+    >
+    <TextView
+        android:id="@+id/item_fragment_police_child_tv_things"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="一般事故"
+        android:textSize="13sp"
+        android:textColor="#999999"/>
+
+    <CheckBox
+        android:id="@+id/item_fragment_police_child_cbox_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+
+
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.cpic.taylor.logistics.fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -195,7 +197,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
-        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+        aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_ROTATE);
         aMap.setOnMarkerClickListener(this);// 添加点击marker监听事件
         aMap.setInfoWindowAdapter(this);// 添加显示infowindow监听事件
     }
@@ -260,6 +262,8 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("now_address",aMapLocation.getAddress());
+                editor.putString("now_latitude",aMapLocation.getLatitude()+"");
+                editor.putString("now_longitude",aMapLocation.getLongitude()+"");
                 editor.commit();
 //                Log.i("oye",aMapLocation.getAddress());
 
@@ -313,18 +317,54 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         TextView snippet = (TextView) view.findViewById(R.id.snippet);
         snippet.setText(marker.getSnippet());
         snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
-        ImageButton button = (ImageButton) view
-                .findViewById(R.id.start_amap_app);
+        ImageButton button = (ImageButton) view.findViewById(R.id.start_amap_app);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status == 0){
-                    mStartPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
-                    aMap.clear();
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(
+                            getActivity());
+                    builder.setTitle("是否将此处设为出发地?");
+                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mStartPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
+                            aMap.clear();
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    builder.show();
+
                 }else if (status == 1){
-                    mEndPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
-                    aMap.clear();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(
+                            getActivity());
+                    builder.setTitle("是否将此处设为目的地?");
+                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mEndPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
+                            aMap.clear();
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    builder.show();
+
                 }
             }
         });

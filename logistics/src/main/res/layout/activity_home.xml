@@ -17,7 +17,7 @@
 
             <ImageView
                 android:id="@+id/activity_home_iv_mine"
-                style="@style/title_iv_back" />
+                style="@style/title_iv_icon" />
 
             <TextView
                 android:id="@+id/activity_home_chat"
@@ -120,11 +120,11 @@
                     android:text="头   像"
                     android:textSize="@dimen/content_tv_size" />
 
-                <ImageView
+                <com.cpic.taylor.logistics.utils.RoundImageView
                     android:id="@+id/layout_iv_icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/huanying_logo" />
+                    android:src="@mipmap/empty_photo" />
 
             </LinearLayout>
 
@@ -137,6 +137,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -145,6 +146,7 @@
                     android:focusableInTouchMode="true"/>
 
                 <EditText
+                    android:id="@+id/layout_et_name"
                     android:background="@null"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -170,6 +172,7 @@
                     android:textSize="@dimen/content_tv_size" />
 
                 <EditText
+                    android:id="@+id/layout_et_car_num"
                     android:background="@null"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -195,6 +198,7 @@
                     android:textSize="@dimen/content_tv_size" />
 
                 <EditText
+                    android:id="@+id/layout_et_car_type"
                     android:background="@null"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -235,10 +239,11 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:layout_width="50dp"
+                        android:id="@+id/layout_iv_carinfo"
+                        android:layout_width="80dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="15dp"
-                        android:src="@mipmap/huanying_logo" />
+                        android:src="@mipmap/empty_photo" />
                 </LinearLayout>
 
             </LinearLayout>

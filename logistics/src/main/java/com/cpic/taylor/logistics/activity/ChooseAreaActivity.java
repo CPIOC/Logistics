@@ -124,10 +124,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                etArea.setText("");
-                if (popupDetails != null && popupDetails.isShowing()){
-                    popupDetails.dismiss();
-                }
+                onBackPressed();
             }
         });
 

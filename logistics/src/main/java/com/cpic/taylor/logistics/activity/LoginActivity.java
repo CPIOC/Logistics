@@ -107,7 +107,10 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.show();
+//                if (dialog!=null){
+//                    dialog.show();
+//                }
+
 //                intent = new Intent(LoginActivity.this,HomeActivity.class);
 //                startActivity(intent);
                 loginRongCloud();
