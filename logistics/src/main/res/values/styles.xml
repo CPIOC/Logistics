@@ -32,7 +32,8 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">#9B9B9B</item>
     </style>
-  <style name="title_tv_style">
+
+    <style name="title_tv_style">
 
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -78,7 +79,7 @@
         <item name="android:windowExitAnimation">@anim/hide_pw</item>
     </style>
 
- <style name="btn_login">
+    <style name="btn_login">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/btn_login_select</item>
@@ -144,7 +145,7 @@
         <item name="android:layout_marginRight">25dp</item>
     </style>
 
-<!--融云定义样式Style-->
+    <!--融云定义样式Style-->
     <style name="WinDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -194,6 +195,7 @@
         <item name="android:layout_height">6dp</item>
         <!-- <item name="android:visibility">gone</item>-->
     </style>
+
     <style name="DemoMainNewMassage">
         <item name="android:background">@drawable/rc_unread_count_bg</item>
         <item name="android:gravity">center</item>
@@ -205,6 +207,7 @@
         <item name="android:layout_height">18dp</item>
         <!-- <item name="android:visibility">gone</item>-->
     </style>
+
     <style name="DemoAddressNewMassage">
         <item name="android:background">@drawable/rc_unread_count_bg</item>
         <item name="android:gravity">center</item>
@@ -262,5 +265,23 @@
 
         <item name="android:maxHeight">10.0dip</item>
 
+    </style>
+
+    <style name="TextTitleWiser">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#9A9A9A</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextContentWiser">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#434343</item>
+        <item name="android:textSize">15sp</item>
     </style>
 </resources>

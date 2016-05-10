@@ -11,30 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#ffffff">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
             android:onClick="backTo"
-            android:src="@drawable/dingbu_fanhui2"/>
+            android:src="@drawable/dingbu_fanhui2" />
+
         <TextView
             android:id="@+id/main_activity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="聊天(6)"
-            android:textSize="18sp"/>
+            android:text="聊天"
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/main_activity_plus_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:onClick="plusFunction"
             android:layout_centerInParent="true"
             android:layout_marginRight="20dp"
-            android:src="@drawable/wode_guanyuwomen"/>
+            android:onClick="plusFunction"
+            android:src="@drawable/wode_guanyuwomen" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -45,8 +49,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="39dp"
-        android:visibility="gone"
-        android:background="@color/group_list_liner">
+        android:background="@color/group_list_liner"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,31 +174,32 @@
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
 
+    <View style="@style/divide_line"></View>
+
     <RadioGroup
         android:id="@+id/main_activity_rgroup_rc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
+
         <RadioButton
             android:id="@+id/main_activity_rbtn_message_rc"
             style="@style/MainViewRbtnStyle"
+            android:drawableTop="@drawable/rbtn_msg"
             android:tag="0"
-            android:text="消息"
-            android:drawableTop="@drawable/rbtn_msg"/>
+            android:text="消息" />
 
-        <TextView
-            style="@style/divide_line_02"/>
+        <TextView style="@style/divide_line_02" />
 
         <RadioButton
             android:id="@+id/main_activity_rbtn_contacts_rc"
             style="@style/MainViewRbtnStyle"
+            android:drawableTop="@drawable/rbtn_contacts"
             android:tag="1"
-            android:text="通讯录"
-            android:drawableTop="@drawable/rbtn_contacts"/>
+            android:text="通讯录" />
 
     </RadioGroup>
-
 
 
 </LinearLayout>

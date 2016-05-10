@@ -60,6 +60,7 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         getSupportActionBar().setTitle(R.string.de_new_friends);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
+        getSupportActionBar().hide();
         mNewFriendList = (ListView) findViewById(R.id.de_new_friend_list);
         mDialog = new LoadingDialog(this);
         mResultList = new ArrayList<ApiResult>();
@@ -75,6 +76,10 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
         in.putExtra("has_message", false);
         sendBroadcast(in);
+    }
+
+    public  void backTo(View view){
+        finish();
     }
 
     @Override

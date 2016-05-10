@@ -1,7 +1,6 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
@@ -23,7 +24,6 @@ import com.cpic.taylor.logistics.base.RongYunContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 2015/3/26.
  */
-public class SearchFriendActivity extends BaseApiActivity {
+public class SearchNewFriendActivity extends BaseApiActivity {
 
     private SearchView mEtSearch;
     private ListView mListSearch;
@@ -40,6 +40,9 @@ public class SearchFriendActivity extends BaseApiActivity {
     private List<ApiResult> mResultList;
     private SearchFriendAdapter adapter;
     private LoadingDialog mDialog;
+    private LinearLayout routeMembersLl,nearByMembersLl,searchFriendLl;
+    private String userName;
+    private TextView searchNewFriendTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,63 +52,24 @@ public class SearchFriendActivity extends BaseApiActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         getSupportActionBar().hide();
+        searchNewFriendTitle= (TextView) findViewById(R.id.search_activity_title);
+        searchNewFriendTitle.setText("新的朋友");
+        routeMembersLl= (LinearLayout) findViewById(R.id.layout_add);
+        nearByMembersLl= (LinearLayout) findViewById(R.id.layout_chat_group);
+        searchFriendLl= (LinearLayout) findViewById(R.id.search_friend_ll);
+        routeMembersLl.setVisibility(View.GONE);
+        nearByMembersLl.setVisibility(View.GONE);
+        searchFriendLl.setVisibility(View.GONE);
         mEtSearch = (SearchView) findViewById(R.id.de_ui_search);
+        mEtSearch.setVisibility(View.GONE);
         Button mBtSearch = (Button) findViewById(R.id.de_search);
+        mBtSearch.setVisibility(View.GONE);
         mListSearch = (ListView) findViewById(R.id.de_search_list);
-        mListSearch.setVisibility(View.GONE);
         mResultList = new ArrayList<ApiResult>();
+        userName=getIntent().getStringExtra("userName");
+        searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
         mDialog = new LoadingDialog(this);
 
-        /*mBtSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String userName = mEtSearch.getText().toString();
-                if (mDialog != null && !mDialog.isShowing())
-                    mDialog.show();
-
-                if (RongYunContext.getInstance() != null) {
-                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchFriendActivity.this);
-                }
-            }
-        });*/
-        /*mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    Toast.makeText(SearchFriendActivity.this,"0",Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });*/
-        /**
-         * 清除SearchView中的下划线
-         */
-        if (mEtSearch != null) {
-
-            try {        //--拿到字节码
-
-                Class<?> argClass = mEtSearch.getClass();
-
-                //--指定某个私有属性,mSearchPlate是搜索框父布局的名字
-
-                Field ownField = argClass.getDeclaredField("mSearchPlate");
-
-                //--暴力反射,只有暴力反射才能拿到私有属性
-
-                ownField.setAccessible(true);
-
-                View mView = (View) ownField.get(mEtSearch);
-
-                //--设置背景
-
-                mView.setBackgroundColor(Color.TRANSPARENT);
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-            }
-        }
         mEtSearch.setIconifiedByDefault(false);
         mEtSearch.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
@@ -115,11 +79,8 @@ public class SearchFriendActivity extends BaseApiActivity {
                     mDialog.show();
 
                 if (RongYunContext.getInstance() != null) {
-                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchFriendActivity.this);
+                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
                 }
-                Intent intent=new Intent(SearchFriendActivity.this,SearchNewFriendActivity.class);
-                intent.putExtra("userName",s);
-                startActivity(intent);
                 return false;
             }
 
@@ -131,7 +92,7 @@ public class SearchFriendActivity extends BaseApiActivity {
         mListSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent in = new Intent(SearchFriendActivity.this, PersonalDetailActivity.class);
+                Intent in = new Intent(SearchNewFriendActivity.this, PersonalDetailActivity.class);
                 UserInfo userInfo = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), Uri.parse(mResultList.get(position).getPortrait()));
                 in.putExtra("USER", userInfo);
                 in.putExtra("USER_SEARCH", true);
@@ -156,7 +117,7 @@ public class SearchFriendActivity extends BaseApiActivity {
                             mResultList.add(friends.getResult().get(i));
                             Log.i("", "------onCallApiSuccess-user.getCode() == 200)-----" + friends.getResult().get(0).getId().toString());
                         }
-                        adapter = new SearchFriendAdapter(mResultList, SearchFriendActivity.this);
+                        adapter = new SearchFriendAdapter(mResultList, SearchNewFriendActivity.this);
                         mListSearch.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }

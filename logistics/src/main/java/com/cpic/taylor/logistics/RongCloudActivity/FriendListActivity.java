@@ -19,7 +19,7 @@ public class FriendListActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.drawable.de_ic_logo);
         actionBar .setDisplayHomeAsUpEnabled(true);
-        actionBar.hide();
+        getSupportActionBar().hide();
 
     }
 }
