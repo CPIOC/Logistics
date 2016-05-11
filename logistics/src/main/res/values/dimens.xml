@@ -6,12 +6,14 @@
     <dimen name="content_tv_size">15sp</dimen>
     <dimen name="title_margin">8dp</dimen>
 
-    <!--ÈÚÔÆdimens-->
+    <!--ï¿½ï¿½ï¿½ï¿½dimens-->
     <dimen name="de_conversation_item_name_size">16sp</dimen>
     <dimen name="de_conversation_item_data_size">14sp</dimen>
     <dimen name="de_message_send_status_image_size">17dp</dimen>
     <dimen name="image_size">120dp</dimen>
     <dimen name="space_size">2dp</dimen>
     <dimen name="de_pic_folder_cover_size">72dp</dimen>
+    <dimen name="margin_chat_activity">5dp</dimen>
+    <dimen name="size_avatar">50dp</dimen>
 
 </resources>

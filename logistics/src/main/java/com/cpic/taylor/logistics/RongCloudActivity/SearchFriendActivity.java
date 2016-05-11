@@ -90,6 +90,13 @@ public class SearchFriendActivity extends BaseApiActivity {
 
                 Field ownField = argClass.getDeclaredField("mSearchPlate");
 
+                Field [] array=argClass.getDeclaredFields();
+                for (int i = 0; i < array.length; i++) {
+
+                    Log.e("Tag",""+array[i]);
+                }
+
+
                 //--暴力反射,只有暴力反射才能拿到私有属性
 
                 ownField.setAccessible(true);

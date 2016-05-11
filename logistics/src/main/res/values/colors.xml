@@ -37,4 +37,5 @@
 
     <color name="de_draft_color">#cb120f</color>
     <color name="choose_chat_number">#33B94C</color>
+    <color name="btn_gray_normal">#c0c0c0</color>
 </resources>
