@@ -7,10 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
@@ -22,7 +25,15 @@ import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.bean.Login;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
@@ -45,6 +56,11 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
     private TextView tvRegister;
     private Button btnLogin;
     private Dialog dialog;
+    private EditText etName,etPwd;
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+
 
     /**
      * 融云登录定义
@@ -79,12 +95,23 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
         tvForget = (TextView) findViewById(R.id.activity_login_tv_forget);
         tvRegister = (TextView) findViewById(R.id.activity_login_tv_register);
         btnLogin = (Button) findViewById(R.id.activity_login_btn_login);
+        etName = (EditText) findViewById(R.id.activity_login_et_name);
+        etPwd = (EditText) findViewById(R.id.activity_login_et_pwd);
         dialog = ProgressDialogHandle.getProgressDialog(LoginActivity.this,null);
     }
 
     @Override
     protected void initData() {
         mHandler = new Handler(LoginActivity.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        etName.setText(sp.getString("mobile",""));
+        etPwd.setText(sp.getString("pwd",""));
+
     }
 
     @Override
@@ -113,11 +140,68 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
 //                intent = new Intent(LoginActivity.this,HomeActivity.class);
 //                startActivity(intent);
-                loginRongCloud();
+//                loginRongCloud();
+                if (etName.getText().toString() == null || etPwd.getText().toString() == null
+                        || "".equals(etName.getText().toString()) || "".equals(etPwd.getText().toString())) {
+                    showShortToast("用户名和密码不得为空");
+                    return;
+                }
+                loginAction();
+
             }
         });
     }
 
+    private void loginAction() {
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("mobile",etName.getText().toString());
+        params.addBodyParameter("password",etPwd.getText().toString());
+
+        String url = UrlUtils.POST_URL+UrlUtils.path_login;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (dialog != null){
+                    dialog.show();
+                }
+            }
+            @Override
+            public void onFailure(HttpException e, String s) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+                showShortToast("登录失败，请检查网络连接");
+            }
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                Login login = JSONObject.parseObject(responseInfo.result,Login.class);
+                int code = login.getCode();
+                if (code == 1){
+
+                    sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("mobile",etName.getText().toString());
+                    editor.putString("pwd",etPwd.getText().toString());
+                    editor.putString("img",login.getData().getImg());
+                    editor.putString("plate_number",login.getData().getPlate_number());
+                    editor.putString("car_models",login.getData().getCar_models());
+                    editor.putString("driving_license",login.getData().getDriving_license());
+                    editor.putString("token",login.getData().getToken());
+                    editor.commit();
+                    httpGetTokenSuccess(login.getData().getCloud_token());
+                }else{
+                    showShortToast(login.getMsg());
+                }
+
+            }
+
+        });
+
+
+    }
     /**
      * 登录融云
      */
@@ -200,6 +284,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
                         @Override
                         public void onTokenIncorrect() {
+                            showShortToast("token错误");
                         }
 
                         @Override
@@ -410,8 +495,11 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
         } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
 
-            if (mDialog != null)
-                mDialog.dismiss();
+//            if (mDialog != null)
+//                mDialog.dismiss();
+            if (dialog !=null){
+                dialog.dismiss();
+            }
             /**
              * 融云登录成功
              */

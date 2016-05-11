@@ -37,6 +37,7 @@
         android:padding="5dp">
 
         <EditText
+            android:id="@+id/activity_register_et_mobile"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/dl_shoujihao"
             android:hint="@string/et_login_name"
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <EditText
+                android:id="@+id/activity_register_et_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -69,6 +71,7 @@
                 android:layout_marginBottom="2dp"/>
 
             <TextView
+                android:id="@+id/activity_register_tv_getcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/content_tv_size"
@@ -90,6 +93,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp" />
         <EditText
+            android:id="@+id/activity_register_et_pwd"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/dl_mima"
             android:hint="@string/et_login_pwd"

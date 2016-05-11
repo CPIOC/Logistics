@@ -24,8 +24,12 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.BaseActivity;
+import com.cpic.taylor.logistics.bean.SearchPointHistory;
 import com.cpic.taylor.logistics.utils.AMapUtil;
 import com.cpic.taylor.logistics.utils.DensityUtil;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.exception.DbException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +44,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
     private PopupWindow popupWindow;
     private PopupWindow popupDetails;
 
-    private int screenWidth,screenHight;
+    private int screenWidth, screenHight;
     private ListView lvArea;
     private ArrayList<String> datas;
     private AreaAdapter adapter;
@@ -56,10 +60,19 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
     private Intent intent;
 
 
+    /**
+     * 数据库
+     *
+     * @param savedInstanceState
+     */
+    private DbUtils db;
+    private ArrayList<SearchPointHistory> search_datas = new ArrayList<>();
+    private HistoryAdapter adapter1;
+
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
 
-       action = getIntent().getIntExtra("action",0);
+        action = getIntent().getIntExtra("action", 0);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -78,11 +91,51 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         tvArea = (TextView) findViewById(R.id.activity_choose_area_tv_area);
         tvLine = (TextView) findViewById(R.id.divide_line);
         etArea = (AutoCompleteTextView) findViewById(R.id.activity_choose_et_dest);
-        tvCancel = (TextView)findViewById(R.id.activity_choose_tv_cancel);
+        tvCancel = (TextView) findViewById(R.id.activity_choose_tv_cancel);
     }
 
     @Override
     protected void initData() {
+        if (action == START){
+            etArea.setHint("您从哪里出发");
+        }else if(action == STOP){
+            etArea.setHint("您要去哪里");
+        }
+        initSql();
+    }
+
+    private void initSql() {
+        DbUtils.DaoConfig config = new DbUtils.DaoConfig(ChooseAreaActivity.this);
+        config.setDbName("address.db");
+        config.setDbVersion(1);
+        config.setDbUpgradeListener(new DbUtils.DbUpgradeListener() {
+            @Override
+            public void onUpgrade(DbUtils dbUtils, int i, int i1) {
+
+            }
+        });
+        db = DbUtils.create(config);
+        try {
+            db.createTableIfNotExist(SearchPointHistory.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+
+        List<SearchPointHistory> datas = new ArrayList<>();
+        try {
+            datas = db.findAll(Selector.from(SearchPointHistory.class));
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0;i < datas.size();i++){
+            search_datas.add(datas.get(i));
+        }
+
+        adapter1 = new HistoryAdapter();
+        adapter1.setDatas(search_datas);
+        lvHistory.setAdapter(adapter1);
+
 
     }
 
@@ -109,7 +162,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (popupDetails != null && popupDetails.isShowing()){
+                if (popupDetails != null && popupDetails.isShowing()) {
                     popupDetails.dismiss();
                 }
                 String newText = editable.toString().trim();
@@ -128,12 +181,23 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
             }
         });
 
+        lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                intent = new Intent();
+                intent.putExtra("areaProvice", search_datas.get(i).getArea());
+                intent.putExtra("areaName",  search_datas.get(i).getDetails());
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
 
     }
 
     private void openPopwin() {
         View view = View.inflate(ChooseAreaActivity.this, R.layout.popupwindow_area, null);
-        popupWindow = new PopupWindow(view, screenWidth, screenHight/2);
+        popupWindow = new PopupWindow(view, screenWidth, screenHight / 2);
         popupWindow.setFocusable(true);
         lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
 
@@ -174,7 +238,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 listString.add(list.get(i).getName());
             }
             View view = View.inflate(ChooseAreaActivity.this, R.layout.popupwindow_area, null);
-            popupDetails = new PopupWindow(view, screenWidth*4/5, screenHight/3);
+            popupDetails = new PopupWindow(view, screenWidth * 4 / 5, screenHight / 3);
             popupDetails.setFocusable(false);
             lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
 
@@ -186,7 +250,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
             ChooseAreaActivity.this.getWindow().setAttributes(params);
             popupDetails.setBackgroundDrawable(new ColorDrawable());
             popupDetails.setOutsideTouchable(false);
-            popupDetails.showAsDropDown(tvLine, DensityUtil.dip2px(ChooseAreaActivity.this,80),0);
+            popupDetails.showAsDropDown(tvLine, DensityUtil.dip2px(ChooseAreaActivity.this, 80), 0);
             popupDetails.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
@@ -199,19 +263,23 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    if (tvArea.getText().toString().equals("省区")){
+                    if (tvArea.getText().toString().equals("省区")) {
                         showShortToast("请填写省份");
-                    }else{
+                    } else {
                         intent = new Intent();
-                        intent.putExtra("areaProvice",tvArea.getText().toString());
-                        intent.putExtra("areaName",listString.get(i));
-                        setResult(RESULT_OK,intent);
+                        intent.putExtra("areaProvice", tvArea.getText().toString());
+                        intent.putExtra("areaName", listString.get(i));
+                        try {
+                            db.save(new SearchPointHistory(1, tvArea.getText().toString(), listString.get(i)));
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
+                        setResult(RESULT_OK, intent);
                         finish();
                         popupDetails.dismiss();
                     }
                 }
             });
-
         } else {
 
         }
@@ -227,18 +295,18 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
     }
 
-    public class AreaAdapter extends BaseAdapter{
+    public class AreaAdapter extends BaseAdapter {
 
         private ArrayList<String> datas;
 
 
-       public  void setDatas(ArrayList<String> datas){
-           this.datas = datas;
+        public void setDatas(ArrayList<String> datas) {
+            this.datas = datas;
         }
 
         @Override
         public int getCount() {
-            return datas == null ? 0 :datas.size();
+            return datas == null ? 0 : datas.size();
         }
 
         @Override
@@ -254,12 +322,12 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder holder;
-            if (view == null){
+            if (view == null) {
                 holder = new ViewHolder();
-                view = View.inflate(ChooseAreaActivity.this,R.layout.item_area_list,null);
+                view = View.inflate(ChooseAreaActivity.this, R.layout.item_area_list, null);
                 holder.tvArea = (TextView) view.findViewById(R.id.item_area_tv);
                 view.setTag(holder);
-            }else {
+            } else {
                 holder = (ViewHolder) view.getTag();
             }
             holder.tvArea.setText(datas.get(i));
@@ -267,10 +335,57 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
             return view;
         }
 
-        class ViewHolder{
+        class ViewHolder {
             TextView tvArea;
         }
     }
+
+    private class HistoryAdapter extends BaseAdapter {
+
+        private ArrayList<SearchPointHistory> datas ;
+
+        public void setDatas(ArrayList<SearchPointHistory> datas) {
+            this.datas = datas;
+        }
+
+        @Override
+        public int getCount() {
+            return datas == null ? 0 : datas.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return datas.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ViewHolder holder;
+            if (view == null) {
+                holder = new ViewHolder();
+                view = View.inflate(ChooseAreaActivity.this, R.layout.item_history_list, null);
+                holder.tvArea = (TextView) view.findViewById(R.id.item_history_list_tv_area);
+                holder.tvDetails = (TextView) view.findViewById(R.id.item_history_list_tv_details);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+            holder.tvArea.setText(datas.get(i).getArea());
+            holder.tvDetails.setText(datas.get(i).getDetails());
+
+            return view;
+        }
+
+        class ViewHolder {
+            TextView tvArea, tvDetails;
+        }
+    }
+
     private void AreaData() {
         datas.add("北京市");
         datas.add("天津市");

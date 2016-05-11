@@ -12,6 +12,7 @@
     <string name="str_register">点击注册</string>
     <string name="et_input_pwd">请输入新密码</string>
     <string name="et_input_again">请确认新密码</string>
+    <string name="toast_loss_net">失败，请检查网络连接</string>
 
     <!--融云定义Strings-->
     <!-- 登录 -->

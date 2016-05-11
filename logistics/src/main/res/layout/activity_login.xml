@@ -37,6 +37,7 @@
         android:padding="5dp">
 
         <EditText
+            android:id="@+id/activity_login_et_name"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/dl_shoujihao"
             android:hint="@string/et_login_name"
@@ -48,6 +49,7 @@
             android:layout_marginTop="5dp" />
 
         <EditText
+            android:id="@+id/activity_login_et_pwd"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/dl_mima"
             android:hint="@string/et_login_pwd"
