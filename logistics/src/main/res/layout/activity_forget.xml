@@ -30,6 +30,7 @@
         android:background="@color/color_white">
 
         <EditText
+            android:id="@+id/activity_forget_et_mobile"
             android:hint="@string/et_login_name"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/dl_shoujihao"
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <EditText
+                android:id="@+id/activity_forget_et_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -64,6 +66,7 @@
                 android:layout_marginBottom="2dp"/>
 
             <TextView
+                android:id="@+id/activity_forget_tv_getcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/content_tv_size"
@@ -79,14 +82,35 @@
 
         </LinearLayout>
 
-
+        <TextView
+            style="@style/divide_line"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:id="@+id/activity_forget_et_pwd"
+            android:hint="@string/et_input_pwd"
+            style="@style/edit_style"
+            android:drawableLeft="@mipmap/dl_mima"
+            android:inputType="phone"
+            />
+        <TextView
+            style="@style/divide_line"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+        <EditText
+            android:id="@+id/activity_forget_et_again"
+            android:hint="@string/et_input_again"
+            style="@style/edit_style"
+            android:drawableLeft="@mipmap/chongzhimima"
+            android:inputType="phone"
+            />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/activity_forget_btn_next"
         style="@style/btn_login"
-        android:text="下一步"
+        android:text="修改密码"
         />
 
 
