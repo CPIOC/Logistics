@@ -24,6 +24,7 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.BaseActivity;
+import com.cpic.taylor.logistics.bean.SearchPointHistoryData;
 import com.cpic.taylor.logistics.utils.AMapUtil;
 import com.cpic.taylor.logistics.utils.DensityUtil;
 import com.lidroid.xutils.DbUtils;
@@ -65,7 +66,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
      * @param savedInstanceState
      */
     private DbUtils db;
-    private ArrayList<SearchPointHistory> search_datas = new ArrayList<>();
+    private ArrayList<SearchPointHistoryData> search_datas = new ArrayList<>();
     private HistoryAdapter adapter1;
 
     @Override
@@ -115,15 +116,15 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         });
         db = DbUtils.create(config);
         try {
-            db.createTableIfNotExist(SearchPointHistory.class);
+            db.createTableIfNotExist(SearchPointHistoryData.class);
         } catch (DbException e) {
             e.printStackTrace();
         }
 
 
-        List<SearchPointHistory> datas = new ArrayList<>();
+        List<SearchPointHistoryData> datas = new ArrayList<>();
         try {
-            datas = db.findAll(Selector.from(SearchPointHistory.class));
+            datas = db.findAll(Selector.from(SearchPointHistoryData.class));
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -269,7 +270,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                         intent.putExtra("areaProvice", tvArea.getText().toString());
                         intent.putExtra("areaName", listString.get(i));
                         try {
-                            db.save(new SearchPointHistory(1, tvArea.getText().toString(), listString.get(i)));
+                            db.save(new SearchPointHistoryData(1, tvArea.getText().toString(), listString.get(i)));
                         } catch (DbException e) {
                             e.printStackTrace();
                         }
@@ -341,9 +342,9 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
     private class HistoryAdapter extends BaseAdapter {
 
-        private ArrayList<SearchPointHistory> datas ;
+        private ArrayList<SearchPointHistoryData> datas ;
 
-        public void setDatas(ArrayList<SearchPointHistory> datas) {
+        public void setDatas(ArrayList<SearchPointHistoryData> datas) {
             this.datas = datas;
         }
 
