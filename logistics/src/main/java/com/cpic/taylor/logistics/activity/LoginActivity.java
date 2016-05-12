@@ -19,6 +19,7 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudModel.Groups;
+import com.cpic.taylor.logistics.RongCloudModel.MyFriends;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
@@ -29,6 +30,8 @@ import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.bean.Login;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -75,6 +78,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
     private LoadingDialog mDialog;
     private Handler mHandler;
     String userName;
+    MyFriends myFriends;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
     private int HANDLER_LOGIN_SUCCESS = 1;
     private int HANDLER_LOGIN_FAILURE = 2;
@@ -199,8 +203,9 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                      * 融云登录成功
                      */
                     // WinToast.toast(LoginActivity.this, R.string.login_success);
-                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                    finish();
+                    httpGetTokenSuccess(login.getData().getCloud_token());
+                    //startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                    //finish();
 //                    loginRongCloud();
                 }else{
                     showShortToast(login.getMsg());
@@ -301,16 +306,16 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                         @Override
                         public void onSuccess(String userId) {
-
+                            Log.e("Tag",userId);
 
                             if (isFirst) {
-                                getUserInfoHttpRequest = RongYunContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                                RongYunContext.getInstance().deleteUserInfos();
+                                //getUserInfoHttpRequest = RongYunContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                                //RongYunContext.getInstance().deleteUserInfos();
                             } else {
                                 final List<UserInfos> list = RongYunContext.getInstance().loadAllUserInfos();
                                 if (list == null || list.size() == 0) {
                                     //请求网络
-                                    getUserInfoHttpRequest = RongYunContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                                   // getUserInfoHttpRequest = RongYunContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
                                 }
                             }
 
@@ -321,7 +326,10 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             RongCloudEvent.getInstance().setOtherListener();
 
                             //请求 demo server 获得自己所加入得群组。
-                            mGetMyGroupsRequest = RongYunContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+                            getFriendsFuction();
+                           // mGetMyGroupsRequest = RongYunContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+                            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                            finish();
                         }
 
                         @Override
@@ -394,6 +402,103 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
         }
     }
 
+    /**
+     * 从服务器获取好友列表
+     */
+    private void getFriendsFuction(){
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        params.addBodyParameter("token",sp.getString("token",null) );
+        String url = UrlUtils.POST_URL + UrlUtils.path_friendslist;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<MyFriends>() {
+                    }.getType();
+                    myFriends = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (myFriends.getCode() == 1) {
+
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int i = 0; i < myFriends.getdata().size(); i++) {
+                                UserInfos userInfos = new UserInfos();
+                                userInfos.setUserid(myFriends.getdata().get(i).getId());
+                                userInfos.setUsername(myFriends.getdata().get(i).getName());
+                                userInfos.setStatus("1");
+                                if (myFriends.getdata().get(i).getImg() != null)
+                                    userInfos.setPortrait(myFriends.getdata().get(i).getImg());
+                                friendsList.add(userInfos);
+                            }
+
+                            UserInfos addFriend = new UserInfos();
+                            addFriend.setUsername("新好友消息");
+                            addFriend.setUserid("10000");
+                            addFriend.setPortrait("test");
+                            addFriend.setStatus("0");
+                            friendsList.add(addFriend);
+
+
+
+                            UserInfos addUserInfo = new UserInfos();
+                            if (RongYunContext.getInstance() != null) {
+                                String id = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+                                String name = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
+                                String portrait = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT, Constants.DEFAULT);
+
+                                addUserInfo.setUsername(name);
+                                addUserInfo.setUserid(id);
+                                addUserInfo.setPortrait(portrait);
+                                addUserInfo.setStatus("0");
+                                friendsList.add(addUserInfo);
+                            }
+
+
+                            if (friendsList != null) {
+                                for (UserInfos friend : friendsList) {
+                                    UserInfos f = new UserInfos();
+                                    f.setUserid(friend.getUserid());
+                                    f.setUsername(friend.getUsername());
+                                    f.setPortrait(friend.getPortrait());
+                                    f.setStatus(friend.getStatus());
+                                    RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+                                }
+                            }
+                            Log.e("Tag","myFriends"+myFriends.getdata().size());
+                        }
+                    });
+
+                } else {
+                    showShortToast(myFriends.getmsg());
+                }
+
+            }
+
+        });
+
+    }
     /**
      * 获得好友列表
      * 获取好友列表接口  返回好友数据  (注：非融云SDK接口，是demo接口)

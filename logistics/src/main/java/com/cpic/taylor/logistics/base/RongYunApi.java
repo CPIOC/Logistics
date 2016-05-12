@@ -40,7 +40,7 @@ import io.rong.imlib.model.UserInfo;
  * BaseApi 为 SDK 源码内的代码，此处只是一个演示的过程。
  */
 public class RongYunApi extends BaseApi {
-    private static String HOST = "http://webim.demo.rong.io/";
+    private static String HOST = "http://wx.cpioc.com/wl/index.php?m=Api&c=Api&a=";
     private final static String DEMO_LOGIN_EMAIL = "email_login";
     private final static String DEMO_LOGIN_EMAIL_TOKEN = "email_login_token";
     private final static String DEMO_REQ = "reg";
@@ -52,7 +52,7 @@ public class RongYunApi extends BaseApi {
     private final static String DEMO_GET_MY_GROUP = "get_my_group";
     private final static String DEMO_GET_GROUP = "get_group";
     private final static String DEMO_SEARCH_NAME = "seach_name";
-    private final static String DEMO_GET_FRIEND = "get_friend";
+    private final static String DEMO_GET_FRIEND = "friendslist";
     private final static String DEMO_REQUEST_FRIEND = "request_friend";
     private final static String DEMO_DELETE_FRIEND = "delete_friend";
     private final static String DEMO_PROCESS_REQUEST_FRIEND = "process_request_friend";
@@ -195,7 +195,6 @@ public class RongYunApi extends BaseApi {
         ApiReqeust<Friends> apiReqeust = new DefaultApiReqeust<Friends>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_FRIEND), callback);
         AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
-
         return httpRequest;
 
     }
