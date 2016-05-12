@@ -12,6 +12,9 @@
         android:textColor="#666666"
         android:clickable="false"
         android:focusable="false"
+        android:paddingLeft="5dp"
+        android:layout_gravity="center_vertical"
+        android:button="@drawable/cbox_police_selector"
         android:textSize="16sp"
         />
 

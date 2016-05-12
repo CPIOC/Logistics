@@ -64,10 +64,11 @@
         <item name="android:paddingTop">7dp</item>
         <item name="android:paddingBottom">7dp</item>
     </style>
+
     <style name="title_iv_icon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">@mipmap/dl_shoujihao</item>
+        <item name="android:src">@mipmap/login</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:paddingRight">20dp</item>
         <item name="android:paddingLeft">10dp</item>
@@ -125,7 +126,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/content_tv_size</item>
-        <item name="android:drawableLeft">@mipmap/arrow_right_blue</item>
+        <item name="android:drawableLeft">@mipmap/input_icon</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:textColor">#FF8904</item>
         <item name="android:padding">15dp</item>

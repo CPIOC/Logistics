@@ -1,8 +1,11 @@
 package com.cpic.taylor.logistics.activity;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -39,6 +42,7 @@ import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
 import com.cpic.taylor.logistics.fragment.HomeRoadFragment;
+import com.cpic.taylor.logistics.utils.ExampleUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.RoundImageView;
 import com.cpic.taylor.logistics.utils.UrlUtils;
@@ -52,6 +56,8 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Taylor on 2016/5/4.
@@ -107,6 +113,11 @@ public class HomeActivity extends BaseActivity {
 
     private SharedPreferences sp;
 
+    /**
+     * jpush
+     * @param savedInstanceState
+     */
+    public static boolean isForeground = false;
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -147,11 +158,16 @@ public class HomeActivity extends BaseActivity {
         etName.setText(sp.getString("name",""));
         etCarNum.setText(sp.getString("plate_number",""));
         etCarType.setText(sp.getString("car_models",""));
-        Glide.with(HomeActivity.this).load(sp.getString("img","")).fitCenter().into(ivIcon);
-        Glide.with(HomeActivity.this).load(sp.getString("driving_license","")).fitCenter().into(ivCarInfo);
+        Glide.with(HomeActivity.this).load(sp.getString("img","")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivIcon);
+        Glide.with(HomeActivity.this).load(sp.getString("driving_license","")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
 
+
+        init();
     }
-
+    // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+    private void init(){
+        JPushInterface.init(getApplicationContext());
+    }
     private void initFragment() {
         // TODO Auto-generated method stub
         mFragList = new ArrayList<Fragment>();
@@ -217,7 +233,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
 
-                if (!b) {
+                if (!b&&!etName.getText().toString().equals(sp.getString("name",""))) {
                     changeInfo(NAME);
                 }
             }
@@ -225,7 +241,7 @@ public class HomeActivity extends BaseActivity {
         etCarNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b) {
+                if (!b&&!etCarNum.getText().toString().equals(sp.getString("plate_number",""))) {
                     changeInfo(CAR_NUM);
                 }
             }
@@ -233,7 +249,7 @@ public class HomeActivity extends BaseActivity {
         etCarType.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b) {
+                if (!b&&!etCarType.getText().toString().equals(sp.getString("car_models",""))) {
                     changeInfo(CAR_TYPE);
                 }
             }
@@ -505,4 +521,59 @@ public class HomeActivity extends BaseActivity {
         Bitmap resizeBmp = Bitmap.createBitmap(b, 0, 0, w, h, matrix, true);
         return resizeBmp;
     }
+
+
+
+    @Override
+    protected void onResume() {
+        isForeground = true;
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause() {
+        isForeground = false;
+        super.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
+
+
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String messge = intent.getStringExtra(KEY_MESSAGE);
+                String extras = intent.getStringExtra(KEY_EXTRAS);
+                StringBuilder showMsg = new StringBuilder();
+                showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                if (!ExampleUtil.isEmpty(extras)) {
+                    showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                }
+            }
+        }
+    }
+
 }

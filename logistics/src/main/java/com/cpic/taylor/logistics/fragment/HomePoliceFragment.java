@@ -1,5 +1,6 @@
 package com.cpic.taylor.logistics.fragment;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,7 +15,18 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.bean.Police;
+import com.cpic.taylor.logistics.bean.PoliceDataInfo;
+import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
 
@@ -29,12 +41,17 @@ public class HomePoliceFragment extends Fragment{
     private ArrayList<String> titleList = null;
     private ArrayList<ArrayList<String>> contentList = null;
 
+    private ArrayList<PoliceDataInfo> datas;
+
     private CheckBox cChoose,cSend,cChild;
     private TextView tvThings;
 
     private int groupClick = -1;
     private int childClick = -1;
 
+    private HttpUtils post;
+    private RequestParams params;
+    private Dialog dialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,6 +121,7 @@ public class HomePoliceFragment extends Fragment{
     private void initView(View view) {
         tvAddress = (TextView) view.findViewById(R.id.fragment_home_police_tv_address);
         elv = (ExpandableListView) view.findViewById(R.id.fragment_home_police_elv);
+        dialog = ProgressDialogHandle.getProgressDialog(getActivity(),null);
     }
 
     /**
@@ -112,30 +130,51 @@ public class HomePoliceFragment extends Fragment{
     private void initDatas() {
         titleList = new ArrayList<>();
         contentList = new ArrayList<>();
-        titleList.add("交通事故出现");
-        titleList.add("前方有交警定岗");
-        titleList.add("前方有打劫");
+        post = new HttpUtils();
+        params = new RequestParams();
+        String url = UrlUtils.POST_URL+UrlUtils.path_categorylist;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
-        ArrayList<String> arr1 = new ArrayList<>();
-        ArrayList<String> arr2 = new ArrayList<>();
-        ArrayList<String> arr3 = new ArrayList<>();
-        arr1.add("一般事故");
-        arr1.add("重大事故");
-        arr1.add("特大事故");
-        arr2.add("3名交警");
-        arr2.add("5名交警");
-        arr2.add("8名交警");
-        arr3.add("3名劫匪");
-        arr3.add("5名劫匪");
-        arr3.add("8名劫匪");
-        contentList.add(arr1);
-        contentList.add(arr2);
-        contentList.add(arr3);
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (dialog != null){
+                    dialog.show();
+                }
+            }
 
-        adapter = new CarAdapter();
-        adapter.setDatas(titleList,contentList);
-        elv.setAdapter(adapter);
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+                Police police = JSONObject.parseObject(responseInfo.result,Police.class);
+                int code = police.getCode();
+                if (code == 1){
+                    datas = police.getData();
+                    for (int i = 0;i<datas.size();i++){
+                        titleList.add(datas.get(i).getName());
+                        ArrayList<String> temp = new ArrayList<String>();
+                        for (int j = 0;j<datas.get(i).getChildren().size();j++){
+                            temp.add(datas.get(i).getChildren().get(j).getName());
+                        }
+                        contentList.add(temp);
+                    }
 
+                    adapter = new CarAdapter();
+                    adapter.setDatas(titleList,contentList);
+                    elv.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+                Toast.makeText(getActivity(),"获取数据失败，请检查网络连接",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public class CarAdapter extends BaseExpandableListAdapter {

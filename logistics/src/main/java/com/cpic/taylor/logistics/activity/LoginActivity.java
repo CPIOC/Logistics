@@ -181,18 +181,27 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                 Login login = JSONObject.parseObject(responseInfo.result,Login.class);
                 int code = login.getCode();
                 if (code == 1){
-
                     sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("mobile",etName.getText().toString());
                     editor.putString("pwd",etPwd.getText().toString());
                     editor.putString("img",login.getData().getImg());
+                    editor.putString("name",login.getData().getName());
                     editor.putString("plate_number",login.getData().getPlate_number());
                     editor.putString("car_models",login.getData().getCar_models());
                     editor.putString("driving_license",login.getData().getDriving_license());
                     editor.putString("token",login.getData().getToken());
                     editor.commit();
-                    httpGetTokenSuccess(login.getData().getCloud_token());
+                    if (dialog !=null){
+                        dialog.dismiss();
+                    }
+                    /**
+                     * 融云登录成功
+                     */
+                    // WinToast.toast(LoginActivity.this, R.string.login_success);
+                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                    finish();
+//                    loginRongCloud();
                 }else{
                     showShortToast(login.getMsg());
                 }

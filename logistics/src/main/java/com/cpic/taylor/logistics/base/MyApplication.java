@@ -11,6 +11,7 @@ import com.cpic.taylor.logistics.RongCloudMessage.provider.NewDiscussionConversa
 import com.cpic.taylor.logistics.RongCloudMessage.provider.RealTimeLocationMessageProvider;
 import com.iflytek.cloud.SpeechUtility;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
@@ -36,6 +37,7 @@ public class MyApplication extends Application {
      */
     public static int mDisplayHeight;
 
+    private static final String TAG = "JPush";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,6 +49,12 @@ public class MyApplication extends Application {
          * 科大讯飞初始化
          */
         SpeechUtility.createUtility(MyApplication.this, "appid=" + "565bb0b6");
+
+        /**
+         * Jpush
+         */
+//        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
 
 /**
  * 注意：

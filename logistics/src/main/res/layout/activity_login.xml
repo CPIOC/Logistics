@@ -27,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="25dp"
         android:layout_marginTop="25dp"
-        android:src="@mipmap/huanying_logo" />
+        android:src="@mipmap/logo" />
 
     <LinearLayout
         android:layout_width="match_parent"

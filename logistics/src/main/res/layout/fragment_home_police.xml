@@ -12,6 +12,9 @@
         android:background="#F2F2F2"
         android:padding="8dp"
         android:text="合肥.中国科技大学(西校区)"
+        android:drawableLeft="@mipmap/address"
+        android:drawablePadding="5dp"
+        android:layout_gravity="center_vertical"
         android:textColor="#576B95"
         android:textSize="12sp"
         />
