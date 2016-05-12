@@ -8,7 +8,7 @@ import com.lidroid.xutils.db.annotation.Table;
  * Created by Taylor on 2016/5/11.
  */
 @Table(name = "address")
-public class SearchPointHistory {
+public class SearchPointHistoryData {
 
     @Id(column = "_id")
     private int id;
@@ -43,18 +43,18 @@ public class SearchPointHistory {
 
     @Override
     public String toString() {
-        return "SearchPointHistory{" +
+        return "SearchPointHistoryData{" +
                 "id=" + id +
                 ", area='" + area + '\'' +
                 ", details='" + details + '\'' +
                 '}';
     }
 
-    public SearchPointHistory() {
+    public SearchPointHistoryData() {
         super();
     }
 
-    public SearchPointHistory(int id, String area, String details) {
+    public SearchPointHistoryData(int id, String area, String details) {
         this.id = id;
         this.area = area;
         this.details = details;
