@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Group;
@@ -162,7 +163,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
         params = new RequestParams();
         params.addBodyParameter("mobile",etName.getText().toString());
         params.addBodyParameter("password",etPwd.getText().toString());
-
+        params.addBodyParameter("device", JPushInterface.getRegistrationID(getApplicationContext()));
         String url = UrlUtils.POST_URL+UrlUtils.path_login;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override

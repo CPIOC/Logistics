@@ -28,8 +28,8 @@
                 android:text="@string/str_chat"
                 android:paddingRight="15dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:textSize="@dimen/title_tv_size" />
         </RelativeLayout>
 
@@ -244,6 +244,7 @@
                         android:layout_width="80dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="15dp"
+                        android:scaleType="fitXY"
                         android:src="@mipmap/empty_photo" />
                 </LinearLayout>
 

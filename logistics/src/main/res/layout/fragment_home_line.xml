@@ -12,6 +12,7 @@
     </com.amap.api.maps.MapView>
 
     <LinearLayout
+        android:id="@+id/fragment_home_line_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -55,5 +56,17 @@
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/fragment_line_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="退出线路"
+        android:layout_margin="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/color_white"
+        android:layout_gravity="bottom|left"
+        android:visibility="gone"
+        android:background="@drawable/btn_back_bg"/>
 
 </FrameLayout>

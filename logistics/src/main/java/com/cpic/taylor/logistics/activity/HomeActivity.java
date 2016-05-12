@@ -161,8 +161,8 @@ public class HomeActivity extends BaseActivity {
         Glide.with(HomeActivity.this).load(sp.getString("img","")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivIcon);
         Glide.with(HomeActivity.this).load(sp.getString("driving_license","")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
 
-
         init();
+
     }
     // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
     private void init(){
@@ -315,7 +315,7 @@ public class HomeActivity extends BaseActivity {
                 if (code == 1){
                     showShortToast("修改成功");
                 }else{
-                    showShortToast("修改失败");
+                    showShortToast(obj.getString("msg"));
                 }
             }
 
@@ -437,9 +437,8 @@ public class HomeActivity extends BaseActivity {
                     // 最后根据索引值获取图片路径
                     path = cursor.getString(column_index);
                     changeInfo(USER_ICON);
-                    // Log.i("oye", path);
-                    // 上传头像
-                    // upLoadUserIcon(new File(path));
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

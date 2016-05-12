@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -45,6 +47,13 @@ import com.cpic.taylor.logistics.activity.ChooseAreaActivity;
 import com.cpic.taylor.logistics.overlay.DrivingRouteOverlay;
 import com.cpic.taylor.logistics.utils.AMapUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.List;
 
@@ -64,12 +73,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     //路径规划
     private RouteSearch mRouteSearch;
     private DriveRouteResult mDriveRouteResult;
-    private LatLonPoint mStartPoint = new LatLonPoint(30.917636, 116.397743);//起点，
-    private LatLonPoint mEndPoint = new LatLonPoint(30.984947, 116.494689);//终点，
+    private LatLonPoint mStartPoint ;//起点，
+    private LatLonPoint mEndPoint ;//终点，
 
     private RadioGroup mGPSModeGroup;
 
     private Button btnQuery;
+    private Button btnBack;
 
     /**
      * 起点终点
@@ -100,6 +110,16 @@ public class HomeLineFragment extends Fragment implements LocationSource,
      */
     private SharedPreferences sp;
 
+    /**
+     * 线路选择完成以后，隐藏该Linearlayout
+     */
+    private LinearLayout linearLayout;
+
+
+    private HttpUtils post;
+    private RequestParams params;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,7 +129,9 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvStart = (TextView) view.findViewById(R.id.fragment_line_tv_start);
         tvStop = (TextView) view.findViewById(R.id.fragment_line_tv_stop);
         btnQuery = (Button) view.findViewById(R.id.fragment_line_btn_query);
+        btnBack = (Button) view.findViewById(R.id.fragment_line_btn_back);
         dialog = ProgressDialogHandle.getProgressDialog(getActivity(),null);
+        linearLayout = (LinearLayout) view.findViewById(R.id.fragment_home_line_linearlayout);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
 
         init(view);
@@ -146,19 +168,102 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         btnQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setfromandtoMarker();
+                if (null != mStartPoint&&null!=mEndPoint){
+                    setfromandtoMarker();
+                }else if (null == mStartPoint){
+                    Toast.makeText(getActivity(), "起点未设置", Toast.LENGTH_SHORT).show();
+                }else if (null == mEndPoint){
+                    Toast.makeText(getActivity(), "终点未设置", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        getActivity());
+                builder.setTitle("是否结束行程?");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        aMap.clear();
+                        mStartPoint = null;
+                        mEndPoint = null;
+                        btnBack.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                builder.show();
             }
         });
     }
 
     private void setfromandtoMarker() {
-        aMap.addMarker(new MarkerOptions()
-                .position(AMapUtil.convertToLatLng(mStartPoint))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
-        aMap.addMarker(new MarkerOptions()
-                .position(AMapUtil.convertToLatLng(mEndPoint))
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end)));
-        searchRouteResult(1, RouteSearch.DrivingDefault);
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String token = sp.getString("token","");
+        String lat = sp.getString("now_latitude","");
+        String lng =sp.getString("now_longitude","");
+        String url = UrlUtils.POST_URL+UrlUtils.path_setRoute;
+        params.addBodyParameter("token",token);
+        params.addBodyParameter("start",tvStart.getText().toString());
+        params.addBodyParameter("end",tvStop.getText().toString());
+        if (!"".equals(lat)&&!"".equals(lng)){
+            params.addBodyParameter("lat",lat);
+            params.addBodyParameter("lng",lng);
+        }
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (dialog != null){
+                    dialog.show();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+                JSONObject obj = JSONObject.parseObject(responseInfo.result);
+                int code = obj.getIntValue("code");
+                if (code == 1){
+                    aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
+                    aMap.addMarker(new MarkerOptions()
+                            .position(AMapUtil.convertToLatLng(mEndPoint))
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end)));
+                    searchRouteResult(1, RouteSearch.DrivingDefault);
+                    linearLayout.setVisibility(View.GONE);
+                    btnBack.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+    public void setRoutePost(){
+
     }
 
     private void init(View view) {
@@ -168,6 +273,8 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         }
         mRouteSearch = new RouteSearch(getActivity());
         mRouteSearch.setRouteSearchListener(this);
+
+
     }
 
     /**
@@ -208,9 +315,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
      * 开始进行poi搜索
      */
     protected void doSearchQuery(String keyWord,String area) {
-        if (dialog!=null){
-            dialog.show();
-        }
+
         currentPage = 0;
         query = new PoiSearch.Query(keyWord, "", area);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(10);// 设置每页最多返回多少条poiitem
@@ -264,7 +369,9 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 editor.putString("now_address",aMapLocation.getAddress());
                 editor.putString("now_latitude",aMapLocation.getLatitude()+"");
                 editor.putString("now_longitude",aMapLocation.getLongitude()+"");
+
                 editor.commit();
+
 //                Log.i("oye",aMapLocation.getAddress());
 
             } else {
@@ -308,6 +415,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
     @Override
     public View getInfoWindow(final Marker marker) {
+
         View view = getActivity().getLayoutInflater().inflate(R.layout.poikeywordsearch_uri,
                 null);
         TextView title = (TextView) view.findViewById(R.id.title);
@@ -319,7 +427,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
         ImageButton button = (ImageButton) view.findViewById(R.id.start_amap_app);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status == 0){
@@ -331,6 +439,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             mStartPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
+
                             aMap.clear();
                             dialogInterface.dismiss();
                         }
@@ -484,9 +593,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         poiOverlay.zoomToSpan();
                     } else if (suggestionCities != null
                             && suggestionCities.size() > 0) {
-
                     } else {
-
                     }
                 }
             } else {

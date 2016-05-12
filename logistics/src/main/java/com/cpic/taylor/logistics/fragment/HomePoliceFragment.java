@@ -38,9 +38,6 @@ public class HomePoliceFragment extends Fragment{
     private TextView tvAddress;
     private ExpandableListView elv;
     private CarAdapter adapter;
-    private ArrayList<String> titleList = null;
-    private ArrayList<ArrayList<String>> contentList = null;
-
     private ArrayList<PoliceDataInfo> datas;
 
     private CheckBox cChoose,cSend,cChild;
@@ -52,6 +49,8 @@ public class HomePoliceFragment extends Fragment{
     private HttpUtils post;
     private RequestParams params;
     private Dialog dialog;
+
+    private String address,token,lat,lng;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +62,10 @@ public class HomePoliceFragment extends Fragment{
          * 获取当前地址信息
          */
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String address = sp.getString("now_address","");
+        address = sp.getString("now_address","");
+        token = sp.getString("token","");
+        lat = sp.getString("now_latitude","");
+        lng = sp.getString("now_longitude","");
         tvAddress.setText(address);
 
         initDatas();
@@ -128,8 +130,7 @@ public class HomePoliceFragment extends Fragment{
      * 列表选择
      */
     private void initDatas() {
-        titleList = new ArrayList<>();
-        contentList = new ArrayList<>();
+
         post = new HttpUtils();
         params = new RequestParams();
         String url = UrlUtils.POST_URL+UrlUtils.path_categorylist;
@@ -152,17 +153,8 @@ public class HomePoliceFragment extends Fragment{
                 int code = police.getCode();
                 if (code == 1){
                     datas = police.getData();
-                    for (int i = 0;i<datas.size();i++){
-                        titleList.add(datas.get(i).getName());
-                        ArrayList<String> temp = new ArrayList<String>();
-                        for (int j = 0;j<datas.get(i).getChildren().size();j++){
-                            temp.add(datas.get(i).getChildren().get(j).getName());
-                        }
-                        contentList.add(temp);
-                    }
-
                     adapter = new CarAdapter();
-                    adapter.setDatas(titleList,contentList);
+                    adapter.setDatas(datas);
                     elv.setAdapter(adapter);
                 }
             }
@@ -179,12 +171,12 @@ public class HomePoliceFragment extends Fragment{
 
     public class CarAdapter extends BaseExpandableListAdapter {
 
-        private ArrayList<String> titleList = null;
-        private ArrayList<ArrayList<String>> contentList = null;
+        private ArrayList<PoliceDataInfo> titleList = null;
 
-        public void setDatas(ArrayList<String> Title , ArrayList<ArrayList<String>> Content){
-            this.titleList = Title;
-            this.contentList = Content;
+
+        public void setDatas(ArrayList<PoliceDataInfo> titleList){
+            this.titleList = titleList;
+
         }
 
         @Override
@@ -193,7 +185,7 @@ public class HomePoliceFragment extends Fragment{
         }
         @Override
         public int getChildrenCount(int groupPosition) {
-            return contentList.get(groupPosition).size();
+            return titleList.get(groupPosition).getChildren().size();
         }
         @Override
         public Object getGroup(int groupPosition) {
@@ -201,7 +193,7 @@ public class HomePoliceFragment extends Fragment{
         }
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            return contentList.get(groupPosition).get(childPosition);
+            return titleList.get(groupPosition).getChildren().get(childPosition);
         }
         @Override
         public long getGroupId(int groupPosition) {
@@ -228,7 +220,7 @@ public class HomePoliceFragment extends Fragment{
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.cBoxGroupChoose.setText(titleList.get(groupPosition));
+            holder.cBoxGroupChoose.setText(titleList.get(groupPosition).getName());
 
 
             if (elv.isGroupExpanded(groupPosition)){
@@ -242,8 +234,13 @@ public class HomePoliceFragment extends Fragment{
                     public void onClick(View view) {
                         if (groupClick == -1&&childClick == -1){
                             Toast.makeText(getActivity(),"请选择报警的详情",Toast.LENGTH_SHORT).show();
+                            holder.cBoxGroupSend.setChecked(true);
                         }else{
-                            Toast.makeText(getActivity(),contentList.get(groupClick).get(childClick),Toast.LENGTH_SHORT).show();
+                            if (!"".equals(token)&&!"".equals(address)&&!"".equals(lng)&&!"".equals(lat)){
+                                callPolice(token,titleList.get(groupClick).getChildren().get(childClick).getId(),address,lat,lng);
+                            }else{
+                                Toast.makeText(getActivity(),"暂无地理信息，请稍后重试",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -268,7 +265,7 @@ public class HomePoliceFragment extends Fragment{
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.tvThings.setText(contentList.get(groupPosition).get(childPosition));
+            holder.tvThings.setText(titleList.get(groupPosition).getChildren().get(childPosition).getName());
             if (groupClick == groupPosition&&childClick == childPosition){
                 holder.cBoxChildCheck.setChecked(true);
             }else{
@@ -285,4 +282,53 @@ public class HomePoliceFragment extends Fragment{
             return true;
         }
     }
+
+    public void callPolice(String token,String cat_id,String address,String lat,String lng){
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("token",token);
+        params.addBodyParameter("cat_id",cat_id);
+        params.addBodyParameter("address",address);
+        params.addBodyParameter("lat",lat);
+        params.addBodyParameter("lng",lng);
+        String url = UrlUtils.POST_URL+UrlUtils.path_warning;
+
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (dialog!=null){
+                    dialog.show();
+                }
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                if (dialog!=null){
+                    dialog.dismiss();
+                }
+                JSONObject obj = JSONObject.parseObject(responseInfo.result);
+                int code = obj.getIntValue("code");
+                if (code == 1){
+                    Toast.makeText(getActivity(),"发送成功",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(),obj.getString("msg"),Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                if (dialog!=null){
+                    dialog.dismiss();
+                }
+                Toast.makeText(getActivity(),"发送失败，请检查网络连接",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
 }
