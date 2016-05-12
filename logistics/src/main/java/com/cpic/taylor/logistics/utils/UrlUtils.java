@@ -14,7 +14,7 @@ public class UrlUtils {
     //忘记密码
     public final static String path_forgotPwd = "forgotPwd";
     //修改用户资料
-    public final static String path_modifyInfo = "modifyInfo";
+    public final static String path_modifyInfo = "modifyUserInfo";
     //报警类型列表
     public final static String path_categorylist = "categorylist";
     //好友列表

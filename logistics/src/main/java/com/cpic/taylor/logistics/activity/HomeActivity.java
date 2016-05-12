@@ -1,7 +1,9 @@
 package com.cpic.taylor.logistics.activity;
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,13 +31,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
 import com.cpic.taylor.logistics.fragment.HomeRoadFragment;
+import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.RoundImageView;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -78,8 +91,21 @@ public class HomeActivity extends BaseActivity {
     private PopupWindow pw;
     private int screenWidth;
     private String path;// 图片路径
+    private String path1;// 图片路径
     private TextView tvCamera, tvPhoto, tvBack;
     private Intent intent;
+
+    private HttpUtils post;
+    private RequestParams params;
+    private Dialog dialog;
+
+    private  static  final int USER_ICON = 0;
+    private  static  final int NAME = 1;
+    private  static  final int CAR_NUM = 2;
+    private  static  final int CAR_TYPE = 3;
+    private  static  final int CAR_INFO = 4;
+
+    private SharedPreferences sp;
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -110,11 +136,20 @@ public class HomeActivity extends BaseActivity {
         etCarType = (EditText) findViewById(R.id.layout_et_car_type);
         ivCarInfo = (ImageView) findViewById(R.id.layout_iv_carinfo);
         ivIcon = (RoundImageView) findViewById(R.id.layout_iv_icon);
+        dialog = ProgressDialogHandle.getProgressDialog(HomeActivity.this,null);
     }
 
     @Override
     protected void initData() {
         initFragment();
+
+        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        etName.setText(sp.getString("name",""));
+        etCarNum.setText(sp.getString("plate_number",""));
+        etCarType.setText(sp.getString("car_models",""));
+        Glide.with(HomeActivity.this).load(sp.getString("img","")).fitCenter().into(ivIcon);
+        Glide.with(HomeActivity.this).load(sp.getString("driving_license","")).fitCenter().into(ivCarInfo);
+
     }
 
     private void initFragment() {
@@ -182,18 +217,25 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
 
+                if (!b) {
+                    changeInfo(NAME);
+                }
             }
         });
         etCarNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-
+                if (!b) {
+                    changeInfo(CAR_NUM);
+                }
             }
         });
         etCarType.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-
+                if (!b) {
+                    changeInfo(CAR_TYPE);
+                }
             }
         });
         linIcon.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +254,64 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    /**
+     * 修改个人信息
+     * @param status
+     */
+    public void changeInfo(int status){
+        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        String token = sp.getString("token","");
+        post = new HttpUtils();
+        params = new RequestParams();
+
+        String url = UrlUtils.POST_URL+ UrlUtils.path_modifyInfo;
+        if (status == USER_ICON){
+            params.addBodyParameter("img",new File(path));
+        }else if (status == NAME){
+            params.addBodyParameter("name",etName.getText().toString());
+        }else if (status == CAR_NUM){
+            params.addBodyParameter("plate_number",etCarNum.getText().toString());
+        }else if (status == CAR_TYPE){
+            params.addBodyParameter("car_models",etCarType.getText().toString());
+        }else if (status == CAR_INFO){
+            params.addBodyParameter("driving_license",new File(path1));
+        }
+        params.addBodyParameter("token",token);
+
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (dialog != null){
+                    dialog.show();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                if (dialog != null ){
+                    dialog.dismiss();
+                }
+                JSONObject obj = JSONObject.parseObject(responseInfo.result);
+                int code = obj.getIntValue("code");
+                if (code == 1){
+                    showShortToast("修改成功");
+                }else{
+                    showShortToast("修改失败");
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                if (dialog != null ){
+                    dialog.dismiss();
+                }
+                showShortToast("修改失败,请检查网络连接");
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         // 获取本次点击的时间
@@ -293,7 +393,9 @@ public class HomeActivity extends BaseActivity {
                 Bitmap temp = BitmapFactory.decodeFile(cameraUri.getPath());
                 Bitmap bitmap = big(temp, 60, 60);
                 ivIcon.setImageBitmap(bitmap);
+                changeInfo(USER_ICON);
             }
+
             // upLoadUserIcon(new File(Environment.getExternalStorageDirectory()
             // .getAbsolutePath() + "/usericon.PNG"));
         } else if (requestCode == PHOTO) {
@@ -318,6 +420,7 @@ public class HomeActivity extends BaseActivity {
                     cursor.moveToFirst();
                     // 最后根据索引值获取图片路径
                     path = cursor.getString(column_index);
+                    changeInfo(USER_ICON);
                     // Log.i("oye", path);
                     // 上传头像
                     // upLoadUserIcon(new File(path));
@@ -327,11 +430,12 @@ public class HomeActivity extends BaseActivity {
             }
 
         }else if (requestCode == INFO_CAMERA){
-            path = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/carInfo.jpg";
+            path1 = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/carInfo.jpg";
             if (!cameraUri.getPath().isEmpty()) {
                 Bitmap temp = BitmapFactory.decodeFile(cameraUri.getPath());
                 Bitmap bitmap = big(temp, 60, 60);
                 ivCarInfo.setImageBitmap(bitmap);
+                changeInfo(CAR_INFO);
             }
         } else if (requestCode == INFO_PHOTO) {
             if (data != null) {
@@ -354,7 +458,8 @@ public class HomeActivity extends BaseActivity {
                     // 将光标移至开头 ，这个很重要，不小心很容易引起越界
                     cursor.moveToFirst();
                     // 最后根据索引值获取图片路径
-                    path = cursor.getString(column_index);
+                    path1 = cursor.getString(column_index);
+                    changeInfo(CAR_INFO);
                     // Log.i("oye", path);
                     // 上传头像
                     // upLoadUserIcon(new File(path));

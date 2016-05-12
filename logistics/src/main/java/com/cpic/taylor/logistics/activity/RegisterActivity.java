@@ -3,6 +3,7 @@ package com.cpic.taylor.logistics.activity;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,11 @@ public class RegisterActivity extends BaseActivity{
     private Dialog dialog;
     private SharedPreferences sp;
 
+    private int count = 30;
+
+    private TimeCount time;
+
+
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
 
@@ -53,6 +59,7 @@ public class RegisterActivity extends BaseActivity{
         btnRegister = (Button) findViewById(R.id.activity_register_btn_register);
         tvGetCode = (TextView) findViewById(R.id.activity_register_tv_getcode);
         dialog = ProgressDialogHandle.getProgressDialog(RegisterActivity.this,null);
+        time = new TimeCount(60000, 1000);
     }
 
     @Override
@@ -73,6 +80,22 @@ public class RegisterActivity extends BaseActivity{
                 }
 
                 registerAction();
+            }
+        });
+
+        tvGetCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = etMobile.getText().toString();
+                if ("".equals(str)) {
+                    showLongToast("手机号码不得为空");
+                    return;
+                }
+                if (str.length() != 11) {
+                    showLongToast("手机号码格式不正确");
+                    return;
+                }
+                time.start();
             }
         });
     }
@@ -125,5 +148,23 @@ public class RegisterActivity extends BaseActivity{
         });
 
 
+    }
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {// 计时完毕
+            tvGetCode.setText("获取验证码");
+            tvGetCode.setClickable(true);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {// 计时过程
+            tvGetCode.setClickable(false);// 防止重复点击
+            tvGetCode.setText(millisUntilFinished / 1000 + "s" + "重新验证");
+        }
     }
 }

@@ -124,6 +124,7 @@
                     android:id="@+id/layout_iv_icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:scaleType="fitXY"
                     android:src="@mipmap/empty_photo" />
 
             </LinearLayout>

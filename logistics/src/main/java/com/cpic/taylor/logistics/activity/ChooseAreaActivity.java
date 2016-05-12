@@ -24,7 +24,6 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.BaseActivity;
-import com.cpic.taylor.logistics.bean.SearchPointHistory;
 import com.cpic.taylor.logistics.utils.AMapUtil;
 import com.cpic.taylor.logistics.utils.DensityUtil;
 import com.lidroid.xutils.DbUtils;
