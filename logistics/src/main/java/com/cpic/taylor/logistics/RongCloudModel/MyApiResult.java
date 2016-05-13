@@ -27,6 +27,15 @@ public class MyApiResult implements Serializable, Parcelable {
     private String friend_name;
     private String friend_img;
     private String friend_plate_number;
+    private String cloud_id;
+
+    public String getCloud_id() {
+        return cloud_id;
+    }
+
+    public void setCloud_id(String cloud_id) {
+        this.cloud_id = cloud_id;
+    }
 
     public String getFriend_plate_number() {
         return friend_plate_number;
@@ -86,7 +95,7 @@ public class MyApiResult implements Serializable, Parcelable {
         setFriend_car_models(ParcelUtils.readFromParcel(in));
         setFriend_driving_license(ParcelUtils.readFromParcel(in));
         setImg(ParcelUtils.readFromParcel(in));
-
+        setCloud_id(ParcelUtils.readFromParcel(in));
 
     }
 
@@ -139,6 +148,7 @@ public class MyApiResult implements Serializable, Parcelable {
         ParcelUtils.writeToParcel(parcel, getFriend_driving_license());
         ParcelUtils.writeToParcel(parcel, getFriend_plate_number());
         ParcelUtils.writeToParcel(parcel, getImg());
+        ParcelUtils.writeToParcel(parcel, getCloud_id());
 
     }
 

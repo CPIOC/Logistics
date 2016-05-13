@@ -178,6 +178,10 @@ public class RongYunContext {
             return null;
         }
 
+        if(null==userInfos.getPortrait()){
+            userInfos.setPortrait("www.cpioc.com");
+        }
+
 
         return new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
     }
@@ -231,6 +235,11 @@ public class RongYunContext {
             return null;
 
         for (int i = 0; i < userInfos.size(); i++) {
+
+            if(null==userInfos.get(i).getPortrait()){
+                userInfos.get(i).setPortrait("userInfos.get(i).getPortrait()");
+            }
+
             UserInfo userInfo = new UserInfo(userInfos.get(i).getUserid(), userInfos.get(i).getUsername(), Uri.parse(userInfos.get(i).getPortrait()));
 
             userInfoList.add(userInfo);

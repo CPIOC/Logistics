@@ -35,6 +35,8 @@ public class UrlUtils {
     public final static String path_setLocation = "setLocation ";
     //删除群成员\退出群组\解散群组:
     public final static String path_delete_meb = "delete_meb";
+    //搜索好友:
+    public final static String path_search_friends = "search_friends";
 
 
 }

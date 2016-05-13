@@ -440,13 +440,12 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                 if (myFriends.getCode() == 1) {
 
-
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             for (int i = 0; i < myFriends.getdata().size(); i++) {
                                 UserInfos userInfos = new UserInfos();
-                                userInfos.setUserid(myFriends.getdata().get(i).getId());
+                                userInfos.setUserid(myFriends.getdata().get(i).getCloud_id());
                                 userInfos.setUsername(myFriends.getdata().get(i).getName());
                                 userInfos.setStatus("1");
                                 if (myFriends.getdata().get(i).getImg() != null)
@@ -454,27 +453,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                                 friendsList.add(userInfos);
                             }
 
-                            UserInfos addFriend = new UserInfos();
-                            addFriend.setUsername("新好友消息");
-                            addFriend.setUserid("10000");
-                            addFriend.setPortrait("test");
-                            addFriend.setStatus("0");
-                            friendsList.add(addFriend);
 
-
-
-                            UserInfos addUserInfo = new UserInfos();
-                            if (RongYunContext.getInstance() != null) {
-                                String id = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
-                                String name = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
-                                String portrait = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT, Constants.DEFAULT);
-
-                                addUserInfo.setUsername(name);
-                                addUserInfo.setUserid(id);
-                                addUserInfo.setPortrait(portrait);
-                                addUserInfo.setStatus("0");
-                                friendsList.add(addUserInfo);
-                            }
 
 
                             if (friendsList != null) {

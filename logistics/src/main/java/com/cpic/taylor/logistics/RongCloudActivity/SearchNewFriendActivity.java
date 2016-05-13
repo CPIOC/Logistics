@@ -1,8 +1,11 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,14 +16,28 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
+import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
+import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -39,10 +56,17 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     private AbstractHttpRequest<Friends> searchHttpRequest;
     private List<ApiResult> mResultList;
     private SearchFriendAdapter adapter;
+    private SearchMyFriendAdapter myAdapter;
     private LoadingDialog mDialog;
-    private LinearLayout routeMembersLl,nearByMembersLl,searchFriendLl;
+    private LinearLayout routeMembersLl, nearByMembersLl, searchFriendLl;
     private String userName;
     private TextView searchNewFriendTitle;
+    private Handler mHandler;
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+    MyNewFriends myFriends;
+    ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +76,11 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         getSupportActionBar().hide();
-        searchNewFriendTitle= (TextView) findViewById(R.id.search_activity_title);
+        searchNewFriendTitle = (TextView) findViewById(R.id.search_activity_title);
         searchNewFriendTitle.setText("新的朋友");
-        routeMembersLl= (LinearLayout) findViewById(R.id.layout_add);
-        nearByMembersLl= (LinearLayout) findViewById(R.id.layout_chat_group);
-        searchFriendLl= (LinearLayout) findViewById(R.id.search_friend_ll);
+        routeMembersLl = (LinearLayout) findViewById(R.id.layout_add);
+        nearByMembersLl = (LinearLayout) findViewById(R.id.layout_chat_group);
+        searchFriendLl = (LinearLayout) findViewById(R.id.search_friend_ll);
         routeMembersLl.setVisibility(View.GONE);
         nearByMembersLl.setVisibility(View.GONE);
         searchFriendLl.setVisibility(View.GONE);
@@ -66,7 +90,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         mBtSearch.setVisibility(View.GONE);
         mListSearch = (ListView) findViewById(R.id.de_search_list);
         mResultList = new ArrayList<ApiResult>();
-        userName=getIntent().getStringExtra("userName");
+        userName = getIntent().getStringExtra("userName");
         searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
         mDialog = new LoadingDialog(this);
 
@@ -93,12 +117,16 @@ public class SearchNewFriendActivity extends BaseApiActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent in = new Intent(SearchNewFriendActivity.this, PersonalDetailActivity.class);
-                UserInfo userInfo = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), Uri.parse(mResultList.get(position).getPortrait()));
+                if(null==friendsList.get(position).getPortrait()){
+                    friendsList.get(position).setPortrait("www.cpioc.com");
+                }
+                UserInfo userInfo = new UserInfo(friendsList.get(position).getUserid(), friendsList.get(position).getUsername(), Uri.parse(friendsList.get(position).getPortrait()));
                 in.putExtra("USER", userInfo);
                 in.putExtra("USER_SEARCH", true);
                 startActivityForResult(in, Constants.SEARCH_REQUESTCODE);
             }
         });
+        loadFriends();
     }
 
     @Override
@@ -126,6 +154,66 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         }
     }
 
+    private void loadFriends() {
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("friends_name", userName);
+        String url = UrlUtils.POST_URL + UrlUtils.path_search_friends;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
+                    }.getType();
+                    myFriends = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (myFriends.getCode() == 1) {
+
+
+                    for (int i = 0; i < myFriends.getData().size(); i++) {
+                        UserInfos userInfos = new UserInfos();
+                        userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
+                        userInfos.setUsername(myFriends.getData().get(i).getName());
+                        userInfos.setStatus("1");
+                        if (myFriends.getData().get(i).getImg() != null)
+                            userInfos.setPortrait(myFriends.getData().get(i).getImg());
+                        friendsList.add(userInfos);
+                    }
+                    if(null!=friendsList){
+                        myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
+                        mListSearch.setAdapter(myAdapter);
+                    }
+                    Log.e("Tag","number"+friendsList);
+
+
+                } else {
+                    showShortToast(myFriends.getMsg());
+                }
+
+            }
+
+        });
+    }
+
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
         if (mDialog != null)
@@ -151,5 +239,14 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     public void backTo(View view) {
 
         finish();
+    }
+
+    /**
+     * Toast短显示
+     *
+     * @param msg
+     */
+    protected void showShortToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
