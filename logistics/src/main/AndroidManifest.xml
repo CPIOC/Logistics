@@ -133,6 +133,10 @@
         <activity
             android:name=".RongCloudActivity.ContactsActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".RongCloudActivity.GroupListActivity"
+            android:screenOrientation="portrait"></activity>
+
 
         <!--我的账号-->
         <activity

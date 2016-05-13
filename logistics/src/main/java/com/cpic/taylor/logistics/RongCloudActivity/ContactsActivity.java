@@ -14,21 +14,19 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
-import com.cpic.taylor.logistics.RongCloudaAdapter.ContactsMultiChoiceAdapter;
-import com.cpic.taylor.logistics.RongCloudaAdapter.FriendListAdapter;
 import com.cpic.taylor.logistics.RongCloudModel.Friend;
-import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.PinnedHeaderListView;
 import com.cpic.taylor.logistics.RongCloudWidget.SwitchGroup;
 import com.cpic.taylor.logistics.RongCloudWidget.SwitchItemView;
+import com.cpic.taylor.logistics.RongCloudaAdapter.ContactsMultiChoiceAdapter;
+import com.cpic.taylor.logistics.RongCloudaAdapter.FriendListAdapter;
+import com.cpic.taylor.logistics.base.RongYunContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 /**
@@ -157,13 +155,14 @@ public class ContactsActivity extends BaseActionBarActivity implements SwitchGro
                 Intent intent = new Intent(this, NewFriendListActivity.class);
                 startActivityForResult(intent, 20);
             } else if (friendId == "★002") {
-                if (RongIM.getInstance() != null) {
+               /* if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
-                }
-            } else if (friendId == "★003") {
-                Intent intent = new Intent(this, PublicServiceActivity.class);
+                }*/
+                Intent intent=new Intent(this,GroupListActivity.class);
                 startActivity(intent);
-            } else {
+                Log.e("Tag","========");
+
+            }  else {
                 Intent intent = new Intent(this, PersonalDetailActivity.class);
                 intent.putExtra("CONTACTS_USER", viewHolder.friend.getUserId());
                 startActivityForResult(intent, 19);
@@ -204,7 +203,7 @@ public class ContactsActivity extends BaseActionBarActivity implements SwitchGro
         ArrayList<Friend> friendList = new ArrayList<Friend>();
         friendList.add(new Friend("★001", "新的朋友", getResources().getResourceName(R.drawable.de_address_new_friend)));
         friendList.add(new Friend("★002", "群聊", getResources().getResourceName(R.drawable.de_address_group)));
-        friendList.add(new Friend("★003", "公众号", getResources().getResourceName(R.drawable.de_address_public)));
+        //friendList.add(new Friend("★003", "公众号", getResources().getResourceName(R.drawable.de_address_public)));
         userMap.put("★", friendList);
         for (int i = 0; i < searchLetters.length; i++) {
             String letter = searchLetters[i];

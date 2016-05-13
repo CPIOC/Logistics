@@ -441,19 +441,21 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                 if (myFriends.getCode() == 1) {
 
+                    RongYunContext.getInstance().deleteUserInfos();
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            for (int i = 0; i < myFriends.getdata().size(); i++) {
-                                UserInfos userInfos = new UserInfos();
-                                userInfos.setUserid(myFriends.getdata().get(i).getCloud_id());
-                                userInfos.setUsername(myFriends.getdata().get(i).getName());
-                                userInfos.setStatus("1");
-                                if (myFriends.getdata().get(i).getImg() != null)
-                                    userInfos.setPortrait(myFriends.getdata().get(i).getImg());
-                                friendsList.add(userInfos);
+                            if (null != myFriends.getdata()) {
+                                for (int i = 0; i < myFriends.getdata().size(); i++) {
+                                    UserInfos userInfos = new UserInfos();
+                                    userInfos.setUserid(myFriends.getdata().get(i).getCloud_id());
+                                    userInfos.setUsername(myFriends.getdata().get(i).getName());
+                                    userInfos.setStatus("1");
+                                    if (myFriends.getdata().get(i).getImg() != null)
+                                        userInfos.setPortrait(myFriends.getdata().get(i).getImg());
+                                    friendsList.add(userInfos);
+                                }
                             }
-
 
 
 

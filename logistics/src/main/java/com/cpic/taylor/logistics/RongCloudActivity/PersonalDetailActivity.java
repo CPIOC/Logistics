@@ -3,8 +3,10 @@ package com.cpic.taylor.logistics.RongCloudActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,15 +14,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudModel.Status;
 import com.cpic.taylor.logistics.RongCloudModel.User;
-import com.cpic.taylor.logistics.base.RongYunContext;
-import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.resource.Resource;
@@ -59,6 +73,10 @@ public class PersonalDetailActivity extends BaseApiActivity {
     private String currentUserId;
     private boolean isSearch;
 
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +91,8 @@ public class PersonalDetailActivity extends BaseApiActivity {
         mPersonalId = (TextView) findViewById(R.id.personal_id);
         mSendMessage = (Button) findViewById(R.id.send_message);
         mAddFriend = (Button) findViewById(R.id.add_friend);
-
+        text_version_id= (TextView) findViewById(R.id.text_version_id);
+        text_licence_id= (TextView) findViewById(R.id.text_licence_id);
         mDialog = new LoadingDialog(this);
 
         mSendMessage.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +120,67 @@ public class PersonalDetailActivity extends BaseApiActivity {
         });
 
         initData();
+    }
+
+    private void addFriend(){
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+
+        String url = UrlUtils.POST_URL + UrlUtils.path_search_friends;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
+                    }.getType();
+                   // myFriends = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                /*if (myFriends.getCode() == 1) {
+
+                    if (null != myFriends.getData()) {
+                        for (int i = 0; i < myFriends.getData().size(); i++) {
+                            UserInfos userInfos = new UserInfos();
+                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
+                            userInfos.setUsername(myFriends.getData().get(i).getName());
+                            userInfos.setStatus("1");
+                            if (myFriends.getData().get(i).getImg() != null)
+                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
+                            friendsList.add(userInfos);
+                        }
+                        if (null != friendsList) {
+                            myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
+                            mListSearch.setAdapter(myAdapter);
+                        }
+                        Log.e("Tag", "number" + friendsList);
+                    }
+
+
+                } else {
+                    showShortToast(myFriends.getMsg());
+                }*/
+
+            }
+
+        });
     }
     public void backTo(View view){
         finish();
@@ -305,6 +385,26 @@ public class PersonalDetailActivity extends BaseApiActivity {
      * 添加到通讯录
      */
     private Button mAddFriend;
+
+    /**
+     * Toast短显示
+     *
+     * @param msg
+     */
+    /*
+    车牌号
+     */
+    private TextView text_licence_id;
+
+    /**
+     * 车型
+     *
+     */
+    private TextView text_version_id;
+
+    protected void showShortToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 
 
 }

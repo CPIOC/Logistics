@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudActivity.GroupListActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.PersonalDetailActivity;
@@ -32,8 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 /**
@@ -148,9 +147,11 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
                 Intent intent = new Intent(mainActivity, NewFriendListActivity.class);
                 startActivityForResult(intent, 20);
             } else if (friendId == "★002") {
-                if (RongIM.getInstance() != null) {
+                /*if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startSubConversationList(mainActivity, Conversation.ConversationType.GROUP);
-                }
+                }*/
+                Intent intent=new Intent(getActivity(),GroupListActivity.class);
+                startActivity(intent);
             } else if (friendId == "★003") {
                 Intent intent = new Intent(mainActivity, PublicServiceActivity.class);
                 startActivity(intent);
@@ -252,7 +253,7 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
         ArrayList<Friend> friendList = new ArrayList<Friend>();
         friendList.add(new Friend("★001", "新的朋友", getResources().getResourceName(R.drawable.de_address_new_friend)));
         friendList.add(new Friend("★002", "群聊", getResources().getResourceName(R.drawable.de_address_group)));
-        friendList.add(new Friend("★003", "公众号", getResources().getResourceName(R.drawable.de_address_public)));
+        //friendList.add(new Friend("★003", "公众号", getResources().getResourceName(R.drawable.de_address_public)));
         userMap.put("★", friendList);
         for (int i = 0; i < searchLetters.length; i++) {
             String letter = searchLetters[i];

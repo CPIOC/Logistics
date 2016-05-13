@@ -1,10 +1,12 @@
 package com.cpic.taylor.logistics.RongCloudFragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +14,22 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.FriendMultiChoiceAdapter;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +63,10 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     private String[] mTargetIds = null;
     private ArrayList<String> mNumberLists;
     private boolean isFromSetting = false;
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+    private String groupName = "群聊";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +132,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             @Override
             public void onClick(View v) {
                 selectPeopleComplete();
+
             }
         });
 
@@ -154,6 +171,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         super.onViewCreated(view, savedInstanceState);
 
     }
+
 
     private void selectButtonShowStyle(int selectedCount, int hasSelect) {
 
@@ -211,6 +229,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     sb.append(",");
                     sb.append(userInfo.getName());
                 }
+                groupName = sb.toString();
 
                 if (isFromSetting) {
 
@@ -221,6 +240,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                 @Override
                                 public void onSuccess(String s) {
                                     Log.e(TAG, "-----selectPeopleComplete---=＝onSuccess＝＝＝＝＋＋＋＋" + s);
+                                    addChatGroup(groupName);
                                     getActivity().finish();
                                 }
 
@@ -242,6 +262,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                         mLoadingDialog.dismiss();
                                     }
                                     RongIM.getInstance().startDiscussionChat(getActivity(), mTargetId, "hello");
+
                                     getActivity().finish();
                                 }
 
@@ -257,6 +278,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 } else {
                     if (mMemberIds.size() == 0) {
                         RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
+                        addChatGroup(groupName);
                         getActivity().finish();
                     } else {
                         mLoadingDialog.show();
@@ -269,6 +291,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                     if (mLoadingDialog != null) {
                                         mLoadingDialog.dismiss();
                                     }
+
                                     getActivity().finish();
                                 }
 
@@ -281,7 +304,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             });
                         } else {
                             ids.addAll(mMemberIds);
+                            addChatGroup(groupName);
                             RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
+
                         }
                     }
                 }
@@ -372,5 +397,62 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             selectButtonShowStyle((Integer) msg.obj, 0);
         }
         return false;
+    }
+
+    /**
+     * Toast短显示
+     *
+     * @param msg
+     */
+    protected void showShortToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void addChatGroup(String chat_name) {
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("chat_name", chat_name);
+        String url = UrlUtils.POST_URL + UrlUtils.path_createChat;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = new JSONObject(result);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
+
+                        showShortToast("添加成功");
+
+                    } else {
+                        showShortToast(jsonObj.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.e("Tag","success");
+            }
+
+        });
+
     }
 }

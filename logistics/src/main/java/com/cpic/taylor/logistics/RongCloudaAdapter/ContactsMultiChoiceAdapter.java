@@ -42,6 +42,7 @@ public class ContactsMultiChoiceAdapter extends ContactsAdapter {
             photo.setDefaultDrawable(mContext.getResources().getDrawable(R.drawable.de_address_group));
         }else if(friend.getUserId().equals("★003")){
             photo.setDefaultDrawable(mContext.getResources().getDrawable(R.drawable.de_address_public));
+            v.setVisibility(View.GONE);
         }else{
             photo.setDefaultDrawable(mContext.getResources().getDrawable(R.drawable.de_default_portrait));
         }

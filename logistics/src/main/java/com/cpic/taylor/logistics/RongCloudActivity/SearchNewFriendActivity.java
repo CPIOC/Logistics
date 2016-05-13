@@ -117,7 +117,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent in = new Intent(SearchNewFriendActivity.this, PersonalDetailActivity.class);
-                if(null==friendsList.get(position).getPortrait()){
+                if (null == friendsList.get(position).getPortrait()) {
                     friendsList.get(position).setPortrait("www.cpioc.com");
                 }
                 UserInfo userInfo = new UserInfo(friendsList.get(position).getUserid(), friendsList.get(position).getUsername(), Uri.parse(friendsList.get(position).getPortrait()));
@@ -159,7 +159,12 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
         params.addBodyParameter("token", sp.getString("token", null));
-        params.addBodyParameter("friends_name", userName);
+        if (null == userName) {
+
+        } else {
+            params.addBodyParameter("name", userName);
+        }
+
         String url = UrlUtils.POST_URL + UrlUtils.path_search_friends;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
@@ -188,21 +193,22 @@ public class SearchNewFriendActivity extends BaseApiActivity {
 
                 if (myFriends.getCode() == 1) {
 
-
-                    for (int i = 0; i < myFriends.getData().size(); i++) {
-                        UserInfos userInfos = new UserInfos();
-                        userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
-                        userInfos.setUsername(myFriends.getData().get(i).getName());
-                        userInfos.setStatus("1");
-                        if (myFriends.getData().get(i).getImg() != null)
-                            userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                        friendsList.add(userInfos);
+                    if (null != myFriends.getData()) {
+                        for (int i = 0; i < myFriends.getData().size(); i++) {
+                            UserInfos userInfos = new UserInfos();
+                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
+                            userInfos.setUsername(myFriends.getData().get(i).getName());
+                            userInfos.setStatus("1");
+                            if (myFriends.getData().get(i).getImg() != null)
+                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
+                            friendsList.add(userInfos);
+                        }
+                        if (null != friendsList) {
+                            myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
+                            mListSearch.setAdapter(myAdapter);
+                        }
+                        Log.e("Tag", "number" + friendsList);
                     }
-                    if(null!=friendsList){
-                        myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
-                        mListSearch.setAdapter(myAdapter);
-                    }
-                    Log.e("Tag","number"+friendsList);
 
 
                 } else {
