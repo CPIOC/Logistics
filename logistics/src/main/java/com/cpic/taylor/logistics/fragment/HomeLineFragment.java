@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -44,6 +43,9 @@ import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.activity.ChooseAreaActivity;
+import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.bean.SetRouteData;
+import com.cpic.taylor.logistics.bean.setRoute;
 import com.cpic.taylor.logistics.overlay.DrivingRouteOverlay;
 import com.cpic.taylor.logistics.utils.AMapUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
@@ -55,7 +57,10 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.imkit.RongIM;
 
 /**
  * Created by Taylor on 2016/4/29.
@@ -87,6 +92,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     private TextView tvStart,tvStop;
     private final static int START = 0;
     private final static int STOP = 1;
+    private final static int ON_ROAD = 2;
     private Intent intent;
 
 
@@ -119,6 +125,16 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     private HttpUtils post;
     private RequestParams params;
 
+    //判断是否有线路规划
+    private boolean isOnroad;
+
+    //路径规划以后上面的人
+    ArrayList<SetRouteData> datas;
+
+    private String name1;
+    private String name2;
+    private String area1;
+    private String area2;
 
     @Nullable
     @Override
@@ -158,10 +174,14 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             @Override
             public void onClick(View view) {
 //                Toast.makeText(getActivity(), "目的地", Toast.LENGTH_SHORT).show();
-                intent = new Intent(getActivity(), ChooseAreaActivity.class);
-                intent.putExtra("action", STOP);
-                status = STOP;
-                startActivityForResult(intent, STOP);
+                if (null == mStartPoint){
+                    Toast.makeText(getActivity(), "起点未设置", Toast.LENGTH_SHORT).show();
+                }else{
+                    intent = new Intent(getActivity(), ChooseAreaActivity.class);
+                    intent.putExtra("action", STOP);
+                    status = STOP;
+                    startActivityForResult(intent, STOP);
+                }
             }
         });
 
@@ -170,6 +190,16 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             public void onClick(View view) {
                 if (null != mStartPoint&&null!=mEndPoint){
                     setfromandtoMarker();
+
+                    aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
+                    aMap.addMarker(new MarkerOptions()
+                            .position(AMapUtil.convertToLatLng(mEndPoint))
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end)));
+                    searchRouteResult(1, RouteSearch.DrivingDefault);
+                    linearLayout.setVisibility(View.GONE);
+                    btnBack.setVisibility(View.VISIBLE);
+
                 }else if (null == mStartPoint){
                     Toast.makeText(getActivity(), "起点未设置", Toast.LENGTH_SHORT).show();
                 }else if (null == mEndPoint){
@@ -187,12 +217,18 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //状态归0
+                        status = 0;
+                        //是否线路规划设为不规划，就不在定位
+                        isOnroad = false;
+                        //地图点清理
                         aMap.clear();
                         mStartPoint = null;
                         mEndPoint = null;
                         btnBack.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
                         dialogInterface.dismiss();
+
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -201,12 +237,12 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         dialogInterface.dismiss();
                     }
                 });
-
                 builder.show();
             }
         });
     }
 
+    //设置线路
     private void setfromandtoMarker() {
 
         post = new HttpUtils();
@@ -216,9 +252,10 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         String lat = sp.getString("now_latitude","");
         String lng =sp.getString("now_longitude","");
         String url = UrlUtils.POST_URL+UrlUtils.path_setRoute;
+
         params.addBodyParameter("token",token);
-        params.addBodyParameter("start",tvStart.getText().toString());
-        params.addBodyParameter("end",tvStop.getText().toString());
+        params.addBodyParameter("start",area1);
+        params.addBodyParameter("end",area2);
         if (!"".equals(lat)&&!"".equals(lng)){
             params.addBodyParameter("lat",lat);
             params.addBodyParameter("lng",lng);
@@ -231,7 +268,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 if (dialog != null){
                     dialog.show();
                 }
-
             }
 
             @Override
@@ -239,19 +275,22 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 if (dialog != null){
                     dialog.dismiss();
                 }
-                JSONObject obj = JSONObject.parseObject(responseInfo.result);
-                int code = obj.getIntValue("code");
+                setRoute route = JSONObject.parseObject(responseInfo.result,setRoute.class);
+                int code = route.getCode();
                 if (code == 1){
-                    aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
-                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
-                    aMap.addMarker(new MarkerOptions()
-                            .position(AMapUtil.convertToLatLng(mEndPoint))
-                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end)));
-                    searchRouteResult(1, RouteSearch.DrivingDefault);
-                    linearLayout.setVisibility(View.GONE);
-                    btnBack.setVisibility(View.VISIBLE);
-                }
+                    //行程中
+                    isOnroad = true;
+                    //将状态切换到Onroad
+                    status = ON_ROAD;
 
+                    datas = route.getData();
+                    LatLonPoint lp ;
+                    for (int i =0;i<datas.size();i++){
+                        lp = new LatLonPoint(Double.parseDouble(datas.get(i).getLat()),Double.parseDouble(datas.get(i).getLng()));
+                        aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(lp)).snippet(datas.get(i).getCloud_id())
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cool))).setTitle(datas.get(i).getUser_name());
+                    }
+                }
             }
 
             @Override
@@ -259,11 +298,9 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 if (dialog != null){
                     dialog.dismiss();
                 }
+                Toast.makeText(getActivity(),"线路规划失败，请检查网络连接",Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    public void setRoutePost(){
-
     }
 
     private void init(View view) {
@@ -371,6 +408,9 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 editor.putString("now_longitude",aMapLocation.getLongitude()+"");
 
                 editor.commit();
+                if (isOnroad){
+                    upLoadLocation(aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
+                }
 
 //                Log.i("oye",aMapLocation.getAddress());
 
@@ -381,6 +421,31 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         }
     }
 
+    /**
+     * 实时上传经纬度信息
+     */
+    public void upLoadLocation(String lat,String lng){
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String token = sp.getString("token","");
+        params.addBodyParameter("token",token);
+        params.addBodyParameter("lat",lat);
+        params.addBodyParameter("lng",lng);
+        String url = UrlUtils.POST_URL+UrlUtils.path_setLocation;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+//                Log.i("oye","成功"+responseInfo.result);
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+//                Log.i("oye","失败"+s);
+            }
+        });
+    }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
@@ -392,13 +457,17 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             mlocationClient.setLocationListener(this);
             //设置为高精度定位模式
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            mLocationOption.setInterval(10000);
             //设置定位参数
             mlocationClient.setLocationOption(mLocationOption);
+
             // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
             // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
             // 在定位结束后，在合适的生命周期调用onDestroy()方法
             // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
             mlocationClient.startLocation();
+
+
         }
     }
 
@@ -413,25 +482,46 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     }
 
 
+    /**
+     * 点击图标显示身份信息
+     * @param marker
+     * @return
+     */
+
     @Override
     public View getInfoWindow(final Marker marker) {
 
-        View view = getActivity().getLayoutInflater().inflate(R.layout.poikeywordsearch_uri,
-                null);
-        TextView title = (TextView) view.findViewById(R.id.title);
-        title.setText(marker.getTitle());
+        final View view = getActivity().getLayoutInflater().inflate(R.layout.poikeywordsearch_uri,null);
+        if (status == 0 || status == 1){
+            TextView title = (TextView) view.findViewById(R.id.title);
+            title.setText(marker.getTitle());
+            title.setTextColor(getResources().getColor(R.color.home_tv_area));
+            TextView snippet = (TextView) view.findViewById(R.id.snippet);
+            snippet.setText(marker.getSnippet());
+            snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
+        }else if (status == 2){
 
-        title.setTextColor(getResources().getColor(R.color.home_tv_area));
-        TextView snippet = (TextView) view.findViewById(R.id.snippet);
-        snippet.setText(marker.getSnippet());
-        snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
-        ImageButton button = (ImageButton) view.findViewById(R.id.start_amap_app);
+            if (marker.getTitle().equals("起点")||marker.getTitle().equals("终点")){
+                TextView title = (TextView) view.findViewById(R.id.title);
+                title.setText(marker.getTitle());
+                title.setTextColor(getResources().getColor(R.color.home_tv_area));
+                TextView snippet = (TextView) view.findViewById(R.id.snippet);
+                snippet.setText(marker.getSnippet());
+                snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
+            }else{
+                TextView title = (TextView) view.findViewById(R.id.title);
+                title.setText("司机："+marker.getTitle());
+                title.setTextColor(getResources().getColor(R.color.home_tv_area));
+                TextView snippet = (TextView) view.findViewById(R.id.snippet);
+                snippet.setText("点击此对话框进行聊天");
+                snippet.setTextColor(getResources().getColor(R.color.home_tv_area));
+            }
 
+        }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status == 0){
-
                     final AlertDialog.Builder builder = new AlertDialog.Builder(
                             getActivity());
                     builder.setTitle("是否将此处设为出发地?");
@@ -439,7 +529,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             mStartPoint = new LatLonPoint(marker.getPosition().latitude,marker.getPosition().longitude);
-
                             aMap.clear();
                             dialogInterface.dismiss();
                         }
@@ -474,9 +563,19 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
                     builder.show();
 
+                    //如果在路上处于路线规划，则点击进入聊天界面
+                }else if(status == ON_ROAD){
+                    if (RongIM.getInstance() != null && RongYunContext.getInstance() != null) {
+                        if (marker.getSnippet() != null)
+                            RongIM.getInstance().startPrivateChat(getActivity(), marker.getSnippet(),
+                                    RongYunContext.getInstance().getUserInfoById(marker.getSnippet()).getName());
+
+                    }
+
                 }
             }
         });
+
         return view;
     }
 
@@ -553,15 +652,15 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         if (resultCode == -1){
             switch (requestCode){
                 case START:
-                    String name1 = data.getStringExtra("areaName");
-                    String area1 =  data.getStringExtra("areaProvice");
+                    name1 = data.getStringExtra("areaName");
+                    area1 =  data.getStringExtra("areaProvice");
                     tvStart.setText(area1+name1);
                     tvStart.setTextColor(getResources().getColor(R.color.home_tv_area));
                     doSearchQuery(name1,area1);
                     break;
                 case STOP:
-                    String name2 = data.getStringExtra("areaName");
-                    String area2 =  data.getStringExtra("areaProvice");
+                    name2 = data.getStringExtra("areaName");
+                    area2 =  data.getStringExtra("areaProvice");
                     tvStop.setText(area2+name2);
                     tvStop.setTextColor(getResources().getColor(R.color.home_tv_area));
                     doSearchQuery(area2,name2);

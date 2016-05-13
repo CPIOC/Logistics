@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -71,7 +72,7 @@ public class HomeActivity extends BaseActivity {
     private ImageView ivMine;
     private TextView tvChat;
     private RadioGroup rgroup;
-    private RadioButton lastButton;
+    private RadioButton lastButton, rbtn_road;
     // Fragment的管理类
     private FragmentManager mManager;
     // Fragment的事务类
@@ -105,19 +106,21 @@ public class HomeActivity extends BaseActivity {
     private RequestParams params;
     private Dialog dialog;
 
-    private  static  final int USER_ICON = 0;
-    private  static  final int NAME = 1;
-    private  static  final int CAR_NUM = 2;
-    private  static  final int CAR_TYPE = 3;
-    private  static  final int CAR_INFO = 4;
+    private static final int USER_ICON = 0;
+    private static final int NAME = 1;
+    private static final int CAR_NUM = 2;
+    private static final int CAR_TYPE = 3;
+    private static final int CAR_INFO = 4;
 
     private SharedPreferences sp;
 
     /**
      * jpush
+     *
      * @param savedInstanceState
      */
     public static boolean isForeground = false;
+
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -137,6 +140,7 @@ public class HomeActivity extends BaseActivity {
         tvChat = (TextView) findViewById(R.id.activity_home_chat);
         rgroup = (RadioGroup) findViewById(R.id.activity_home_rgroup);
         lastButton = (RadioButton) findViewById(R.id.activity_home_rbtn_line);
+        rbtn_road = (RadioButton) findViewById(R.id.activity_home_rbtn_line_road);
 
         /**
          * 侧滑控件
@@ -147,7 +151,7 @@ public class HomeActivity extends BaseActivity {
         etCarType = (EditText) findViewById(R.id.layout_et_car_type);
         ivCarInfo = (ImageView) findViewById(R.id.layout_iv_carinfo);
         ivIcon = (RoundImageView) findViewById(R.id.layout_iv_icon);
-        dialog = ProgressDialogHandle.getProgressDialog(HomeActivity.this,null);
+        dialog = ProgressDialogHandle.getProgressDialog(HomeActivity.this, null);
     }
 
     @Override
@@ -155,19 +159,25 @@ public class HomeActivity extends BaseActivity {
         initFragment();
 
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        etName.setText(sp.getString("name",""));
-        etCarNum.setText(sp.getString("plate_number",""));
-        etCarType.setText(sp.getString("car_models",""));
-        Glide.with(HomeActivity.this).load(sp.getString("img","")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivIcon);
-        Glide.with(HomeActivity.this).load(sp.getString("driving_license","")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
+        etName.setText(sp.getString("name", ""));
+        etCarNum.setText(sp.getString("plate_number", ""));
+        etCarType.setText(sp.getString("car_models", ""));
+        Glide.with(HomeActivity.this).load(sp.getString("img", "")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivIcon);
+        Glide.with(HomeActivity.this).load(sp.getString("driving_license", "")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
 
         init();
 
     }
+
+    public void setHomeRoad() {
+        rbtn_road.setChecked(true);
+    }
+
     // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
-    private void init(){
+    private void init() {
         JPushInterface.init(getApplicationContext());
     }
+
     private void initFragment() {
         // TODO Auto-generated method stub
         mFragList = new ArrayList<Fragment>();
@@ -233,7 +243,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
 
-                if (!b&&!etName.getText().toString().equals(sp.getString("name",""))) {
+                if (!b && !etName.getText().toString().equals(sp.getString("name", ""))) {
                     changeInfo(NAME);
                 }
             }
@@ -241,7 +251,7 @@ public class HomeActivity extends BaseActivity {
         etCarNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b&&!etCarNum.getText().toString().equals(sp.getString("plate_number",""))) {
+                if (!b && !etCarNum.getText().toString().equals(sp.getString("plate_number", ""))) {
                     changeInfo(CAR_NUM);
                 }
             }
@@ -249,7 +259,7 @@ public class HomeActivity extends BaseActivity {
         etCarType.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b&&!etCarType.getText().toString().equals(sp.getString("car_models",""))) {
+                if (!b && !etCarType.getText().toString().equals(sp.getString("car_models", ""))) {
                     changeInfo(CAR_TYPE);
                 }
             }
@@ -257,13 +267,13 @@ public class HomeActivity extends BaseActivity {
         linIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupWindow(view,CAMERA,PHOTO);
+                showPopupWindow(view, CAMERA, PHOTO, true);
             }
         });
         ivCarInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupWindow(view,INFO_CAMERA,INFO_PHOTO);
+                showPopupWindow(view, INFO_CAMERA, INFO_PHOTO, false);
             }
         });
 
@@ -272,33 +282,35 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 修改个人信息
+     *
      * @param status
      */
-    public void changeInfo(int status){
+    public void changeInfo(int status) {
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        String token = sp.getString("token","");
+        String token = sp.getString("token", "");
         post = new HttpUtils();
         params = new RequestParams();
 
-        String url = UrlUtils.POST_URL+ UrlUtils.path_modifyInfo;
-        if (status == USER_ICON){
-            params.addBodyParameter("img",new File(path));
-        }else if (status == NAME){
-            params.addBodyParameter("name",etName.getText().toString());
-        }else if (status == CAR_NUM){
-            params.addBodyParameter("plate_number",etCarNum.getText().toString());
-        }else if (status == CAR_TYPE){
-            params.addBodyParameter("car_models",etCarType.getText().toString());
-        }else if (status == CAR_INFO){
-            params.addBodyParameter("driving_license",new File(path1));
+        String url = UrlUtils.POST_URL + UrlUtils.path_modifyInfo;
+        if (status == USER_ICON) {
+            params.addBodyParameter("img", new File(path));
+        } else if (status == NAME) {
+            params.addBodyParameter("name", etName.getText().toString());
+        } else if (status == CAR_NUM) {
+            params.addBodyParameter("plate_number", etCarNum.getText().toString());
+        } else if (status == CAR_TYPE) {
+            params.addBodyParameter("car_models", etCarType.getText().toString());
+        } else if (status == CAR_INFO) {
+            params.addBodyParameter("driving_license", new File(path1));
+            Log.i("oye", "请求" + path1);
         }
-        params.addBodyParameter("token",token);
+        params.addBodyParameter("token", token);
 
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
             public void onStart() {
                 super.onStart();
-                if (dialog != null){
+                if (dialog != null) {
                     dialog.show();
                 }
 
@@ -307,39 +319,45 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
 
-                if (dialog != null ){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
                 JSONObject obj = JSONObject.parseObject(responseInfo.result);
                 int code = obj.getIntValue("code");
-                if (code == 1){
+                if (code == 1) {
                     showShortToast("修改成功");
-                }else{
+                } else {
                     showShortToast(obj.getString("msg"));
                 }
             }
 
             @Override
             public void onFailure(HttpException e, String s) {
-                if (dialog != null ){
+                if (dialog != null) {
                     dialog.dismiss();
                 }
                 showShortToast("修改失败,请检查网络连接");
             }
         });
     }
+
     @Override
     public void onBackPressed() {
-        // 获取本次点击的时间
-        long currentTime = System.currentTimeMillis();
-        long dTime = currentTime - lastTime;
+//        // 获取本次点击的时间
+//        long currentTime = System.currentTimeMillis();
+//        long dTime = currentTime - lastTime;
+//
+//        if (dTime < 2000) {
+//            finish();
+//        } else {
+//            showShortToast("再按一次退出程序");
+//            lastTime = currentTime;
+//        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 注意
+        intent.addCategory(Intent.CATEGORY_HOME);
+        this.startActivity(intent);
 
-        if (dTime < 2000) {
-            finish();
-        } else {
-            showShortToast("再按一次退出程序");
-            lastTime = currentTime;
-        }
     }
 
     @Override
@@ -347,7 +365,7 @@ public class HomeActivity extends BaseActivity {
 //        super.onSaveInstanceState(outState, outPersistentState);
     }
 
-    private void showPopupWindow(View v,final int type1,final int type2) {
+    private void showPopupWindow(View v, final int type1, final int type2, final boolean isUser) {
         View view = View.inflate(HomeActivity.this, R.layout.popupwindow_1, null);
         tvCamera = (TextView) view.findViewById(R.id.btn_camera);
         tvPhoto = (TextView) view.findViewById(R.id.btn_photo);
@@ -355,7 +373,7 @@ public class HomeActivity extends BaseActivity {
         tvCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFromCamera(type1);
+                getFromCamera(type1, isUser);
                 pw.dismiss();
             }
         });
@@ -404,7 +422,7 @@ public class HomeActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA) {
-            path = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/userIcon.jpg";
+            path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/userIcon.jpg";
             if (!cameraUri.getPath().isEmpty()) {
                 Bitmap temp = BitmapFactory.decodeFile(cameraUri.getPath());
                 Bitmap bitmap = big(temp, 60, 60);
@@ -427,7 +445,7 @@ public class HomeActivity extends BaseActivity {
                     bitmap.getByteCount();
                     ivIcon.setImageBitmap(bitmap);
                     // 这里开始的第二部分，获取图片的路径：
-                    String[] proj = { MediaStore.Images.Media.DATA };
+                    String[] proj = {MediaStore.Images.Media.DATA};
                     // 好像是android多媒体数据库的封装接口，具体的看Android文档
                     Cursor cursor = HomeActivity.this.managedQuery(uri, proj, null, null, null);
                     // 按我个人理解 这个是获得用户选择的图片的索引值
@@ -444,8 +462,9 @@ public class HomeActivity extends BaseActivity {
                 }
             }
 
-        }else if (requestCode == INFO_CAMERA){
-            path1 = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/carInfo.jpg";
+        } else if (requestCode == INFO_CAMERA) {
+            path1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/carInfo.jpg";
+            Log.i("oye", "相册" + path1);
             if (!cameraUri.getPath().isEmpty()) {
                 Bitmap temp = BitmapFactory.decodeFile(cameraUri.getPath());
                 Bitmap bitmap = big(temp, 60, 60);
@@ -465,7 +484,7 @@ public class HomeActivity extends BaseActivity {
                     bitmap.getByteCount();
                     ivCarInfo.setImageBitmap(bitmap);
                     // 这里开始的第二部分，获取图片的路径：
-                    String[] proj = { MediaStore.Images.Media.DATA };
+                    String[] proj = {MediaStore.Images.Media.DATA};
                     // 好像是android多媒体数据库的封装接口，具体的看Android文档
                     Cursor cursor = HomeActivity.this.managedQuery(uri, proj, null, null, null);
                     // 按我个人理解 这个是获得用户选择的图片的索引值
@@ -484,15 +503,19 @@ public class HomeActivity extends BaseActivity {
             }
 
         }
-
     }
 
     /**
      * 相机调用
      */
-    private void getFromCamera(int type1) {
+    private void getFromCamera(int type1, boolean isUser) {
         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraPic = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/userIcon.jpg");
+        if (isUser) {
+            cameraPic = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/userIcon.jpg");
+        } else {
+            cameraPic = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/carInfo.jpg");
+        }
+
         cameraUri = Uri.fromFile(cameraPic);
         // 指定照片拍摄后的存储位置
         intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
@@ -522,11 +545,13 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         isForeground = true;
         super.onResume();
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("isclose", false);
+        editor.commit();
     }
 
 
@@ -534,6 +559,10 @@ public class HomeActivity extends BaseActivity {
     protected void onPause() {
         isForeground = false;
         super.onPause();
+        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("isclose", true);
+        editor.commit();
     }
 
 

@@ -16,7 +16,7 @@
             android:id="@+id/activity_choose_area_tv_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="省区"
+            android:text="市区"
             android:textColor="#999999"
             android:drawableRight="@mipmap/down"
             android:drawablePadding="5dp"

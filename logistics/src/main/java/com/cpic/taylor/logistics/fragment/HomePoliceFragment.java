@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,20 @@ public class HomePoliceFragment extends Fragment{
         initDatas();
         registerListener();
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            address = sp.getString("now_address","");
+            token = sp.getString("token","");
+            lat = sp.getString("now_latitude","");
+            lng = sp.getString("now_longitude","");
+            tvAddress.setText(address);
+            Log.i("oye",lat+lng);
+        }
     }
 
     private void registerListener() {

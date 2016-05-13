@@ -32,7 +32,7 @@ public class UrlUtils {
     //设置线路接口:
     public final static String path_setRoute = "setRoute";
     //设置位置接口更新经纬度:
-    public final static String path_setLocation = "setLocation ";
+    public final static String path_setLocation = "setLocation";
     //删除群成员\退出群组\解散群组:
     public final static String path_delete_meb = "delete_meb";
     //搜索好友:

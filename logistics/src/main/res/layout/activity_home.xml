@@ -26,6 +26,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="@string/str_chat"
+                android:textColor="@color/home_rbtn"
                 android:paddingRight="15dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="8dp"
@@ -57,6 +58,7 @@
                     android:text="路线" />
 
                 <RadioButton
+                    android:id="@+id/activity_home_rbtn_line_road"
                     style="@style/home_rbtn_style"
                     android:tag="1"
                     android:text="路况" />

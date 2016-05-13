@@ -145,7 +145,9 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         tvArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPopwin();
+//                openPopwin();
+                Intent intent = new Intent(ChooseAreaActivity.this,MainActivity.class);
+                startActivityForResult(intent,1);
             }
         });
         etArea.addTextChangedListener(new TextWatcher() {
@@ -263,8 +265,8 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    if (tvArea.getText().toString().equals("省区")) {
-                        showShortToast("请填写省份");
+                    if (tvArea.getText().toString().equals("市区")) {
+                        showShortToast("请填写市区");
                     } else {
                         intent = new Intent();
                         intent.putExtra("areaProvice", tvArea.getText().toString());
@@ -384,6 +386,15 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         class ViewHolder {
             TextView tvArea, tvDetails;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            tvArea.setText(data.getStringExtra("city"));
+        }
+
     }
 
     private void AreaData() {

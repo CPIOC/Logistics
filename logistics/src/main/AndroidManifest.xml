@@ -63,6 +63,8 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -92,6 +94,7 @@
         <activity android:name=".activity.ChangePwdActivity"></activity>
         <activity android:name=".activity.RegisterActivity"></activity>
         <activity android:name=".activity.ChooseAreaActivity"></activity>
+        <activity android:name=".activity.MainActivity"></activity>
 
         <service android:name="com.amap.api.location.APSService" >
         </service>

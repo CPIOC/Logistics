@@ -183,6 +183,9 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
 
+                if (dialog !=null){
+                    dialog.dismiss();
+                }
                 Login login = JSONObject.parseObject(responseInfo.result,Login.class);
                 int code = login.getCode();
                 if (code == 1){
@@ -197,9 +200,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                     editor.putString("driving_license",login.getData().getDriving_license());
                     editor.putString("token",login.getData().getToken());
                     editor.commit();
-                    if (dialog !=null){
-                        dialog.dismiss();
-                    }
+
                     /**
                      * 融云登录成功
                      */
