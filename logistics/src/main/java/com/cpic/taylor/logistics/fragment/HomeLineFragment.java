@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -226,6 +227,10 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         mStartPoint = null;
                         mEndPoint = null;
                         btnBack.setVisibility(View.GONE);
+                        tvStart.setText("出发地");
+                        tvStart.setTextColor(Color.parseColor("#FF8904"));
+                        tvStop.setText("目的地");
+                        tvStop.setTextColor(Color.parseColor("#FF8904"));
                         linearLayout.setVisibility(View.VISIBLE);
                         dialogInterface.dismiss();
 

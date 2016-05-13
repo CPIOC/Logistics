@@ -67,4 +67,5 @@
     <color name="message_no_check">#323232</color>
 
     <color name="stick_color_bg">#e2e2e2</color>
+    <color name="address_tv_color">#FF8904</color>
 </resources>

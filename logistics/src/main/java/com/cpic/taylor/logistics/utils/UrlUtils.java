@@ -38,5 +38,4 @@ public class UrlUtils {
     //搜索好友:
     public final static String path_search_friends = "search_friends";
 
-
 }
