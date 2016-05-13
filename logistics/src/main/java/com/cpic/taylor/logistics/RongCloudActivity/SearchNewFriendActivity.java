@@ -198,6 +198,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                             UserInfos userInfos = new UserInfos();
                             userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
                             userInfos.setUsername(myFriends.getData().get(i).getName());
+                            userInfos.setUser_id_login(myFriends.getData().get(i).getId());
                             userInfos.setStatus("1");
                             if (myFriends.getData().get(i).getImg() != null)
                                 userInfos.setPortrait(myFriends.getData().get(i).getImg());

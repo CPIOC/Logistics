@@ -15,6 +15,16 @@ public class UserInfos {
     /** Not-null value. */
     private String status;
 
+    public String getUser_id_login() {
+        return user_id_login;
+    }
+
+    public void setUser_id_login(String user_id_login) {
+        this.user_id_login = user_id_login;
+    }
+
+    private  String user_id_login;
+
     public UserInfos() {
     }
 
@@ -28,6 +38,7 @@ public class UserInfos {
         this.username = username;
         this.portrait = portrait;
         this.status = status;
+        this.user_id_login=user_id_login;
     }
 
     public Long getId() {

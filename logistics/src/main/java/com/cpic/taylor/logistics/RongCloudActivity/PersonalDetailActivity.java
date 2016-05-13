@@ -127,8 +127,8 @@ public class PersonalDetailActivity extends BaseApiActivity {
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
         params.addBodyParameter("token", sp.getString("token", null));
-
-        String url = UrlUtils.POST_URL + UrlUtils.path_search_friends;
+        params.addBodyParameter("user_id", sp.getString("token", null));
+        String url = UrlUtils.POST_URL + UrlUtils.path_apply;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
             public void onStart() {

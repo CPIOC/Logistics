@@ -37,5 +37,11 @@ public class UrlUtils {
     public final static String path_delete_meb = "delete_meb";
     //搜索好友:
     public final static String path_search_friends = "search_friends";
+    //申请好友状态列表
+    public final static String path_applyList = "applyList";
+    //申请好友
+    public final static String path_apply = "apply";
+    //同意拒绝好友操作
+    public final static String path_friendAction = "friendAction";
 
 }
