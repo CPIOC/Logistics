@@ -200,6 +200,11 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     searchRouteResult(1, RouteSearch.DrivingDefault);
                     linearLayout.setVisibility(View.GONE);
                     btnBack.setVisibility(View.VISIBLE);
+                    sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("start",area1);
+                    editor.putString("end",area2);
+                    editor.commit();
 
                 }else if (null == mStartPoint){
                     Toast.makeText(getActivity(), "起点未设置", Toast.LENGTH_SHORT).show();
@@ -227,11 +232,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         mStartPoint = null;
                         mEndPoint = null;
                         btnBack.setVisibility(View.GONE);
+                        btnQuery.setVisibility(View.GONE);
                         tvStart.setText("出发地");
                         tvStart.setTextColor(Color.parseColor("#FF8904"));
                         tvStop.setText("目的地");
                         tvStop.setTextColor(Color.parseColor("#FF8904"));
                         linearLayout.setVisibility(View.VISIBLE);
+
                         dialogInterface.dismiss();
 
                     }
@@ -303,7 +310,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 if (dialog != null){
                     dialog.dismiss();
                 }
-                Toast.makeText(getActivity(),"线路规划失败，请检查网络连接",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"获取线路好友失败，请检查网络连接",Toast.LENGTH_SHORT).show();
             }
         });
     }
