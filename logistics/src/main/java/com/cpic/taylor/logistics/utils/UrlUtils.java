@@ -43,5 +43,7 @@ public class UrlUtils {
     public final static String path_apply = "apply";
     //同意拒绝好友操作
     public final static String path_friendAction = "friendAction";
+    //通过融云id获取用户信息
+    public final static String path_getUserinfo = "getUserinfo";
 
 }

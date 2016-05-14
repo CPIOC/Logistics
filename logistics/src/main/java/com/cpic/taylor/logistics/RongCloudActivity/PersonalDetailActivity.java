@@ -16,10 +16,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudModel.MyFriends;
 import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
+import com.cpic.taylor.logistics.RongCloudModel.RCUser;
+import com.cpic.taylor.logistics.RongCloudModel.RCUserData;
 import com.cpic.taylor.logistics.RongCloudModel.Status;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
@@ -77,6 +79,8 @@ public class PersonalDetailActivity extends BaseApiActivity {
     private RequestParams params;
     private SharedPreferences sp;
 
+    RCUser rcUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +95,8 @@ public class PersonalDetailActivity extends BaseApiActivity {
         mPersonalId = (TextView) findViewById(R.id.personal_id);
         mSendMessage = (Button) findViewById(R.id.send_message);
         mAddFriend = (Button) findViewById(R.id.add_friend);
-        text_version_id= (TextView) findViewById(R.id.text_version_id);
-        text_licence_id= (TextView) findViewById(R.id.text_licence_id);
+        text_version_id = (TextView) findViewById(R.id.text_version_id);
+        text_licence_id = (TextView) findViewById(R.id.text_licence_id);
         mDialog = new LoadingDialog(this);
 
         mSendMessage.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +117,9 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 if (currentUserId != null) {
                     if (mDialog != null && !mDialog.isShowing())
                         mDialog.show();
-
-                    mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
+                    Log.e("Tag", currentUserId);
+                    getUserinfoAndAddFriend(currentUserId);
+                    // mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
                 }
             }
         });
@@ -122,12 +127,12 @@ public class PersonalDetailActivity extends BaseApiActivity {
         initData();
     }
 
-    private void addFriend(){
+    private void addFriend(String user_id) {
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
         params.addBodyParameter("token", sp.getString("token", null));
-        params.addBodyParameter("user_id", sp.getString("token", null));
+        params.addBodyParameter("user_id", user_id);
         String url = UrlUtils.POST_URL + UrlUtils.path_apply;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
@@ -143,46 +148,85 @@ public class PersonalDetailActivity extends BaseApiActivity {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String result = responseInfo.result;
-                JSONObject jsonObj = null;
+                org.json.JSONObject jsonObj = null;
                 try {
+                    jsonObj = new org.json.JSONObject(result);
 
-                    Gson gson = new Gson();
-                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
-                    }.getType();
-                   // myFriends = gson.fromJson(result, type);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                try {
+                    if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
 
-                /*if (myFriends.getCode() == 1) {
+                        showShortToast("请求添加成功");
+                        finish();
 
-                    if (null != myFriends.getData()) {
-                        for (int i = 0; i < myFriends.getData().size(); i++) {
-                            UserInfos userInfos = new UserInfos();
-                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
-                            userInfos.setUsername(myFriends.getData().get(i).getName());
-                            userInfos.setStatus("1");
-                            if (myFriends.getData().get(i).getImg() != null)
-                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                            friendsList.add(userInfos);
-                        }
-                        if (null != friendsList) {
-                            myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
-                            mListSearch.setAdapter(myAdapter);
-                        }
-                        Log.e("Tag", "number" + friendsList);
+                    } else {
+                        showShortToast(jsonObj.getString("msg"));
                     }
-
-
-                } else {
-                    showShortToast(myFriends.getMsg());
-                }*/
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.e("Tag", "success");
             }
 
         });
     }
-    public void backTo(View view){
+
+    public void getUserinfoAndAddFriend(String cloud_id) {
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", cloud_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (rcUser.getCode() == 1) {
+
+
+                    if (null != rcUser.getData()) {
+                        if(null!=rcUser.getData().get(0)){
+                            addFriend(rcUser.getData().get(0).getId());
+                            Log.e("Tag", "=====" + rcUser.getData().get(0).getId());
+                        }
+
+                    }
+
+                } else {
+                    showShortToast(rcUser.getMsg());
+                }
+
+            }
+
+        });
+
+    }
+
+    public void backTo(View view) {
         finish();
     }
 
@@ -279,7 +323,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
                     RongIM.getInstance().refreshUserInfoCache(new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait())));
                 }
             }
-        }else if(mUserHttpRequest!=null && mUserHttpRequest.equals(request)){
+        } else if (mUserHttpRequest != null && mUserHttpRequest.equals(request)) {
             if (mDialog != null)
                 mDialog.dismiss();
 
@@ -291,7 +335,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
         if (mDialog != null)
             mDialog.dismiss();
-        Log.e("PersonalDetailActivity","-----onCallApiFailure------"+e);
+        Log.e("PersonalDetailActivity", "-----onCallApiFailure------" + e);
     }
 
     @Override
@@ -398,7 +442,6 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
     /**
      * 车型
-     *
      */
     private TextView text_version_id;
 

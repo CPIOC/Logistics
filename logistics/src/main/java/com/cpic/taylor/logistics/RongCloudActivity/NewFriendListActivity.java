@@ -1,18 +1,24 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudModel.FriendApply;
+import com.cpic.taylor.logistics.RongCloudModel.RCUser;
+import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendApplyListAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendListAdapter;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
@@ -22,6 +28,15 @@ import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
@@ -37,7 +52,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 2015/3/26.
  */
-public class NewFriendListActivity extends BaseApiActivity implements Handler.Callback {
+public class NewFriendListActivity extends BaseApiActivity {
 
     private static final String TAG = NewFriendListActivity.class.getSimpleName();
     private AbstractHttpRequest<Friends> getFriendHttpRequest;
@@ -48,11 +63,17 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
     private List<ApiResult> mResultList;
     private LoadingDialog mDialog;
     private Handler mHandler;
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+    private FriendApply friendApply;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_new_friendlist);
         initView();
+        getApplyList();
 
     }
 
@@ -63,28 +84,71 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         getSupportActionBar().hide();
         mNewFriendList = (ListView) findViewById(R.id.de_new_friend_list);
         mDialog = new LoadingDialog(this);
-        mResultList = new ArrayList<ApiResult>();
-        mHandler = new Handler(this);
 
-        if (RongYunContext.getInstance() != null) {
-            getFriendHttpRequest = RongYunContext.getInstance().getDemoApi().getNewFriendlist(this);
-            if (mDialog != null && !mDialog.isShowing()) {
-                mDialog.show();
-            }
-        }
-        Intent in = new Intent();
-        in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
-        in.putExtra("has_message", false);
-        sendBroadcast(in);
     }
 
-    public  void backTo(View view){
+    public void getApplyList() {
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(NewFriendListActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        String url = UrlUtils.POST_URL + UrlUtils.path_applyList;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<FriendApply>() {
+                    }.getType();
+                    friendApply = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (friendApply.getCode() == 1) {
+
+
+                    if (null != friendApply.getData()) {
+
+                        Log.e("Tag", "friendApply.getData()" + friendApply.getData());
+
+                        NewFriendApplyListAdapter mAdapter = new NewFriendApplyListAdapter(friendApply.getData(), NewFriendListActivity.this);
+                        mNewFriendList.setAdapter(mAdapter);
+
+                    }
+
+                } else {
+                    showShortToast(friendApply.getMsg());
+                }
+
+            }
+
+        });
+
+    }
+
+    public void backTo(View view) {
         finish();
     }
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        if (getFriendHttpRequest!= null && getFriendHttpRequest == request) {
+        if (getFriendHttpRequest != null && getFriendHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
 
@@ -112,7 +176,7 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         if (getFriendHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
-            Log.e(TAG,"-----onCallApiFailure------e:"+e);
+            Log.e(TAG, "-----onCallApiFailure------e:" + e);
             WinToast.toast(this, "获取失败");
         }
     }
@@ -168,8 +232,8 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
 
                                     @Override
                                     public void onFailure(AbstractHttpRequest<Status> statusAbstractHttpRequest, BaseException e) {
-                                        if(mRequestFriendHttpRequest!=null&& mRequestFriendHttpRequest.equals(statusAbstractHttpRequest)){
-                                            Log.e(TAG,"----mRequestFriendHttpRequest----onFailure---"+e);
+                                        if (mRequestFriendHttpRequest != null && mRequestFriendHttpRequest.equals(statusAbstractHttpRequest)) {
+                                            Log.e(TAG, "----mRequestFriendHttpRequest----onFailure---" + e);
 //                                            if (mDialog != null)
 //                                                mDialog.dismiss();
                                         }
@@ -204,13 +268,13 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
             String username = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
             String userportrait = RongYunContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT, Constants.DEFAULT);
 
-            UserInfo userInfo = new UserInfo(userid,username,Uri.parse(userportrait));
+            UserInfo userInfo = new UserInfo(userid, username, Uri.parse(userportrait));
             //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项
             message.setUserInfo(userInfo);
-            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient()!=null) {
+            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
                 //发送一条添加成功的自定义消息，此条消息不会在ui上展示
-                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null,null, new RongIMClient.SendMessageCallback() {
+                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null, null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer messageId, RongIMClient.ErrorCode e) {
                         Log.e(TAG, Constants.DEBUG + "------DeAgreedFriendRequestMessage----onError--");
@@ -224,7 +288,6 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                 });
             }
         }
-
 
 
     }
@@ -247,25 +310,6 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Constants.SEARCH_REQUESTCODE) {
-
-            if (adapter != null) {
-                adapter = null;
-                mResultList.clear();
-            }
-
-            if (RongYunContext.getInstance() != null) {
-                getFriendHttpRequest = RongYunContext.getInstance().getDemoApi().getNewFriendlist(this);
-
-            }
-            if (mDialog != null && !mDialog.isShowing()) {
-                mDialog.show();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -281,18 +325,6 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-            case 1:
-                mResultList = (List<ApiResult>) msg.obj;
-                updateAdapter(mResultList);
-                if (mDialog != null)
-                    mDialog.dismiss();
-                break;
-        }
-        return false;
-    }
 
     @Override
     protected void onDestroy() {
@@ -301,4 +333,9 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         }
         super.onDestroy();
     }
+
+    protected void showShortToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -145,7 +145,7 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
             String friendId = viewHolder.friend.getUserId();
             if (friendId == "★001") {
                 Intent intent = new Intent(mainActivity, NewFriendListActivity.class);
-                startActivityForResult(intent, 20);
+                startActivity(intent);
             } else if (friendId == "★002") {
                 /*if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startSubConversationList(mainActivity, Conversation.ConversationType.GROUP);

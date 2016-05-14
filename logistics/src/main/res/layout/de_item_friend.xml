@@ -44,6 +44,19 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/item_friend_state_refuse"
+        style="@style/DemoTextStyleBigBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/item_friend_state"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button_user_info"
+        android:gravity="center"
+        android:text="拒绝"
+        android:textColor="#ffffff" />
+
+    <TextView
         android:id="@+id/item_friend_state"
         style="@style/DemoTextStyleBigBlack"
         android:layout_width="wrap_content"
