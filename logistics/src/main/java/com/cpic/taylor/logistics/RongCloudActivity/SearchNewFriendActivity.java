@@ -97,7 +97,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         mResultList = new ArrayList<ApiResult>();
         userName = getIntent().getStringExtra("userName");
         stringType=getIntent().getStringExtra("type");
-        searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
+        //searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
         mDialog = new LoadingDialog(this);
 
         mEtSearch.setIconifiedByDefault(false);

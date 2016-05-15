@@ -72,7 +72,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
     }
 
-    public  void backTo(){
+    public  void backTo(View view){
         finish();
     }
 

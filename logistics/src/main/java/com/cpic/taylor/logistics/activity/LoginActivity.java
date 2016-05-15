@@ -453,6 +453,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                                     userInfos.setStatus("1");
                                     if (myFriends.getdata().get(i).getImg() != null)
                                         userInfos.setPortrait(myFriends.getdata().get(i).getImg());
+                                    Log.e("Tag",""+myFriends.getdata().get(i).getImg());
                                     friendsList.add(userInfos);
                                 }
                             }

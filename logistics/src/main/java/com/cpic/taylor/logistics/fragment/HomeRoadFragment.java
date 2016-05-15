@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,11 +21,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
 import com.cpic.taylor.logistics.activity.HomeActivity;
 import com.cpic.taylor.logistics.utils.ApkInstaller;
 import com.cpic.taylor.logistics.utils.TtsSettings;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -32,6 +40,12 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SynthesizerListener;
 import com.iflytek.sunflower.FlowerCollector;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -60,6 +74,11 @@ public class HomeRoadFragment extends Fragment {
     private String[] mCloudVoicersValue;
     private AnimationDrawable animationDrawable;
     private ImageView iv;
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+    MyNewFriends myFriends;
+    ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
 
     @Nullable
     @Override
@@ -97,7 +116,7 @@ public class HomeRoadFragment extends Fragment {
                 animationDrawable.stop();
                 iv.setImageResource(R.mipmap.icon0);
                 mTts.stopSpeaking();
-                startPlay(iv);
+                startPlay(iv,"前方有交警");
                 iv.setImageResource(R.drawable.animation1);
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.start();
@@ -107,11 +126,83 @@ public class HomeRoadFragment extends Fragment {
 
     }
 
-    private void startPlay(ImageView iv_voice) {
+    private void loadData(){
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("lat", "");
+        params.addBodyParameter("lng", "");
+        String url = UrlUtils.POST_URL + UrlUtils.path_warninglist;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
+                    }.getType();
+                    myFriends = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (myFriends.getCode() == 1) {
+
+                    if (null != myFriends.getData()) {
+                        for (int i = 0; i < myFriends.getData().size(); i++) {
+                            UserInfos userInfos = new UserInfos();
+                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
+                            userInfos.setUsername(myFriends.getData().get(i).getName());
+                            userInfos.setUser_id_login(myFriends.getData().get(i).getId());
+                            userInfos.setStatus("1");
+                            if (myFriends.getData().get(i).getImg() != null)
+                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
+                            friendsList.add(userInfos);
+                        }
+                        if (null != friendsList) {
+
+                            roadInfoListAdapter = new RoadInfoListAdapter();
+                            road_info_list.setAdapter(roadInfoListAdapter);
+                        }
+                        Log.e("Tag", "number" + friendsList);
+                    }
+
+
+                } else {
+                    showShortToast(myFriends.getMsg());
+                }
+
+            }
+
+        });
+    }
+    /**
+     * Toast短显示
+     *
+     * @param msg
+     */
+    protected void showShortToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+    private void startPlay(ImageView iv_voice,String str) {
         // 移动数据分析，收集开始合成事件
         FlowerCollector.onEvent(homeActivity, "tts_play");
 
         String text = "调用此接口请注释";
+        text=str;
         // 设置参数
         setParam();
 
