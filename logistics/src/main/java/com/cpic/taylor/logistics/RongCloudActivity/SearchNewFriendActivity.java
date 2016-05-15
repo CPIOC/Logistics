@@ -59,7 +59,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     private SearchMyFriendAdapter myAdapter;
     private LoadingDialog mDialog;
     private LinearLayout routeMembersLl, nearByMembersLl, searchFriendLl;
-    private String userName;
+    private String userName=null;
     private TextView searchNewFriendTitle;
     private Handler mHandler;
     private HttpUtils post;
@@ -67,6 +67,11 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     private SharedPreferences sp;
     MyNewFriends myFriends;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
+
+    /**
+     * 代表附近的人或者路线上的人
+     */
+    private String stringType=null ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         mListSearch = (ListView) findViewById(R.id.de_search_list);
         mResultList = new ArrayList<ApiResult>();
         userName = getIntent().getStringExtra("userName");
+        stringType=getIntent().getStringExtra("type");
         searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
         mDialog = new LoadingDialog(this);
 
@@ -126,7 +132,20 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                 startActivityForResult(in, Constants.SEARCH_REQUESTCODE);
             }
         });
-        loadFriends();
+        if(null!=userName){
+            loadFriends();
+        }
+        if(null!=stringType){
+            if(stringType.equals("near_by")){
+
+                loadFriendNearBy("","");
+
+            }else if(stringType.equals("same_route")){
+                sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
+                loadFriendNearBy(sp.getString("start", null),sp.getString("end", null));
+            }
+        }
+
     }
 
     @Override
@@ -152,6 +171,72 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                 }
             }
         }
+    }
+
+    /**
+     * 传入经纬度
+     */
+    private void loadFriendNearBy(String lat,String  lng) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("lat", "");
+        params.addBodyParameter("lng", "");
+        String url = UrlUtils.POST_URL + UrlUtils.path_nearList;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
+                    }.getType();
+                    myFriends = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (myFriends.getCode() == 1) {
+
+                    if (null != myFriends.getData()) {
+                        for (int i = 0; i < myFriends.getData().size(); i++) {
+                            UserInfos userInfos = new UserInfos();
+                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
+                            userInfos.setUsername(myFriends.getData().get(i).getName());
+                            userInfos.setUser_id_login(myFriends.getData().get(i).getId());
+                            userInfos.setStatus("1");
+                            if (myFriends.getData().get(i).getImg() != null)
+                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
+                            friendsList.add(userInfos);
+                        }
+                        if (null != friendsList) {
+                            myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
+                            mListSearch.setAdapter(myAdapter);
+                        }
+                        Log.e("Tag", "number" + friendsList);
+                    }
+
+
+                } else {
+                    showShortToast(myFriends.getMsg());
+                }
+
+            }
+
+        });
     }
 
     private void loadFriends() {

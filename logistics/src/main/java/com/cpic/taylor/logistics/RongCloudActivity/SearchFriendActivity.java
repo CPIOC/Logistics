@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -40,7 +41,8 @@ public class SearchFriendActivity extends BaseApiActivity {
     private List<ApiResult> mResultList;
     private SearchFriendAdapter adapter;
     private LoadingDialog mDialog;
-
+    private LinearLayout layout_chat_group;
+    private LinearLayout layout_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,28 +57,36 @@ public class SearchFriendActivity extends BaseApiActivity {
         mListSearch.setVisibility(View.GONE);
         mResultList = new ArrayList<ApiResult>();
         mDialog = new LoadingDialog(this);
-
-        /*mBtSearch.setOnClickListener(new View.OnClickListener() {
+        layout_add= (LinearLayout) findViewById(R.id.layout_add);
+        layout_chat_group= (LinearLayout) findViewById(R.id.layout_chat_group);
+        /**
+         * 搜索附近的人
+         */
+        layout_chat_group.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String userName = mEtSearch.getText().toString();
-                if (mDialog != null && !mDialog.isShowing())
-                    mDialog.show();
+            public void onClick(View v) {
 
-                if (RongYunContext.getInstance() != null) {
-                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchFriendActivity.this);
-                }
+                Intent intent=new Intent(SearchFriendActivity.this,SearchNewFriendActivity.class);
+                intent.putExtra("type","near_by");
+                startActivity(intent);
+
             }
-        });*/
-        /*mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        });
+
+        /**
+         * 搜索路线上的人
+         */
+        layout_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i== EditorInfo.IME_ACTION_DONE){
-                    Toast.makeText(SearchFriendActivity.this,"0",Toast.LENGTH_SHORT).show();
-                }
-                return false;
+            public void onClick(View v) {
+
+                Intent intent=new Intent(SearchFriendActivity.this,SearchNewFriendActivity.class);
+                intent.putExtra("type","same_route");
+                startActivity(intent);
             }
-        });*/
+        });
+
+
         /**
          * 清除SearchView中的下划线
          */

@@ -4,15 +4,17 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingTop="5dp" >
 
     <TextView
         android:id="@+id/timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="time"/>
 
     <RelativeLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_chat_activity" >
@@ -35,7 +37,7 @@
             android:layout_toRightOf="@id/iv_userhead"
             android:background="@drawable/chatfrom_bg"
             android:clickable="true"
-            android:src="@drawable/chatfrom_voice_playing" />
+            android:src="@mipmap/icon0" />
 
         <TextView
             android:id="@+id/tv_length"
@@ -45,6 +47,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_voice"
             android:gravity="center"
+            android:visibility="gone"
             android:text="3&apos;&apos;" />
 
         <ImageView
@@ -53,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/tv_length"
+            android:visibility="gone"
             android:src="@drawable/voice_unread" />
 
         <ProgressBar

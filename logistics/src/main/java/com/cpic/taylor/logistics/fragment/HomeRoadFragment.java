@@ -1,6 +1,8 @@
 package com.cpic.taylor.logistics.fragment;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -14,7 +16,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
@@ -54,6 +58,8 @@ public class HomeRoadFragment extends Fragment {
     ApkInstaller mInstaller;
     private String[] mCloudVoicersEntries;
     private String[] mCloudVoicersValue;
+    private AnimationDrawable animationDrawable;
+    private ImageView iv;
 
     @Nullable
     @Override
@@ -77,18 +83,35 @@ public class HomeRoadFragment extends Fragment {
         road_info_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startPlay();
+                if(null!=animationDrawable){
+                    animationDrawable.stop();
+                }
+                if(null!=iv){
+                    iv.setImageResource(R.mipmap.icon0);
+                }
+                iv= (ImageView) view.findViewById(R.id.iv_voice);
+                iv.setImageResource(R.drawable.ic_launcher);
+
+                iv.setImageResource(R.drawable.animation1);
+                animationDrawable = (AnimationDrawable) iv.getDrawable();
+                animationDrawable.stop();
+                iv.setImageResource(R.mipmap.icon0);
+                mTts.stopSpeaking();
+                startPlay(iv);
+                iv.setImageResource(R.drawable.animation1);
+                animationDrawable = (AnimationDrawable) iv.getDrawable();
+                animationDrawable.start();
             }
         });
         return view;
 
     }
 
-    private void startPlay() {
+    private void startPlay(ImageView iv_voice) {
         // 移动数据分析，收集开始合成事件
         FlowerCollector.onEvent(homeActivity, "tts_play");
 
-        String text = "aaaaaaaaaaaa只保存音频不进行播放接口,调用此接口请注释aaaaaaaaa";
+        String text = "调用此接口请注释";
         // 设置参数
         setParam();
 
@@ -134,8 +157,7 @@ public class HomeRoadFragment extends Fragment {
 
         @Override
         public void onSpeakBegin() {
-            Log.e("Tag", "执行到着了" + mTts);
-            WinToast.toast(homeActivity, "开始播放");
+           // WinToast.toast(homeActivity, "开始播放");
         }
 
         @Override
@@ -153,22 +175,25 @@ public class HomeRoadFragment extends Fragment {
                                      String info) {
             // 合成进度
             mPercentForBuffering = percent;
-            WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format),
-                    mPercentForBuffering, mPercentForPlaying));
+            //WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format), mPercentForBuffering, mPercentForPlaying));
         }
 
         @Override
         public void onSpeakProgress(int percent, int beginPos, int endPos) {
             // 播放进度
             mPercentForPlaying = percent;
-            WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format),
-                    mPercentForBuffering, mPercentForPlaying));
+            //WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format),mPercentForBuffering, mPercentForPlaying));
+
         }
 
         @Override
         public void onCompleted(SpeechError error) {
             if (error == null) {
-                WinToast.toast(homeActivity, "播放完成");
+               // WinToast.toast(homeActivity, "播放完成");
+                animationDrawable = (AnimationDrawable) iv.getDrawable();
+                animationDrawable.stop();
+                iv.setImageResource(R.mipmap.icon0);
+
             } else if (error != null) {
                 WinToast.toast(homeActivity, error.getPlainDescription(true));
             }
@@ -230,6 +255,7 @@ public class HomeRoadFragment extends Fragment {
     public class RoadInfoListAdapter extends BaseAdapter {
 
         private ArrayList<Objects> roadInfoList;
+        private int id;
 
         public RoadInfoListAdapter(ArrayList<Objects> roadInfoList) {
 
@@ -259,7 +285,7 @@ public class HomeRoadFragment extends Fragment {
         @Override
         public View getView(int position, View convertview, ViewGroup viewGroup) {
 
-            ViewHolder vh;
+            final ViewHolder vh;
             if (convertview == null) {
                 vh = new ViewHolder();
                 LayoutInflater inflater = LayoutInflater.from(homeActivity);
@@ -271,10 +297,33 @@ public class HomeRoadFragment extends Fragment {
                 vh.iv_unread_voice = (ImageView) convertview.findViewById(R.id.iv_unread_voice);
                 vh.pb_sending = (ProgressBar) convertview.findViewById(R.id.pb_sending);
                 vh.tv_userid = (TextView) convertview.findViewById(R.id.tv_userid);
+                vh.content_layout = (RelativeLayout) convertview.findViewById(R.id.content_layout);
                 convertview.setTag(vh);
             } else {
                 vh = (ViewHolder) convertview.getTag();
             }
+
+           /* vh.iv_voice.setImageResource(R.drawable.animation1);
+
+            vh.content_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    vh.iv_voice.setImageResource(R.drawable.animation1);
+                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
+                    animationDrawable.stop();
+                    vh.iv_voice.setImageResource(R.mipmap.icon0);
+                    mTts.stopSpeaking();
+                    startPlay(vh.iv_voice);
+                    vh.iv_voice.setImageResource(R.drawable.animation1);
+                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
+                    animationDrawable.start();
+                    id=getId();
+
+                }
+            });
+            playImg = vh.iv_voice;*/
+
 
             return convertview;
         }
@@ -291,6 +340,7 @@ public class HomeRoadFragment extends Fragment {
         ImageView iv_unread_voice;
         ProgressBar pb_sending;
         TextView tv_userid;
+        RelativeLayout content_layout;
 
     }
 }

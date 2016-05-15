@@ -45,5 +45,7 @@ public class UrlUtils {
     public final static String path_friendAction = "friendAction";
     //通过融云id获取用户信息
     public final static String path_getUserinfo = "getUserinfo";
+    //附近的人
+    public final static String path_nearList = "nearList";
 
 }
