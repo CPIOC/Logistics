@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +83,13 @@ public class HomeRoadFragment extends Fragment {
     private RouteFriendData routeFriendData;
     private ArrayList<RouteFriendData> routeFriendDataList = new ArrayList<RouteFriendData>();
 
+    Handler handler;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            road_info_list.setSelection(roadInfoListAdapter.getCount() - 1);// 改变滚动条的位置
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,23 +116,24 @@ public class HomeRoadFragment extends Fragment {
                     animationDrawable.stop();
                 }
                 if (null != iv) {
-                    iv.setImageResource(R.mipmap.icon0);
+                    iv.setImageResource(R.drawable.voice);
                 }
                 iv = (ImageView) view.findViewById(R.id.iv_voice);
                 iv.setImageResource(R.drawable.ic_launcher);
 
-                iv.setImageResource(R.drawable.animation1);
+                iv.setImageResource(R.drawable.ani);
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.stop();
-                iv.setImageResource(R.mipmap.icon0);
+                iv.setImageResource(R.drawable.voice);
                 mTts.stopSpeaking();
-                startPlay(iv, "在"+routeFriendDataList.get(i).getAddress()+"发生了"+routeFriendDataList.get(i).getContent());
+                startPlay(iv,routeFriendDataList.get(i).getContent());
                 iv.setImageResource(R.drawable.ani);
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.start();
             }
         });
         loadData();
+
         return view;
 
     }
@@ -169,10 +177,10 @@ public class HomeRoadFragment extends Fragment {
                         routeFriendDataList = routeFriend.getData();
                         roadInfoListAdapter = new RoadInfoListAdapter(routeFriendDataList);
                         road_info_list.setAdapter(roadInfoListAdapter);
-
+                        handler = new Handler();
+                        handler.postDelayed(runnable, 200);
 
                     }
-
 
                 } else {
                     showShortToast(myFriends.getMsg());
@@ -181,6 +189,15 @@ public class HomeRoadFragment extends Fragment {
             }
 
         });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            loadData();
+            Log.i("oye","加载");
+        }
     }
 
     /**
@@ -369,7 +386,7 @@ public class HomeRoadFragment extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertview, ViewGroup viewGroup) {
+        public View getView(final int position, View convertview, ViewGroup viewGroup) {
 
             final ViewHolder vh;
             if (convertview == null) {
@@ -380,10 +397,8 @@ public class HomeRoadFragment extends Fragment {
                 vh.timestamp = (TextView) convertview.findViewById(R.id.timestamp);
                 vh.iv_voice = (ImageView) convertview.findViewById(R.id.iv_voice);
                 vh.tv_length = (TextView) convertview.findViewById(R.id.tv_length);
-                vh.iv_unread_voice = (ImageView) convertview.findViewById(R.id.iv_unread_voice);
-                vh.pb_sending = (ProgressBar) convertview.findViewById(R.id.pb_sending);
-                vh.tv_userid = (TextView) convertview.findViewById(R.id.tv_userid);
                 vh.content_layout = (RelativeLayout) convertview.findViewById(R.id.content_layout);
+                vh.tvAddress = (TextView) convertview.findViewById(R.id.address);
                 convertview.setTag(vh);
             } else {
                 vh = (ViewHolder) convertview.getTag();
@@ -391,6 +406,30 @@ public class HomeRoadFragment extends Fragment {
 
             vh.timestamp.setText(roadInfoList.get(position).getCreated_at());
             Glide.with(getActivity()).load(roadInfoList.get(position).getUser_img()).placeholder(R.mipmap.empty_photo).fitCenter().into(vh.userLogo);
+            vh.tvAddress.setText(roadInfoList.get(position).getAddress());
+            vh.iv_voice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (null != animationDrawable) {
+                        animationDrawable.stop();
+                    }
+                    if (null != vh.iv_voice) {
+                        vh.iv_voice.setImageResource(R.drawable.voice);
+                    }
+
+                    vh.iv_voice.setImageResource(R.drawable.voice);
+
+                    vh.iv_voice.setImageResource(R.drawable.ani);
+                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
+                    animationDrawable.stop();
+                    vh.iv_voice.setImageResource(R.drawable.voice);
+                    mTts.stopSpeaking();
+                    startPlay(vh.iv_voice,roadInfoList.get(position).getContent());
+                    vh.iv_voice.setImageResource(R.drawable.ani);
+                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
+                    animationDrawable.start();
+                }
+            });
 
 
             return convertview;
@@ -405,10 +444,8 @@ public class HomeRoadFragment extends Fragment {
         TextView timestamp;
         ImageView iv_voice;
         TextView tv_length;
-        ImageView iv_unread_voice;
-        ProgressBar pb_sending;
-        TextView tv_userid;
         RelativeLayout content_layout;
+        TextView tvAddress;
 
     }
 }

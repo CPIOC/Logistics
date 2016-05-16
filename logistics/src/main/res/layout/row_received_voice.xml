@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
     android:paddingTop="5dp" >
 
     <TextView
@@ -17,6 +18,7 @@
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginTop="@dimen/margin_chat_activity" >
 
         <ImageView
@@ -49,32 +51,31 @@
             android:visibility="gone"
             android:text="3&apos;&apos;" />
 
-        <ImageView
-            android:id="@+id/iv_unread_voice"
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <TextView
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/tv_length"
-            android:visibility="gone"
-            android:src="@drawable/voice_unread" />
+            android:text="中国科学技术大学"
+            android:drawablePadding="5dp"
+            android:textColor="#66779D"
+            android:textSize="12sp"
+            android:drawableLeft="@mipmap/address"/>
 
-        <ProgressBar
-            android:id="@+id/pb_sending"
-            android:layout_toRightOf="@id/iv_unread_voice"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:visibility="invisible" />
 
         <TextView
-            android:id="@+id/tv_userid"
-            style="@style/chat_text_name_style"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/iv_userhead"
-            android:layout_toLeftOf="@id/iv_voice" />
-    </RelativeLayout>
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>

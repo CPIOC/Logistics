@@ -84,7 +84,7 @@ public class HomePoliceFragment extends Fragment{
             lat = sp.getString("now_latitude","");
             lng = sp.getString("now_longitude","");
             tvAddress.setText(address);
-            Log.i("oye",lat+lng);
+            Log.i("oye",lat+lng+address);
         }
     }
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -138,6 +139,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     private String area1;
     private String area2;
 
+    Handler handler;
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -418,17 +426,16 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 editor.putString("now_address",aMapLocation.getAddress());
                 editor.putString("now_latitude",aMapLocation.getLatitude()+"");
                 editor.putString("now_longitude",aMapLocation.getLongitude()+"");
-
                 editor.commit();
                 if (isOnroad){
                     upLoadLocation(aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
                 }
-
                 Log.i("oye",aMapLocation.getAddress());
 
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
                 Toast.makeText(getActivity(),"定位失败，请检查GPS是否开启",Toast.LENGTH_SHORT).show();
+                Log.i("oye","定位失败");
             }
         }
     }
