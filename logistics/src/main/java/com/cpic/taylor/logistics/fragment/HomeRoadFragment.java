@@ -278,7 +278,7 @@ public class HomeRoadFragment extends Fragment {
                 // WinToast.toast(homeActivity, "播放完成");
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.stop();
-                iv.setImageResource(R.mipmap.icon0);
+                iv.setImageResource(R.drawable.voice);
 
             } else if (error != null) {
                 WinToast.toast(homeActivity, error.getPlainDescription(true));
