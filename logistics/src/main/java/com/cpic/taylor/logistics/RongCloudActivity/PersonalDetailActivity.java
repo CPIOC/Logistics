@@ -129,6 +129,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
         });
 
         initData();
+        getUserinfoAndAddFriend(currentUserId,"");
     }
 
     private void sendMessage(MessageContent messageContent, String currentUserId) {
@@ -145,6 +146,67 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
                     }
                 });
+    }
+
+    public void getUserinfoAndAddFriend(String cloud_id,String str) {
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", cloud_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (rcUser.getCode() == 1) {
+
+
+                    if (null != rcUser.getData()) {
+                        if(null==rcUser.getData().get(0).getCar_models()){
+                            text_version_id.setText("");
+                        }else {
+                            text_version_id.setText(rcUser.getData().get(0).getCar_models());
+                        }
+                        if(null==rcUser.getData().get(0).getDriving_license()){
+                            text_licence_id.setText("");
+                        }else {
+                            text_licence_id.setText(rcUser.getData().get(0).getDriving_license());
+                        }
+
+
+
+                    }
+
+                } else {
+                    showShortToast(rcUser.getMsg());
+                }
+
+            }
+
+        });
+
     }
 
 

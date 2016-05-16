@@ -1,6 +1,9 @@
 package com.cpic.taylor.logistics.RongCloudaAdapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +24,15 @@ public class SearchMyFriendAdapter extends android.widget.BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<UserInfos> mResults;
+    private SharedPreferences sp;
+    private Activity activity;
 
     public SearchMyFriendAdapter(List<UserInfos> results, Context context){
         this.mResults = results;
         this.mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
+        activity= (Activity) context;
+        sp = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
     @Override
@@ -46,6 +53,8 @@ public class SearchMyFriendAdapter extends android.widget.BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
+
+
         if(null==mResults.get(position).getPortrait()){
             mResults.get(position).setPortrait("www.cpioc.com");
         }

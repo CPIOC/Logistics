@@ -60,7 +60,7 @@
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/personal_portrait"
             android:singleLine="true"
-            android:text="111" />
+            android:text="" />
 
         <TextView
             android:id="@+id/personal_id"
@@ -70,7 +70,7 @@
             android:layout_below="@+id/personal_name"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/personal_portrait"
-            android:text="222" />
+            android:text="" />
         <Button
             android:id="@+id/action_refuse_bt"
             android:layout_width="wrap_content"

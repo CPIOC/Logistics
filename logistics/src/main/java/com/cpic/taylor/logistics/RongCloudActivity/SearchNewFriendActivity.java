@@ -60,7 +60,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     private SearchMyFriendAdapter myAdapter;
     private LoadingDialog mDialog;
     private LinearLayout routeMembersLl, nearByMembersLl, searchFriendLl;
-    private String userName=null;
+    private String userName = null;
     private TextView searchNewFriendTitle;
     private Handler mHandler;
     private HttpUtils post;
@@ -73,7 +73,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     /**
      * 代表附近的人或者路线上的人
      */
-    private String stringType=null ;
+    private String stringType = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         mListSearch = (ListView) findViewById(R.id.de_search_list);
         mResultList = new ArrayList<ApiResult>();
         userName = getIntent().getStringExtra("userName");
-        stringType=getIntent().getStringExtra("type");
+        stringType = getIntent().getStringExtra("type");
         //searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
         mDialog = new LoadingDialog(this);
 
@@ -134,17 +134,17 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                 startActivityForResult(in, Constants.SEARCH_REQUESTCODE);
             }
         });
-        if(null!=userName){
+        if (null != userName) {
             loadFriends();
         }
-        if(null!=stringType){
-            if(stringType.equals("near_by")){
+        if (null != stringType) {
+            if (stringType.equals("near_by")) {
                 sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
-                loadFriendNearBy(sp.getString("lat", null),sp.getString("lng", null));
+                loadFriendNearBy(sp.getString("lat", null), sp.getString("lng", null));
 
-            }else if(stringType.equals("same_route")){
+            } else if (stringType.equals("same_route")) {
                 sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
-                loadFriendSameRoute(sp.getString("start", null),sp.getString("end", null));
+                loadFriendSameRoute(sp.getString("start", null), sp.getString("end", null));
             }
         }
 
@@ -178,7 +178,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     /**
      * 传入起止地点
      */
-    private void loadFriendSameRoute(String start,String  end) {
+    private void loadFriendSameRoute(String start, String end) {
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
@@ -222,7 +222,12 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                             userInfos.setStatus("1");
                             if (msetRoute.getData().get(i).getImg() != null)
                                 userInfos.setPortrait(msetRoute.getData().get(i).getImg());
-                            friendsList.add(userInfos);
+                            if (userInfos.getUserid().equals(sp.getString("cloud_id", ""))) {
+
+                            } else {
+                                friendsList.add(userInfos);
+                            }
+
                         }
                         if (null != friendsList) {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
@@ -244,13 +249,13 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     /**
      * 传入经纬度
      */
-    private void loadFriendNearBy(String lat,String  lng) {
+    private void loadFriendNearBy(String lat, String lng) {
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
         params.addBodyParameter("token", sp.getString("token", null));
-        params.addBodyParameter("lat", "");
-        params.addBodyParameter("lng", "");
+        params.addBodyParameter("lat", lat);
+        params.addBodyParameter("lng", lng);
         String url = UrlUtils.POST_URL + UrlUtils.path_nearList;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
@@ -288,7 +293,12 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                             userInfos.setStatus("1");
                             if (myFriends.getData().get(i).getImg() != null)
                                 userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                            friendsList.add(userInfos);
+                            Log.e("Tag","sp.getString"+sp.getString("cloud_id", ""));
+                            if (userInfos.getUserid().equals(sp.getString("cloud_id", ""))) {
+
+                            } else {
+                                friendsList.add(userInfos);
+                            }
                         }
                         if (null != friendsList) {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
@@ -355,7 +365,11 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                             userInfos.setStatus("1");
                             if (myFriends.getData().get(i).getImg() != null)
                                 userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                            friendsList.add(userInfos);
+                            if (userInfos.getUserid().equals(sp.getString("cloud_id", ""))) {
+
+                            } else {
+                                friendsList.add(userInfos);
+                            }
                         }
                         if (null != friendsList) {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
