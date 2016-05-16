@@ -13,6 +13,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/rc_default_portrait"
+        android:scaleType="fitXY"
         app:RCDefDrawable="@drawable/rc_default_portrait"
         app:RCShape="square" />
 

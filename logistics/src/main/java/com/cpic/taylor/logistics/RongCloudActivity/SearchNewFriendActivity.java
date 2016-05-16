@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +23,8 @@ import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
-import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
-import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.bean.setRoute;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -39,7 +35,6 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
 import java.util.ArrayList;
@@ -50,7 +45,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 2015/3/26.
  */
-public class SearchNewFriendActivity extends BaseApiActivity {
+public class SearchNewFriendActivity extends BaseActivity {
 
     private SearchView mEtSearch;
     private ListView mListSearch;
@@ -58,7 +53,6 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     private List<ApiResult> mResultList;
     private SearchFriendAdapter adapter;
     private SearchMyFriendAdapter myAdapter;
-    private LoadingDialog mDialog;
     private LinearLayout routeMembersLl, nearByMembersLl, searchFriendLl;
     private String userName = null;
     private TextView searchNewFriendTitle;
@@ -99,28 +93,6 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         mResultList = new ArrayList<ApiResult>();
         userName = getIntent().getStringExtra("userName");
         stringType = getIntent().getStringExtra("type");
-        //searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
-        mDialog = new LoadingDialog(this);
-
-        mEtSearch.setIconifiedByDefault(false);
-        mEtSearch.setOnQueryTextListener(new OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                String userName = s;
-                if (mDialog != null && !mDialog.isShowing())
-                    mDialog.show();
-
-                if (RongYunContext.getInstance() != null) {
-                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchNewFriendActivity.this);
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
         mListSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -148,32 +120,10 @@ public class SearchNewFriendActivity extends BaseApiActivity {
             }
         }
 
+        Log.e("Tag1", "执行几次");
+
     }
 
-    @Override
-    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        if (searchHttpRequest == request) {
-            if (mDialog != null)
-                mDialog.dismiss();
-            if (mResultList.size() > 0)
-                mResultList.clear();
-            if (obj instanceof Friends) {
-                final Friends friends = (Friends) obj;
-
-                if (friends.getCode() == 200) {
-                    if (friends.getResult().size() > 0) {
-                        for (int i = 0; i < friends.getResult().size(); i++) {
-                            mResultList.add(friends.getResult().get(i));
-                            Log.i("", "------onCallApiSuccess-user.getCode() == 200)-----" + friends.getResult().get(0).getId().toString());
-                        }
-                        adapter = new SearchFriendAdapter(mResultList, SearchNewFriendActivity.this);
-                        mListSearch.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * 传入起止地点
@@ -293,7 +243,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                             userInfos.setStatus("1");
                             if (myFriends.getData().get(i).getImg() != null)
                                 userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                            Log.e("Tag","sp.getString"+sp.getString("cloud_id", ""));
+                            Log.e("Tag1", "sp.getString" + sp.getString("cloud_id", ""));
                             if (userInfos.getUserid().equals(sp.getString("cloud_id", ""))) {
 
                             } else {
@@ -375,7 +325,8 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
                             mListSearch.setAdapter(myAdapter);
                         }
-                        Log.e("Tag", "number" + friendsList);
+                        userName=null;
+
                     }
 
 
@@ -388,27 +339,6 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         });
     }
 
-    @Override
-    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-        if (mDialog != null)
-            mDialog.dismiss();
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Constants.PERSONAL_REQUESTCODE) {
-            Intent intent = new Intent();
-            this.setResult(Constants.SEARCH_REQUESTCODE, intent);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
-        return super.onOptionsItemSelected(item);
-    }
 
     public void backTo(View view) {
 
@@ -423,4 +353,13 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     protected void showShortToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+
 }

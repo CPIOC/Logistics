@@ -330,6 +330,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
                     mAddFriend.setVisibility(View.GONE);
                     mSendMessage.setVisibility(View.VISIBLE);
                     mPersonalId.setText("Id: " + userInfo.getUserId());
+                    mPersonalId.setVisibility(View.GONE);
                 } else {
                     mAddFriend.setVisibility(View.VISIBLE);
                     mSendMessage.setVisibility(View.GONE);
@@ -345,6 +346,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
             mPersonalImg.setResource(new Resource(userInfo.getPortraitUri()));
             mPersonalName.setText(userInfo.getName());
             mPersonalId.setText("Id:" + userInfo.getUserId());
+            mPersonalId.setVisibility(View.GONE);
             mAddFriend.setVisibility(View.GONE);
             mSendMessage.setVisibility(View.VISIBLE);
         } else if (getIntent().hasExtra("USER_SEARCH")) {

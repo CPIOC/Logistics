@@ -188,10 +188,12 @@
         <!--搜索好友-->
         <activity
             android:name=".RongCloudActivity.SearchFriendActivity"
+
             android:screenOrientation="portrait"></activity>
         <!--搜索好友-->
         <activity
             android:name=".RongCloudActivity.SearchNewFriendActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <!--新的朋友列表-->
         <activity

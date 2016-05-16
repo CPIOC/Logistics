@@ -49,6 +49,7 @@
             android:background="@drawable/edit_bar_search"
             android:queryHint="昵称"
             android:imeOptions="actionSearch"
+            android:visibility="gone"
             android:textSize="12sp" >
         </SearchView>
 
@@ -72,9 +73,53 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@color/button_backgroud"
+            android:visibility="gone"
             android:text="搜索"
             android:textColor="@color/rc_text_color_secondary_inverse" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/shape_search_app_bg_yj"
+            android:orientation="horizontal">
 
+            <!-- 输入的搜索信息 -->
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:imeOptions="actionSearch"
+                android:layout_marginLeft="10dp"
+                android:textColor="#0e0e0e"
+                android:textSize="17sp"
+                android:singleLine="true"
+                android:hint="昵称"
+                android:textColorHint="#b0c6ce"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/search"
+                android:background="@null"/>
+
+
+            <!-- 清空搜索文字按钮 -->
+            <LinearLayout
+                android:id="@+id/layout_clear_search_text"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:visibility="visible"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/btn_clear_search_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:src="@drawable/selector_btn_search_clear_text_right"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/layout_add"
@@ -89,7 +134,7 @@
             android:layout_gravity="center_vertical"
             android:scaleType="fitCenter"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/wode_guanyuwomen" />
+            android:src="@drawable/members" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -119,7 +164,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/wode_guanyuwomen" />
+            android:src="@drawable/members" />
 
         <TextView
             android:layout_width="wrap_content"

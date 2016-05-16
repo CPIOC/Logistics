@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class SearchMyFriendAdapter extends android.widget.BaseAdapter {
         mLayoutInflater = LayoutInflater.from(context);
         activity= (Activity) context;
         sp = PreferenceManager.getDefaultSharedPreferences(activity);
+        Log.e("Tag1", "adapter执行几次");
     }
 
     @Override

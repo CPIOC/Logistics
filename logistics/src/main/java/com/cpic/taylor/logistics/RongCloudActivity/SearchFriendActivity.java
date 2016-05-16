@@ -1,18 +1,18 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
@@ -20,15 +20,11 @@ import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
-import com.cpic.taylor.logistics.base.RongYunContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -43,6 +39,9 @@ public class SearchFriendActivity extends BaseApiActivity {
     private LoadingDialog mDialog;
     private LinearLayout layout_chat_group;
     private LinearLayout layout_add;
+    private EditText mEtSearchEt;
+    private ImageView mBtnClearSearchText;
+    private LinearLayout mLayoutClearSearchText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +51,9 @@ public class SearchFriendActivity extends BaseApiActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         getSupportActionBar().hide();
         mEtSearch = (SearchView) findViewById(R.id.de_ui_search);
+        mEtSearchEt = (EditText) findViewById(R.id.et_search);
+        mBtnClearSearchText = (ImageView) findViewById(R.id.btn_clear_search_text);
+        mLayoutClearSearchText = (LinearLayout) findViewById(R.id.layout_clear_search_text);
         Button mBtSearch = (Button) findViewById(R.id.de_search);
         mListSearch = (ListView) findViewById(R.id.de_search_list);
         mListSearch.setVisibility(View.GONE);
@@ -85,76 +87,61 @@ public class SearchFriendActivity extends BaseApiActivity {
                 startActivity(intent);
             }
         });
+        mEtSearchEt.addTextChangedListener(new TextWatcher() {
 
-
-        /**
-         * 清除SearchView中的下划线
-         */
-        if (mEtSearch != null) {
-
-            try {        //--拿到字节码
-
-                Class<?> argClass = mEtSearch.getClass();
-
-                //--指定某个私有属性,mSearchPlate是搜索框父布局的名字
-
-                Field ownField = argClass.getDeclaredField("mSearchPlate");
-
-                Field [] array=argClass.getDeclaredFields();
-                for (int i = 0; i < array.length; i++) {
-
-                    Log.e("Tag",""+array[i]);
-                }
-
-
-                //--暴力反射,只有暴力反射才能拿到私有属性
-
-                ownField.setAccessible(true);
-
-                View mView = (View) ownField.get(mEtSearch);
-
-                //--设置背景
-
-                mView.setBackgroundColor(Color.TRANSPARENT);
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-            }
-        }
-        mEtSearch.setIconifiedByDefault(false);
-        mEtSearch.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                String userName = s;
-                if (mDialog != null && !mDialog.isShowing())
-                    mDialog.show();
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
 
-                if (RongYunContext.getInstance() != null) {
-                    searchHttpRequest = RongYunContext.getInstance().getDemoApi().searchUserByUserName(userName, SearchFriendActivity.this);
-                }
-                Intent intent=new Intent(SearchFriendActivity.this,SearchNewFriendActivity.class);
-                intent.putExtra("userName",s);
-                startActivity(intent);
-                return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int textLength = mEtSearchEt.getText().length();
+                if (textLength > 0) {
+                    mLayoutClearSearchText.setVisibility(View.VISIBLE);
+                } else {
+                    mLayoutClearSearchText.setVisibility(View.GONE);
+                }
             }
         });
-        mListSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        mBtnClearSearchText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent in = new Intent(SearchFriendActivity.this, PersonalDetailActivity.class);
-                UserInfo userInfo = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), Uri.parse(mResultList.get(position).getPortrait()));
-                in.putExtra("USER", userInfo);
-                in.putExtra("USER_SEARCH", true);
-                startActivityForResult(in, Constants.SEARCH_REQUESTCODE);
+            public void onClick(View v) {
+                mEtSearchEt.setText("");
+                mLayoutClearSearchText.setVisibility(View.GONE);
             }
         });
+        mEtSearchEt.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View arg0, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    String userName = mEtSearchEt.getText().toString().trim();
+                    if (mDialog != null && !mDialog.isShowing())
+                        mDialog.show();
+
+                    Intent intent=new Intent(SearchFriendActivity.this,SearchNewFriendActivity.class);
+                    intent.putExtra("userName",userName);
+                    startActivity(intent);
+                    return true;
+                }
+                if(keyCode == KeyEvent.KEYCODE_BACK){
+                    finish();
+                    return false;
+                }
+                return true;
+            }
+        });
+
+
+
     }
 
     @Override
@@ -168,15 +155,7 @@ public class SearchFriendActivity extends BaseApiActivity {
                 final Friends friends = (Friends) obj;
 
                 if (friends.getCode() == 200) {
-                    if (friends.getResult().size() > 0) {
-                        for (int i = 0; i < friends.getResult().size(); i++) {
-                            mResultList.add(friends.getResult().get(i));
-                            Log.i("", "------onCallApiSuccess-user.getCode() == 200)-----" + friends.getResult().get(0).getId().toString());
-                        }
-                        adapter = new SearchFriendAdapter(mResultList, SearchFriendActivity.this);
-                        mListSearch.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
+
                 }
             }
         }
@@ -207,5 +186,12 @@ public class SearchFriendActivity extends BaseApiActivity {
     public void backTo(View view) {
 
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mDialog != null)
+            mDialog.dismiss();
     }
 }
