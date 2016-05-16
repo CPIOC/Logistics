@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,13 +186,11 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 }
             }
         });
-
         btnQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (null != mStartPoint&&null!=mEndPoint){
                     setfromandtoMarker();
-
                     aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
                     aMap.addMarker(new MarkerOptions()
@@ -301,6 +300,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         lp = new LatLonPoint(Double.parseDouble(datas.get(i).getLat()),Double.parseDouble(datas.get(i).getLng()));
                         aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(lp)).snippet(datas.get(i).getCloud_id())
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cool))).setTitle(datas.get(i).getUser_name());
+                        aMap.setMyLocationEnabled(true);
                     }
                 }
             }
@@ -424,7 +424,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     upLoadLocation(aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
                 }
 
-//                Log.i("oye",aMapLocation.getAddress());
+                Log.i("oye",aMapLocation.getAddress());
 
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
@@ -449,12 +449,12 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-//                Log.i("oye","成功"+responseInfo.result);
+                Log.i("oye","成功"+responseInfo.result);
             }
 
             @Override
             public void onFailure(HttpException e, String s) {
-//                Log.i("oye","失败"+s);
+                Log.i("oye","失败"+s);
             }
         });
     }

@@ -120,7 +120,7 @@ public class HomeRoadFragment extends Fragment {
                 iv.setImageResource(R.mipmap.icon0);
                 mTts.stopSpeaking();
                 startPlay(iv, "在"+routeFriendDataList.get(i).getAddress()+"发生了"+routeFriendDataList.get(i).getContent());
-                iv.setImageResource(R.drawable.animation1);
+                iv.setImageResource(R.drawable.ani);
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.start();
             }
@@ -211,7 +211,7 @@ public class HomeRoadFragment extends Fragment {
 
         if (code != ErrorCode.SUCCESS) {
             if (code == ErrorCode.ERROR_COMPONENT_NOT_INSTALLED) {
-                //未安装则跳转到提示安装页面
+//                未安装则跳转到提示安装页面
                 mInstaller.install();
             } else {
                 WinToast.toast(homeActivity, "语音合成失败,错误码: " + code);
