@@ -18,10 +18,7 @@ import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
-import com.cpic.taylor.logistics.RongCloudModel.MyFriends;
-import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudModel.RCUser;
-import com.cpic.taylor.logistics.RongCloudModel.RCUserData;
 import com.cpic.taylor.logistics.RongCloudModel.Status;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
@@ -47,7 +44,9 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.ContactNotificationMessage;
 
 /**
  * Created by Bob on 2015/4/7.
@@ -119,13 +118,35 @@ public class PersonalDetailActivity extends BaseApiActivity {
                         mDialog.show();
                     Log.e("Tag", currentUserId);
                     getUserinfoAndAddFriend(currentUserId);
-                    // mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
+                    //mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
+                    sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
+                    ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("", ""), sp.getString("cloud_id", ""), "请加为好友");
+                    contact.setExtra("I'm Bob");
+                    sendMessage(contact, currentUserId);
+
                 }
             }
         });
 
         initData();
     }
+
+    private void sendMessage(MessageContent messageContent, String currentUserId) {
+
+        RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, currentUserId, messageContent, "加为好友", "好友",
+                new RongIMClient.SendMessageCallback() {
+                    @Override
+                    public void onSuccess(Integer integer) {
+
+                    }
+
+                    @Override
+                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
+    }
+
 
     private void addFriend(String user_id) {
         post = new HttpUtils();
@@ -209,7 +230,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
 
                     if (null != rcUser.getData()) {
-                        if(null!=rcUser.getData().get(0)){
+                        if (null != rcUser.getData().get(0)) {
                             addFriend(rcUser.getData().get(0).getId());
                             Log.e("Tag", "=====" + rcUser.getData().get(0).getId());
                         }

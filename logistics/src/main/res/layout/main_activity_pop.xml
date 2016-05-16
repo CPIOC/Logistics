@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/title_tools_bg"
+    android:background="@drawable/popup"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_margin="5dp"
             android:layout_marginLeft="7dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/wode_guanyuwomen" />
+            android:src="@drawable/popup_frid" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
             android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/wode_guanyuwomen" />
+            android:src="@drawable/popup_chat" />
 
         <TextView
             android:layout_width="wrap_content"

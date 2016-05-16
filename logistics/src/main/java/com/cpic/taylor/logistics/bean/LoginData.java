@@ -12,7 +12,7 @@ public class LoginData {
     private String password;
     private String img;
     private String plate_number;
-
+    private String cloud_id;
 
     private String car_models;
     private String driving_license;
@@ -29,11 +29,21 @@ public class LoginData {
                 ", password='" + password + '\'' +
                 ", img='" + img + '\'' +
                 ", plate_number='" + plate_number + '\'' +
+                ", cloud_id='" + cloud_id + '\'' +
+                ", car_models='" + car_models + '\'' +
                 ", driving_license='" + driving_license + '\'' +
                 ", created_at='" + created_at + '\'' +
                 ", cloud_token='" + cloud_token + '\'' +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    public String getCloud_id() {
+        return cloud_id;
+    }
+
+    public void setCloud_id(String cloud_id) {
+        this.cloud_id = cloud_id;
     }
 
     public String getCar_models() {

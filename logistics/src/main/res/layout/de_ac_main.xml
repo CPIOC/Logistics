@@ -37,7 +37,7 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="20dp"
             android:onClick="plusFunction"
-            android:src="@drawable/wode_guanyuwomen" />
+            android:src="@drawable/plus_add" />
 
         <View
             android:layout_width="match_parent"

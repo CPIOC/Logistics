@@ -199,6 +199,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                     editor.putString("car_models",login.getData().getCar_models());
                     editor.putString("driving_license",login.getData().getDriving_license());
                     editor.putString("token",login.getData().getToken());
+                    editor.putString("cloud_id",login.getData().getCloud_id());
                     editor.commit();
 
                     /**

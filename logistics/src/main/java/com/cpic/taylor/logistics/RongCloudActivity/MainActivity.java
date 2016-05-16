@@ -578,12 +578,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     public void setTitleBarChat() {
         titleTv.setText("聊天");
-        plusImg.setImageResource(R.drawable.wode_guanyuwomen);
+        plusImg.setImageResource(R.drawable.plus_add);
     }
 
     public void setTitleBarContact() {
         titleTv.setText("通讯录");
-        plusImg.setImageResource(R.drawable.wode_guanyuwomen);
+        plusImg.setImageResource(R.drawable.add_friends);
     }
 
     public void plusFunction(View view) {
