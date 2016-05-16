@@ -29,6 +29,7 @@ import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.bean.setRoute;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,6 +67,7 @@ public class SearchNewFriendActivity extends BaseApiActivity {
     private RequestParams params;
     private SharedPreferences sp;
     MyNewFriends myFriends;
+    private setRoute msetRoute;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
 
     /**
@@ -137,12 +139,12 @@ public class SearchNewFriendActivity extends BaseApiActivity {
         }
         if(null!=stringType){
             if(stringType.equals("near_by")){
-
-                loadFriendNearBy("","");
+                sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
+                loadFriendNearBy(sp.getString("lat", null),sp.getString("lng", null));
 
             }else if(stringType.equals("same_route")){
                 sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
-                loadFriendNearBy(sp.getString("start", null),sp.getString("end", null));
+                loadFriendSameRoute(sp.getString("start", null),sp.getString("end", null));
             }
         }
 
@@ -171,6 +173,72 @@ public class SearchNewFriendActivity extends BaseApiActivity {
                 }
             }
         }
+    }
+
+    /**
+     * 传入起止地点
+     */
+    private void loadFriendSameRoute(String start,String  end) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("start", start);
+        params.addBodyParameter("end", end);
+        String url = UrlUtils.POST_URL + UrlUtils.path_setRoute;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<setRoute>() {
+                    }.getType();
+                    msetRoute = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (msetRoute.getCode() == 1) {
+
+                    if (null != msetRoute.getData()) {
+                        for (int i = 0; i < msetRoute.getData().size(); i++) {
+                            UserInfos userInfos = new UserInfos();
+                            userInfos.setUserid(msetRoute.getData().get(i).getCloud_id());
+                            userInfos.setUsername(msetRoute.getData().get(i).getUser_name());
+                            userInfos.setUser_id_login(msetRoute.getData().get(i).getCloud_id());
+                            userInfos.setStatus("1");
+                            if (msetRoute.getData().get(i).getImg() != null)
+                                userInfos.setPortrait(msetRoute.getData().get(i).getImg());
+                            friendsList.add(userInfos);
+                        }
+                        if (null != friendsList) {
+                            myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
+                            mListSearch.setAdapter(myAdapter);
+                        }
+                        Log.e("Tag", "number" + friendsList);
+                    }
+
+
+                } else {
+                    showShortToast(myFriends.getMsg());
+                }
+
+            }
+
+        });
     }
 
     /**

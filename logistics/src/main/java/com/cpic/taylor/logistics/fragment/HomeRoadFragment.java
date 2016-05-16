@@ -2,7 +2,6 @@ package com.cpic.taylor.logistics.fragment;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -22,12 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
-import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
 import com.cpic.taylor.logistics.activity.HomeActivity;
+import com.cpic.taylor.logistics.bean.RouteFriend;
+import com.cpic.taylor.logistics.bean.RouteFriendData;
 import com.cpic.taylor.logistics.utils.ApkInstaller;
 import com.cpic.taylor.logistics.utils.TtsSettings;
 import com.cpic.taylor.logistics.utils.UrlUtils;
@@ -48,7 +49,6 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by Taylor on 2016/4/29.
@@ -79,6 +79,9 @@ public class HomeRoadFragment extends Fragment {
     private SharedPreferences sp;
     MyNewFriends myFriends;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
+    private RouteFriend routeFriend;
+    private RouteFriendData routeFriendData;
+    private ArrayList<RouteFriendData> routeFriendDataList = new ArrayList<RouteFriendData>();
 
     @Nullable
     @Override
@@ -88,8 +91,8 @@ public class HomeRoadFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_road, null);
         road_info_list = (ListView) view.findViewById(R.id.road_info_list);
         mSharedPreferences = homeActivity.getSharedPreferences(TtsSettings.PREFER_NAME, homeActivity.MODE_PRIVATE);
-        roadInfoListAdapter = new RoadInfoListAdapter();
-        road_info_list.setAdapter(roadInfoListAdapter);
+        //roadInfoListAdapter = new RoadInfoListAdapter();
+        //road_info_list.setAdapter(roadInfoListAdapter);
         // 云端发音人名称列表
         mCloudVoicersEntries = getResources().getStringArray(R.array.voicer_cloud_entries);
         mCloudVoicersValue = getResources().getStringArray(R.array.voicer_cloud_values);
@@ -102,13 +105,13 @@ public class HomeRoadFragment extends Fragment {
         road_info_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(null!=animationDrawable){
+                if (null != animationDrawable) {
                     animationDrawable.stop();
                 }
-                if(null!=iv){
+                if (null != iv) {
                     iv.setImageResource(R.mipmap.icon0);
                 }
-                iv= (ImageView) view.findViewById(R.id.iv_voice);
+                iv = (ImageView) view.findViewById(R.id.iv_voice);
                 iv.setImageResource(R.drawable.ic_launcher);
 
                 iv.setImageResource(R.drawable.animation1);
@@ -116,23 +119,24 @@ public class HomeRoadFragment extends Fragment {
                 animationDrawable.stop();
                 iv.setImageResource(R.mipmap.icon0);
                 mTts.stopSpeaking();
-                startPlay(iv,"前方有交警");
+                startPlay(iv, "在"+routeFriendDataList.get(i).getAddress()+"发生了"+routeFriendDataList.get(i).getContent());
                 iv.setImageResource(R.drawable.animation1);
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.start();
             }
         });
+        loadData();
         return view;
 
     }
 
-    private void loadData(){
+    private void loadData() {
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         params.addBodyParameter("token", sp.getString("token", null));
-        params.addBodyParameter("lat", "");
-        params.addBodyParameter("lng", "");
+        params.addBodyParameter("Start", sp.getString("Start", null));
+        params.addBodyParameter("end", sp.getString("end", null));
         String url = UrlUtils.POST_URL + UrlUtils.path_warninglist;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
@@ -152,32 +156,21 @@ public class HomeRoadFragment extends Fragment {
                 try {
 
                     Gson gson = new Gson();
-                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
+                    java.lang.reflect.Type type = new TypeToken<RouteFriend>() {
                     }.getType();
-                    myFriends = gson.fromJson(result, type);
+                    routeFriend = gson.fromJson(result, type);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if (myFriends.getCode() == 1) {
+                if (routeFriend.getCode() == 1) {
 
-                    if (null != myFriends.getData()) {
-                        for (int i = 0; i < myFriends.getData().size(); i++) {
-                            UserInfos userInfos = new UserInfos();
-                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
-                            userInfos.setUsername(myFriends.getData().get(i).getName());
-                            userInfos.setUser_id_login(myFriends.getData().get(i).getId());
-                            userInfos.setStatus("1");
-                            if (myFriends.getData().get(i).getImg() != null)
-                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                            friendsList.add(userInfos);
-                        }
-                        if (null != friendsList) {
+                    if (null != routeFriend.getData()) {
+                        routeFriendDataList = routeFriend.getData();
+                        roadInfoListAdapter = new RoadInfoListAdapter(routeFriendDataList);
+                        road_info_list.setAdapter(roadInfoListAdapter);
 
-                            roadInfoListAdapter = new RoadInfoListAdapter();
-                            road_info_list.setAdapter(roadInfoListAdapter);
-                        }
-                        Log.e("Tag", "number" + friendsList);
+
                     }
 
 
@@ -189,6 +182,7 @@ public class HomeRoadFragment extends Fragment {
 
         });
     }
+
     /**
      * Toast短显示
      *
@@ -197,12 +191,13 @@ public class HomeRoadFragment extends Fragment {
     protected void showShortToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-    private void startPlay(ImageView iv_voice,String str) {
+
+    private void startPlay(ImageView iv_voice, String str) {
         // 移动数据分析，收集开始合成事件
         FlowerCollector.onEvent(homeActivity, "tts_play");
 
         String text = "调用此接口请注释";
-        text=str;
+        text = str;
         // 设置参数
         setParam();
 
@@ -248,7 +243,7 @@ public class HomeRoadFragment extends Fragment {
 
         @Override
         public void onSpeakBegin() {
-           // WinToast.toast(homeActivity, "开始播放");
+            // WinToast.toast(homeActivity, "开始播放");
         }
 
         @Override
@@ -280,7 +275,7 @@ public class HomeRoadFragment extends Fragment {
         @Override
         public void onCompleted(SpeechError error) {
             if (error == null) {
-               // WinToast.toast(homeActivity, "播放完成");
+                // WinToast.toast(homeActivity, "播放完成");
                 animationDrawable = (AnimationDrawable) iv.getDrawable();
                 animationDrawable.stop();
                 iv.setImageResource(R.mipmap.icon0);
@@ -345,10 +340,10 @@ public class HomeRoadFragment extends Fragment {
      */
     public class RoadInfoListAdapter extends BaseAdapter {
 
-        private ArrayList<Objects> roadInfoList;
+        private ArrayList<RouteFriendData> roadInfoList;
         private int id;
 
-        public RoadInfoListAdapter(ArrayList<Objects> roadInfoList) {
+        public RoadInfoListAdapter(ArrayList<RouteFriendData> roadInfoList) {
 
             this.roadInfoList = roadInfoList;
         }
@@ -359,7 +354,7 @@ public class HomeRoadFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 4;
+            return roadInfoList.size();
             //return roadInfoList.size();
         }
 
@@ -394,26 +389,8 @@ public class HomeRoadFragment extends Fragment {
                 vh = (ViewHolder) convertview.getTag();
             }
 
-           /* vh.iv_voice.setImageResource(R.drawable.animation1);
-
-            vh.content_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    vh.iv_voice.setImageResource(R.drawable.animation1);
-                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
-                    animationDrawable.stop();
-                    vh.iv_voice.setImageResource(R.mipmap.icon0);
-                    mTts.stopSpeaking();
-                    startPlay(vh.iv_voice);
-                    vh.iv_voice.setImageResource(R.drawable.animation1);
-                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
-                    animationDrawable.start();
-                    id=getId();
-
-                }
-            });
-            playImg = vh.iv_voice;*/
+            vh.timestamp.setText(roadInfoList.get(position).getCreated_at());
+            Glide.with(getActivity()).load(roadInfoList.get(position).getUser_img()).placeholder(R.mipmap.empty_photo).fitCenter().into(vh.userLogo);
 
 
             return convertview;
