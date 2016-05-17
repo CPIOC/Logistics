@@ -95,6 +95,9 @@
         <activity android:name=".activity.RegisterActivity"></activity>
         <activity android:name=".activity.ChooseAreaActivity"></activity>
         <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.CityPickerActivity"
+            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustPan"
+            ></activity>
 
         <service android:name="com.amap.api.location.APSService" >
         </service>

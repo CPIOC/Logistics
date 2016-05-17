@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
     <color name="colorTitleBar">#E5E5E5</color>
     <color name="colorTitleTv">#666666</color>
     <color name="colorViewBg">#EFEFEF</color>
@@ -47,7 +45,7 @@
     <color name="pink_red">#F63E2A</color>
     <color name="red">#FF0000</color>
     <color name="bulegray">#f0f0f0</color>
-    <color name="gray">#828282</color>
+
     <color name="graylight">#cccccc</color>
     <color name="orange">#FF6600</color>
     <color name="orange_light">#fdaa0b</color>
@@ -68,4 +66,17 @@
 
     <color name="stick_color_bg">#e2e2e2</color>
     <color name="address_tv_color">#FF8904</color>
+
+    <color name="divider">#E5E5E5</color>
+    <color name="shadow">#AAEBEBEB</color>
+    <color name="common_bg">#FAFAFA</color>
+    <color name="content_bg">#F3F3F3</color>
+    <color name="gray">#8c8c8c</color>
+    <color name="gray_deep">#5c5c5c</color>
+    <color name="alpha_gray">#CC646464</color>
+    <color name="theme_gray">#646464</color>
+
+    <color name="colorPrimary">#F3F3F3</color>
+    <color name="colorPrimaryDark">#F3F3F3</color>
+    <color name="colorAccent">#9A9A9A</color>
 </resources>
