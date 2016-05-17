@@ -18,6 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
+            android:paddingRight="10dp"
             android:onClick="backTo"
             android:src="@drawable/dingbu_fanhui2" />
 
@@ -31,6 +32,7 @@
 
         <ImageView
             android:id="@+id/main_activity_plus_sign"
+            android:paddingLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
