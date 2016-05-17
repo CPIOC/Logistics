@@ -160,7 +160,6 @@ public class ContactsActivity extends BaseActionBarActivity implements SwitchGro
                 }*/
                 Intent intent=new Intent(this,GroupListActivity.class);
                 startActivity(intent);
-                Log.e("Tag","========");
 
             }  else {
                 Intent intent = new Intent(this, PersonalDetailActivity.class);

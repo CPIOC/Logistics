@@ -344,7 +344,6 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     public void onSuccess(String targetId) {
                         Uri uri = Uri.parse("rong://" + context.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.DISCUSSION.getName().toLowerCase()).appendQueryParameter("targetIds", TextUtils.join(",", targetUserIds)).appendQueryParameter("delimiter", ",").appendQueryParameter("targetId", targetId).appendQueryParameter("title", title).build();
                         context.startActivity(new Intent("android.intent.action.VIEW", uri));
-                        Log.e("Tag","ids+targetId"+targetId);
                         addChatGroup(groupName,targetId);
 
                     }
@@ -489,7 +488,6 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Log.e("Tag","success");
             }
 
         });

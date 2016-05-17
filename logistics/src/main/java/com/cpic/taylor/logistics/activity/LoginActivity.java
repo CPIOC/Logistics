@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -225,7 +224,6 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
      */
     private void httpGetTokenSuccess(String token) {
 
-        Log.e("Tag", token);
 
         try {
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
@@ -236,7 +234,6 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                         @Override
                         public void onSuccess(String userId) {
-                            Log.e("Tag", userId);
 
                             if (isFirst) {
                             } else {

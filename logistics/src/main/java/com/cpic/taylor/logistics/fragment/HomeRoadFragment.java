@@ -232,7 +232,6 @@ public class HomeRoadFragment extends Fragment {
                 mInstaller.install();
             } else {
                 WinToast.toast(homeActivity, "语音合成失败,错误码: " + code);
-                Log.e("Tag", "code = " + code);
             }
         }
     }

@@ -183,7 +183,6 @@ public class SearchNewFriendActivity extends BaseActivity {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
                             mListSearch.setAdapter(myAdapter);
                         }
-                        Log.e("Tag", "number" + friendsList);
                     }
 
 
@@ -254,7 +253,6 @@ public class SearchNewFriendActivity extends BaseActivity {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
                             mListSearch.setAdapter(myAdapter);
                         }
-                        Log.e("Tag", "number" + friendsList);
                     }
 
 

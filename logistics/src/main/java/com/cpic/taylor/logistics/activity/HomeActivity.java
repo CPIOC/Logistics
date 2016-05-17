@@ -239,7 +239,6 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
                                     userInfos.setStatus("1");
                                     if (myFriends.getdata().get(i).getImg() != null)
                                         userInfos.setPortrait(myFriends.getdata().get(i).getImg());
-                                    Log.e("Tag",""+myFriends.getdata().get(i).getImg());
                                     friendsList.add(userInfos);
                                 }
                             }
@@ -256,7 +255,6 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
                                     RongYunContext.getInstance().insertOrReplaceUserInfos(f);
                                 }
                             }
-                            Log.e("Tag","myFriends"+myFriends.getdata().size());
                         }
                     });
 

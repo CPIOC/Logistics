@@ -614,7 +614,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         pop.setOutsideTouchable(true);
         pop.setContentView(view);
         pop.showAsDropDown(v, Integer.parseInt("-"+Px2DpUtils.dip2px(MainActivity.this,70)),0);
-        Log.e("Tag",""+Integer.parseInt("-"+Px2DpUtils.dip2px(MainActivity.this,70)));
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             // 在dismiss中恢复透明度

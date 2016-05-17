@@ -3,10 +3,8 @@ package com.cpic.taylor.logistics.RongCloudaAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
-import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
 import com.cpic.taylor.logistics.RongCloudModel.FriendApplyData;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -29,7 +26,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import io.rong.imkit.widget.AsyncImageView;
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -163,7 +159,6 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Log.e("Tag", "success");
             }
 
         });

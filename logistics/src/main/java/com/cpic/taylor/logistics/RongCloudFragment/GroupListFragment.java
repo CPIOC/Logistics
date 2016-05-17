@@ -103,7 +103,6 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
             intent.putExtra("INTENT_GROUP", (Parcelable) mResultList.get(position));
 
             intent.setData(uri);
-            Log.e("tag","here"+uri);
             startActivityForResult(intent, RESULTCODE);
         }
 

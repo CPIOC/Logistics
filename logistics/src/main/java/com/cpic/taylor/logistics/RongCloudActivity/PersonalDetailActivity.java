@@ -116,7 +116,6 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 if (currentUserId != null) {
                     if (mDialog != null && !mDialog.isShowing())
                         mDialog.show();
-                    Log.e("Tag", currentUserId);
                     getUserinfoAndAddFriend(currentUserId);
                     //mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
                     sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
@@ -293,7 +292,6 @@ public class PersonalDetailActivity extends BaseApiActivity {
                     if (null != rcUser.getData()) {
                         if (null != rcUser.getData().get(0)) {
                             addFriend(rcUser.getData().get(0).getId());
-                            Log.e("Tag", "=====" + rcUser.getData().get(0).getId());
                         }
 
                     }

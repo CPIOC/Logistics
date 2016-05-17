@@ -16,18 +16,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
-import com.cpic.taylor.logistics.RongCloudModel.FriendApply;
-import com.cpic.taylor.logistics.RongCloudModel.RCUser;
-import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendApplyListAdapter;
-import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendListAdapter;
+import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
+import com.cpic.taylor.logistics.RongCloudModel.FriendApply;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudModel.Status;
-import com.cpic.taylor.logistics.base.RongYunContext;
-import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendApplyListAdapter;
+import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendListAdapter;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,7 +40,6 @@ import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
@@ -125,7 +123,6 @@ public class NewFriendListActivity extends BaseApiActivity {
 
                     if (null != friendApply.getData()) {
 
-                        Log.e("Tag", "friendApply.getData()" + friendApply.getData());
 
                         NewFriendApplyListAdapter mAdapter = new NewFriendApplyListAdapter(friendApply.getData(), NewFriendListActivity.this);
                         mNewFriendList.setAdapter(mAdapter);
