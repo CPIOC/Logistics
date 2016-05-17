@@ -48,6 +48,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
             android:background="@drawable/rc_default_portrait"
             android:padding="0dp" />
 

@@ -189,10 +189,10 @@ public class PersonalDetailActivity extends BaseApiActivity {
                         }else {
                             text_version_id.setText(rcUser.getData().get(0).getCar_models());
                         }
-                        if(null==rcUser.getData().get(0).getDriving_license()){
+                        if(null==rcUser.getData().get(0).getPlate_number()){
                             text_licence_id.setText("");
                         }else {
-                            text_licence_id.setText(rcUser.getData().get(0).getDriving_license());
+                            text_licence_id.setText(rcUser.getData().get(0).getPlate_number());
                         }
 
 

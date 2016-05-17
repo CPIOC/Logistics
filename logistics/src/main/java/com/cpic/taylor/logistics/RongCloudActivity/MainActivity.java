@@ -607,7 +607,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         pop.setBackgroundDrawable(cd);
         // 产生背景变暗效果
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.6f;
+        lp.alpha = 1f;
         getWindow().setAttributes(lp);
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);

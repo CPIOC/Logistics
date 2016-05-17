@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp"
             android:onClick="plusFunction"
             android:src="@drawable/plus_add" />
 

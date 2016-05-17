@@ -33,9 +33,10 @@
 
     <LinearLayout
         android:id="@+id/search_friend_ll"
-        android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:background="@color/group_list_liner"
         android:orientation="horizontal"
         >
@@ -79,7 +80,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="12dp"
             android:background="@drawable/shape_search_app_bg_yj"
@@ -88,16 +89,16 @@
             <!-- 输入的搜索信息 -->
             <EditText
                 android:id="@+id/et_search"
-                android:layout_weight="4"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:imeOptions="actionSearch"
                 android:layout_marginLeft="10dp"
                 android:textColor="#0e0e0e"
+                android:drawablePadding="5dp"
                 android:textSize="17sp"
                 android:singleLine="true"
                 android:hint="昵称"
-                android:textColorHint="#b0c6ce"
+                android:textColorHint="#e6e6e6"
                 android:gravity="center_vertical"
                 android:drawableLeft="@drawable/search"
                 android:background="@null"/>
