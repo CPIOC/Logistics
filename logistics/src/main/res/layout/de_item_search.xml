@@ -12,6 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="12dp"
         android:padding="5dp"
+        android:scaleType="fitXY"
         android:src="@drawable/rc_default_portrait" />
 
     <TextView

@@ -13,6 +13,27 @@ public class MyGroupData implements Serializable {
     public String user_name;
     public String chat_name;
     public String created_at;
+    public String target_ids;
+
+    @Override
+    public String toString() {
+        return "MyGroupData{" +
+                "id='" + id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", user_name='" + user_name + '\'' +
+                ", chat_name='" + chat_name + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", target_id='" + target_ids + '\'' +
+                '}';
+    }
+
+    public String getTarget_id() {
+        return target_ids;
+    }
+
+    public void setTarget_id(String target_id) {
+        this.target_ids = target_id;
+    }
 
     public String getId() {
         return id;
@@ -54,14 +75,4 @@ public class MyGroupData implements Serializable {
         this.user_id = user_id;
     }
 
-    @Override
-    public String toString() {
-        return "MyGroupData{" +
-                "id='" + id + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", user_name='" + user_name + '\'' +
-                ", chat_name='" + chat_name + '\'' +
-                ", created_at='" + created_at + '\'' +
-                '}';
-    }
 }

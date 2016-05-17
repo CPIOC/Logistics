@@ -1,5 +1,6 @@
 package com.cpic.taylor.logistics.RongCloudFragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -36,6 +37,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import io.rong.imkit.RLog;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -236,11 +239,19 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     if (mMemberIds.size() == 1) {
                         Log.e(TAG, "-----selectPeopleComplete---MemberIds.size():" + sb.toString());
                         if (RongIM.getInstance() != null)
-                            RongIM.getInstance().getRongIMClient().createDiscussion(sb.toString(), ids, new RongIMClient.CreateDiscussionCallback() {
+                            //addChatGroup(groupName,TextUtils.join(",", ids));
+                            if(null!=groupName){
+                                if(groupName.length()>10){
+                                    groupName=groupName.substring(0,8)+"...";
+                                }
+                            }
+
+                            RongIM.getInstance().getRongIMClient().createDiscussion(groupName, ids, new RongIMClient.CreateDiscussionCallback() {
+
                                 @Override
                                 public void onSuccess(String s) {
                                     Log.e(TAG, "-----selectPeopleComplete---=＝onSuccess＝＝＝＝＋＋＋＋" + s);
-                                    addChatGroup(groupName);
+
                                     getActivity().finish();
                                 }
 
@@ -277,8 +288,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     }
                 } else {
                     if (mMemberIds.size() == 0) {
-                        RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
-                        addChatGroup(groupName);
+                        //RongIM.getInstance().
+                                createDiscussionChat(getActivity(), ids, groupName);
+
                         getActivity().finish();
                     } else {
                         mLoadingDialog.show();
@@ -304,8 +316,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             });
                         } else {
                             ids.addAll(mMemberIds);
-                            addChatGroup(groupName);
-                            RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
+
+                            //RongIM.getInstance().
+                                    createDiscussionChat(getActivity(), ids, groupName);
 
                         }
                     }
@@ -318,6 +331,32 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             return;
         }
 
+    }
+
+    public void createDiscussionChat(final Context context, final List<String> targetUserIds, final String title) {
+        if(context != null && targetUserIds != null && targetUserIds.size() != 0) {
+            if(RongContext.getInstance() == null) {
+                throw new ExceptionInInitializerError("RongCloud SDK not init");
+            } else if(RongIM.getInstance().getRongIMClient() == null) {
+                RLog.d(this, "disconnect", "RongIMClient does not init.");
+            } else {
+                RongIM.getInstance().getRongIMClient().createDiscussion(title, targetUserIds, new RongIMClient.CreateDiscussionCallback() {
+                    public void onSuccess(String targetId) {
+                        Uri uri = Uri.parse("rong://" + context.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.DISCUSSION.getName().toLowerCase()).appendQueryParameter("targetIds", TextUtils.join(",", targetUserIds)).appendQueryParameter("delimiter", ",").appendQueryParameter("targetId", targetId).appendQueryParameter("title", title).build();
+                        context.startActivity(new Intent("android.intent.action.VIEW", uri));
+                        Log.e("Tag","ids+targetId"+targetId);
+                        addChatGroup(groupName,targetId);
+
+                    }
+
+                    public void onError(RongIMClient.ErrorCode e) {
+                        RLog.d(this, "createDiscussionChat", "createDiscussion not success." + e);
+                    }
+                });
+            }
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
@@ -408,13 +447,14 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void addChatGroup(String chat_name) {
+    private void addChatGroup(String chat_name,String ids) {
 
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         params.addBodyParameter("token", sp.getString("token", null));
         params.addBodyParameter("chat_name", chat_name);
+        params.addBodyParameter("target_ids", ids);
         String url = UrlUtils.POST_URL + UrlUtils.path_createChat;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override

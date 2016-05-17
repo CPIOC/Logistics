@@ -34,7 +34,7 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="20dp"
             android:onClick="goToNext"
-            android:src="@drawable/wode_guanyuwomen" />
+            android:src="@drawable/address_book" />
 
         <View
             android:layout_width="match_parent"

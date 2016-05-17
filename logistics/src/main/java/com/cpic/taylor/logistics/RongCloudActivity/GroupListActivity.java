@@ -1,14 +1,21 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -28,7 +35,10 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by xuan on 2016/5/13.
@@ -41,6 +51,9 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
     private MyGroup myGroup;
     private ListView group_list_view;
     private ArrayList<MyGroupData> myGroupDatas;
+    private PopupWindow popuWindowDel;
+    private GroupListAdapter groupListAdapter;
+    private TextView cancelTv,delTv;
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -57,6 +70,80 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
         setContentView(R.layout.group_list);
         group_list_view = (ListView) findViewById(R.id.group_list_view);
+        group_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //String targetId=null;
+                //Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.DISCUSSION.getName().toLowerCase()).appendQueryParameter("targetIds", myGroupDatas.get(i).getTarget_id()).appendQueryParameter("delimiter", ",").appendQueryParameter("targetId", targetId).build();
+                //startActivity(new Intent("android.intent.action.VIEW", uri));
+                Log.e("Tag",""+myGroupDatas.get(i));
+                RongIM.getInstance().startDiscussionChat(GroupListActivity.this, myGroupDatas.get(i).getTarget_id(), myGroupDatas.get(i).getChat_name());
+                finish();
+            }
+        });
+        group_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                onlineTel(view,i);
+                return true;
+            }
+        });
+
+    }
+
+    /**
+     * 删除群组提示弹框
+     * @param
+     */
+    public void onlineTel(View view, final int position) {
+        View contentView=null;
+        if (popuWindowDel == null) {
+
+            popuWindowDel = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        LayoutInflater mLayoutInflater = LayoutInflater.from(this);
+        contentView = mLayoutInflater.inflate(R.layout.del_item_group_name, null);
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popuWindowDel.setBackgroundDrawable(cd);
+        // 产生背景变暗效果
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.6f;
+        getWindow().setAttributes(lp);
+        popuWindowDel.setOutsideTouchable(true);
+        popuWindowDel.setFocusable(true);
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        popuWindowDel.setWidth(display.getWidth() * 80 / 100);
+        popuWindowDel.showAtLocation((View) view.getParent(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+        popuWindowDel.update();
+        cancelTv = (TextView)contentView.findViewById(R.id.cancel_tv);
+        delTv = (TextView) contentView.findViewById(R.id.yes_tv);
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                popuWindowDel.dismiss();
+            }
+        });
+        delTv.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                deleteData(myGroupDatas.get(position).getId(),position);
+            }
+        });
+        popuWindowDel.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            // 在dismiss中恢复透明度
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+
+            }
+        });
 
     }
 
@@ -169,7 +256,8 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
                     if (null != myGroup.getData()) {
                         myGroupDatas= (ArrayList<MyGroupData>) myGroup.getData();
-                        group_list_view.setAdapter(new GroupListAdapter(myGroupDatas));
+                        groupListAdapter=new GroupListAdapter(myGroupDatas);
+                        group_list_view.setAdapter(groupListAdapter);
                     }
 
                 } else {
@@ -181,5 +269,84 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
         });
     }
 
+    public void deleteData(String chat_id, final int position) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(GroupListActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("chat_id", chat_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_delete_meb;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                org.json.JSONObject jsonObj = null;
+                try {
+                    jsonObj = new org.json.JSONObject(result);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
+                        if(null!=myGroupDatas){
+                            deleteDiscussionRecord(myGroupDatas.get(position).getTarget_id());
+                            myGroupDatas.remove(position);
+                        }
+
+                        if(null!=groupListAdapter)
+                        groupListAdapter.notifyDataSetChanged();
+                        if(null!=popuWindowDel)
+                        popuWindowDel.dismiss();
+
+                        showShortToast("删除成功");
+
+                    } else {
+                        showShortToast(jsonObj.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+    }
+
+    private void deleteDiscussionRecord(final String targetId){
+        if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
+            RongIM.getInstance().getRongIMClient().quitDiscussion(targetId, new RongIMClient.OperationCallback() {
+                @Override
+                public void onSuccess() {
+                    RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.DISCUSSION, targetId, new RongIMClient.ResultCallback<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+
+
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                }
+            });
+    }
 
 }

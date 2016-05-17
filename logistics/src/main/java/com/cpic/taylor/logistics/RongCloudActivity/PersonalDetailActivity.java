@@ -250,7 +250,6 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Log.e("Tag", "success");
             }
 
         });

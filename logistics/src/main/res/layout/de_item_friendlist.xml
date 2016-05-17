@@ -16,6 +16,7 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
+        android:visibility="gone"
         android:maxHeight="12.0dip" />
 
     <io.rong.imkit.widget.AsyncImageView
@@ -27,6 +28,7 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/rc_default_portrait"
         app:RCDefDrawable="@drawable/rc_default_portrait"
+        android:scaleType="fitXY"
         app:RCShape="square" />
 
     <TextView
