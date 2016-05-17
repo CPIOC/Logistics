@@ -115,6 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
+                    android:visibility="gone"
                     android:layout_gravity="right|center_vertical"
                     android:src="@drawable/selector_btn_search_clear_text_right"/>
 
