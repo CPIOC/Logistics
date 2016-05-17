@@ -20,11 +20,10 @@ import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.PersonalDetailActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.PhotoActivity;
-import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
 import com.cpic.taylor.logistics.RongCloudMessage.ContactsProvider;
-import com.cpic.taylor.logistics.RongCloudMessage.provider.RealTimeLocationInputProvider;
+import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.sea_monster.exception.BaseException;
@@ -181,14 +180,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         InputProvider.ExtendProvider[] provider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
-                new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
+                //new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
         };
 
         InputProvider.ExtendProvider[] provider1 = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
-                new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
+                //new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
         };
 
