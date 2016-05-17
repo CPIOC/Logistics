@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,6 +53,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
     private PopupWindow popuWindowDel;
     private GroupListAdapter groupListAdapter;
     private TextView cancelTv,delTv;
+    View contentView=null;
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -74,10 +74,6 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                //String targetId=null;
-                //Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.DISCUSSION.getName().toLowerCase()).appendQueryParameter("targetIds", myGroupDatas.get(i).getTarget_id()).appendQueryParameter("delimiter", ",").appendQueryParameter("targetId", targetId).build();
-                //startActivity(new Intent("android.intent.action.VIEW", uri));
-                Log.e("Tag",""+myGroupDatas.get(i));
                 RongIM.getInstance().startDiscussionChat(GroupListActivity.this, myGroupDatas.get(i).getTarget_id(), myGroupDatas.get(i).getChat_name());
                 finish();
             }
@@ -98,13 +94,13 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
      * @param
      */
     public void onlineTel(View view, final int position) {
-        View contentView=null;
-        if (popuWindowDel == null) {
 
+        if (popuWindowDel == null) {
+            LayoutInflater mLayoutInflater = LayoutInflater.from(this);
+            contentView = mLayoutInflater.inflate(R.layout.del_item_group_name, null);
             popuWindowDel = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
-        LayoutInflater mLayoutInflater = LayoutInflater.from(this);
-        contentView = mLayoutInflater.inflate(R.layout.del_item_group_name, null);
+
         ColorDrawable cd = new ColorDrawable(0x000000);
         popuWindowDel.setBackgroundDrawable(cd);
         // 产生背景变暗效果

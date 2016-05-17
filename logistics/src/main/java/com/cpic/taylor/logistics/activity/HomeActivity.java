@@ -15,6 +15,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -39,7 +41,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudModel.MyFriends;
 import com.cpic.taylor.logistics.base.BaseActivity;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
 import com.cpic.taylor.logistics.fragment.HomeRoadFragment;
@@ -47,6 +52,8 @@ import com.cpic.taylor.logistics.utils.ExampleUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.RoundImageView;
 import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -63,7 +70,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by Taylor on 2016/5/4.
  */
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements  Handler.Callback{
 
     // 记录上次点击返回键的时间
     private long lastTime;
@@ -105,6 +112,17 @@ public class HomeActivity extends BaseActivity {
     private HttpUtils post;
     private RequestParams params;
     private Dialog dialog;
+    /**
+     * 融云好友
+     */
+    MyFriends myFriends;
+    ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
+    private Handler mHandler;
+    private int HANDLER_LOGIN_SUCCESS = 1;
+    private int HANDLER_LOGIN_FAILURE = 2;
+    private int HANDLER_LOGIN_HAS_FOCUS = 3;
+    private int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
+    private boolean isFirst=false;
 
     private static final int USER_ICON = 0;
     private static final int NAME = 1;
@@ -166,6 +184,89 @@ public class HomeActivity extends BaseActivity {
         Glide.with(HomeActivity.this).load(sp.getString("driving_license", "")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
 
         init();
+        mHandler = new Handler(HomeActivity.this);
+        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        getFriendsFuction();
+
+    }
+
+    /**
+     * 从服务器获取好友列表
+     */
+    private void getFriendsFuction(){
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        params.addBodyParameter("token",sp.getString("token",null) );
+        String url = UrlUtils.POST_URL + UrlUtils.path_friendslist;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                JSONObject jsonObj = null;
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<MyFriends>() {
+                    }.getType();
+                    myFriends = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (myFriends.getCode() == 1) {
+
+                    RongYunContext.getInstance().deleteUserInfos();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (null != myFriends.getdata()) {
+                                for (int i = 0; i < myFriends.getdata().size(); i++) {
+                                    UserInfos userInfos = new UserInfos();
+                                    userInfos.setUserid(myFriends.getdata().get(i).getCloud_id());
+                                    userInfos.setUsername(myFriends.getdata().get(i).getName());
+                                    userInfos.setStatus("1");
+                                    if (myFriends.getdata().get(i).getImg() != null)
+                                        userInfos.setPortrait(myFriends.getdata().get(i).getImg());
+                                    Log.e("Tag",""+myFriends.getdata().get(i).getImg());
+                                    friendsList.add(userInfos);
+                                }
+                            }
+
+
+
+                            if (friendsList != null) {
+                                for (UserInfos friend : friendsList) {
+                                    UserInfos f = new UserInfos();
+                                    f.setUserid(friend.getUserid());
+                                    f.setUsername(friend.getUsername());
+                                    f.setPortrait(friend.getPortrait());
+                                    f.setStatus(friend.getStatus());
+                                    RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+                                }
+                            }
+                            Log.e("Tag","myFriends"+myFriends.getdata().size());
+                        }
+                    });
+
+                } else {
+                    showShortToast(myFriends.getmsg());
+                }
+
+            }
+
+        });
 
     }
 
@@ -586,6 +687,34 @@ public class HomeActivity extends BaseActivity {
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(MESSAGE_RECEIVED_ACTION);
         registerReceiver(mMessageReceiver, filter);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (msg.what == HANDLER_LOGIN_FAILURE) {
+
+
+
+        } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
+
+//            if (mDialog != null)
+//                mDialog.dismiss();
+            if (dialog !=null){
+                dialog.dismiss();
+            }
+            /**
+             * 融云登录成功
+             */
+            // WinToast.toast(LoginActivity.this, R.string.login_success);
+            startActivity(new Intent(this,HomeActivity.class));
+            finish();
+        } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
+
+        } else if (msg.what == HANDLER_LOGIN_HAS_NO_FOCUS) {
+
+        }
+
+        return false;
     }
 
     public class MessageReceiver extends BroadcastReceiver {
