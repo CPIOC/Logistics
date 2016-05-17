@@ -45,6 +45,7 @@ import com.cpic.taylor.logistics.RongCloudFragment.CustomerFragment;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.Px2DpUtils;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -612,7 +613,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setContentView(view);
-        pop.showAsDropDown(v);
+        pop.showAsDropDown(v, Integer.parseInt("-"+Px2DpUtils.dip2px(MainActivity.this,70)),0);
+        Log.e("Tag",""+Integer.parseInt("-"+Px2DpUtils.dip2px(MainActivity.this,70)));
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             // 在dismiss中恢复透明度

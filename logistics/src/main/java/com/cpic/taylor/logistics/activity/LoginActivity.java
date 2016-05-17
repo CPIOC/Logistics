@@ -179,9 +179,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
 
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
+
                 Login login = JSONObject.parseObject(responseInfo.result, Login.class);
                 int code = login.getCode();
                 if (code == 1) {
@@ -207,6 +205,9 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                     finish();
                 } else {
                     showShortToast(login.getMsg());
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
                 }
 
             }
@@ -253,8 +254,12 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             //请求 demo server 获得自己所加入得群组。
                             //getFriendsFuction();
                             // mGetMyGroupsRequest = RongYunContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+                            if (dialog != null) {
+                                dialog.dismiss();
+                            }
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
+
                         }
 
                         @Override
