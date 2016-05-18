@@ -19,15 +19,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.Groups;
 import com.cpic.taylor.logistics.RongCloudModel.RongEvent;
-import com.cpic.taylor.logistics.base.RongCloudEvent;
-import com.cpic.taylor.logistics.base.RongYunApi;
-import com.cpic.taylor.logistics.base.RongYunContext;
-import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.activity.LoginActivity;
+import com.cpic.taylor.logistics.base.RongCloudEvent;
+import com.cpic.taylor.logistics.base.RongYunApi;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -329,7 +330,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
         if (token.equals(Constants.DEFAULT)) {
 
-            startActivity(new Intent(ConversationActivity.this, RongCloudLoginActivity.class));
+            startActivity(new Intent(ConversationActivity.this,LoginActivity.class));
             finish();
         } else {
             reconnect(token);

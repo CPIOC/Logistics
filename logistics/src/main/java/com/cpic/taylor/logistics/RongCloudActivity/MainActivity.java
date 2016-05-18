@@ -44,6 +44,7 @@ import com.cpic.taylor.logistics.RongCloudFragment.ContactsFragment;
 import com.cpic.taylor.logistics.RongCloudFragment.CustomerFragment;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.Px2DpUtils;
 
@@ -157,6 +158,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initData();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     protected void initData() {
 
         final Conversation.ConversationType[] conversationTypes = {Conversation.ConversationType.PRIVATE, Conversation.ConversationType.DISCUSSION,
@@ -240,22 +246,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (RongYunContext.getInstance() != null) {
                 String token = RongYunContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
                 if (token.equals("default")) {
-                    startActivity(new Intent(MainActivity.this, RongCloudLoginActivity.class));
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 } else {
                     if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
                         RongIMClient.ConnectionStatusListener.ConnectionStatus status = RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus();
                         if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED.equals(status)) {
                             return;
-                        } else if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING.equals(status)) {
-                            return;
                         } else {
-                            Intent intent1 = new Intent(MainActivity.this, RongCloudLoginActivity.class);
-                            intent1.putExtra("PUSH_MESSAGE", true);
-                            startActivity(intent1);
-                            finish();
+                            if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING.equals(status)) {
+                                return;
+                            } else {
+                                Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                                intent1.putExtra("PUSH_MESSAGE", true);
+                                startActivity(intent1);
+                                finish();
+                            }
                         }
                     } else {
-                        Intent intent1 = new Intent(MainActivity.this, RongCloudLoginActivity.class);
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
                         intent1.putExtra("PUSH_MESSAGE", true);
                         startActivity(intent1);
                         finish();

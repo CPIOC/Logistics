@@ -195,8 +195,7 @@ public class RongCloudLoginActivity extends BaseApiActivity implements View.OnCl
             case R.id.de_left://注册
             case R.id.de_login_register://注册
 
-                Intent intent = new Intent(this, RegisterActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_REGISTER);
+
                 break;
 
             case R.id.de_login_forgot://忘记密码

@@ -125,9 +125,6 @@
             </intent-filter>
         </activity>
         <!--注册页面-->
-        <activity
-            android:name=".RongCloudActivity.RegisterActivity"
-            android:screenOrientation="portrait"></activity>
         <!--发起聊天页面-->
         <activity
             android:name=".RongCloudActivity.FriendListActivity"

@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.cpic.taylor.logistics.RongCloudModel.Groups;
-import com.cpic.taylor.logistics.base.RongCloudEvent;
-import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
+import com.cpic.taylor.logistics.activity.LoginActivity;
+import com.cpic.taylor.logistics.base.RongCloudEvent;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -84,7 +85,7 @@ public class ConversationListActivity extends BaseApiActivity {
 
         if (token.equals(Constants.DEFAULT)) {
 
-            startActivity(new Intent(ConversationListActivity.this, RongCloudLoginActivity.class));
+            startActivity(new Intent(ConversationListActivity.this, LoginActivity.class));
             finish();
         } else {
 

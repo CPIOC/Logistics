@@ -111,6 +111,11 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onClick(View v) {
         if (v instanceof SwitchItemView) {
             CharSequence tag = ((SwitchItemView) v).getText();
