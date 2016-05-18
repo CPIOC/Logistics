@@ -200,8 +200,8 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                      * 融云登录成功
                      */
                     httpGetTokenSuccess(login.getData().getCloud_token());
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                    finish();
+//                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+//                    finish();
                 } else {
                     showShortToast(login.getMsg());
                     if (dialog != null) {
@@ -330,8 +330,8 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
             /**
              * 融云登录成功
              */
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
+//            startActivity(new Intent(this, HomeActivity.class));
+//            finish();
         } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
 
         } else if (msg.what == HANDLER_LOGIN_HAS_NO_FOCUS) {

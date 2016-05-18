@@ -142,9 +142,9 @@ public class HomeRoadFragment extends Fragment {
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        params.addBodyParameter("token", sp.getString("token", null));
-        params.addBodyParameter("Start", sp.getString("Start", null));
-        params.addBodyParameter("end", sp.getString("end", null));
+        params.addBodyParameter("token", sp.getString("token", ""));
+        params.addBodyParameter("Start", sp.getString("Start", ""));
+        params.addBodyParameter("end", sp.getString("end", ""));
         String url = UrlUtils.POST_URL + UrlUtils.path_warninglist;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
