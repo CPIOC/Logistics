@@ -17,6 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.bean.Police;
 import com.cpic.taylor.logistics.bean.PoliceDataInfo;
@@ -52,6 +56,9 @@ public class HomePoliceFragment extends Fragment{
     private Dialog dialog;
 
     private String address,token,lat,lng;
+
+
+    private AMapLocationClient mLocationClient;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,11 +70,7 @@ public class HomePoliceFragment extends Fragment{
          * 获取当前地址信息
          */
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        address = sp.getString("now_address","");
         token = sp.getString("token","");
-        lat = sp.getString("now_latitude","");
-        lng = sp.getString("now_longitude","");
-        tvAddress.setText(address);
 
         initDatas();
         registerListener();
@@ -78,13 +81,13 @@ public class HomePoliceFragment extends Fragment{
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden){
-            sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            address = sp.getString("now_address","");
-            token = sp.getString("token","");
-            lat = sp.getString("now_latitude","");
-            lng = sp.getString("now_longitude","");
-            tvAddress.setText(address);
-            Log.i("oye",lat+lng+address);
+//            sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//            address = sp.getString("now_address","");
+//            token = sp.getString("token","");
+//            lat = sp.getString("now_latitude","");
+//            lng = sp.getString("now_longitude","");
+//            tvAddress.setText(address);
+//            Log.i("oye",lat+lng+address);
         }
     }
 
@@ -129,6 +132,14 @@ public class HomePoliceFragment extends Fragment{
                 adapter.notifyDataSetChanged();
 
                 return false;
+            }
+        });
+
+        tvAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvAddress.setText("正在定位...");
+                mLocationClient.startLocation();
             }
         });
 
@@ -182,7 +193,36 @@ public class HomePoliceFragment extends Fragment{
                 Toast.makeText(getActivity(),"获取数据失败，请检查网络连接",Toast.LENGTH_SHORT).show();
             }
         });
+        initLocation();
     }
+
+
+    private void initLocation() {
+        mLocationClient = new AMapLocationClient(getActivity());
+        AMapLocationClientOption option = new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setOnceLocation(true);
+        mLocationClient.setLocationOption(option);
+        mLocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+                        address = aMapLocation.getAddress();
+                        lat = aMapLocation.getLatitude()+"";
+                        lng = aMapLocation.getLongitude()+"";
+                        tvAddress.setText(address);
+                        Log.i("oye",address+"----"+lat+"-----"+lng);
+                    } else {
+                        //定位失败
+                    }
+                }
+            }
+        });
+        mLocationClient.startLocation();
+    }
+
+
 
     public class CarAdapter extends BaseExpandableListAdapter {
 

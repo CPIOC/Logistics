@@ -198,6 +198,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             @Override
             public void onClick(View view) {
                 if (null != mStartPoint&&null!=mEndPoint){
+                    aMap.clear();
                     setfromandtoMarker();
                     aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
@@ -245,7 +246,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         tvStop.setText("目的地");
                         tvStop.setTextColor(Color.parseColor("#FF8904"));
                         linearLayout.setVisibility(View.VISIBLE);
-
                         dialogInterface.dismiss();
 
                     }
@@ -430,7 +430,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 if (isOnroad){
                     upLoadLocation(aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
                 }
-                Log.i("oye",aMapLocation.getAddress());
+//                Log.i("oye",aMapLocation.getAddress());
 
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
@@ -476,7 +476,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             mlocationClient.setLocationListener(this);
             //设置为高精度定位模式
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            mLocationOption.setInterval(10000);
+            mLocationOption.setInterval(100000);
             //设置定位参数
             mlocationClient.setLocationOption(mLocationOption);
 
@@ -703,6 +703,11 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
 
+                    if (status == START){
+                       mStartPoint = poiItems.get(0).getLatLonPoint();
+                    }else if (status == STOP){
+                        mEndPoint = poiItems.get(0).getLatLonPoint();
+                    }
                     if (poiItems != null && poiItems.size() > 0) {
                         aMap.clear();// 清理之前的图标
                         PoiOverlay poiOverlay = new PoiOverlay(aMap, poiItems);

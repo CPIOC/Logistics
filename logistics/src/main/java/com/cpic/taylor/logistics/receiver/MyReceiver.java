@@ -3,9 +3,7 @@ package com.cpic.taylor.logistics.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.cpic.taylor.logistics.activity.HomeActivity;
@@ -50,16 +48,9 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
-			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-			if (sp.getBoolean("isclose",true)){
-
-			}else{
-
-			}
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
-        	
         } else if(JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
         	boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
         	Log.w(TAG, "[MyReceiver]" + intent.getAction() +" connected state change to "+connected);

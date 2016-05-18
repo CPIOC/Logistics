@@ -1,5 +1,6 @@
 package com.cpic.taylor.logistics.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
@@ -162,6 +164,9 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
             @Override
             public void afterTextChanged(Editable editable) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
                 if (popupDetails != null && popupDetails.isShowing()) {
                     popupDetails.dismiss();
                 }
@@ -184,11 +189,13 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 intent = new Intent();
                 intent.putExtra("areaProvice", search_datas.get(i).getArea());
                 intent.putExtra("areaName",  search_datas.get(i).getDetails());
                 setResult(RESULT_OK, intent);
                 finish();
+
             }
         });
 
@@ -205,7 +212,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 listString.add(list.get(i).getName());
             }
             View view = View.inflate(ChooseAreaActivity.this, R.layout.popupwindow_area, null);
-            popupDetails = new PopupWindow(view, screenWidth * 4 / 5, screenHight / 3);
+            popupDetails = new PopupWindow(view, screenWidth * 4 / 5, screenHight / 2);
             popupDetails.setFocusable(false);
             lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
 
@@ -226,6 +233,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                     getWindow().setAttributes(params);
                 }
             });
+
             lvArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
