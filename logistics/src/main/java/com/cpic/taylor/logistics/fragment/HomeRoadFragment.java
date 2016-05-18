@@ -183,7 +183,7 @@ public class HomeRoadFragment extends Fragment {
                     }
 
                 } else {
-                    showShortToast(myFriends.getMsg());
+                    showShortToast(routeFriend.getMsg());
                 }
 
             }
