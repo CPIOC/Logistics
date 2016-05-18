@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mMainCustomerLiner.setOnClickListener(this);
         mDemoFragmentPagerAdapter = new DemoFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mDemoFragmentPagerAdapter);
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(this);
         initData();
     }
 

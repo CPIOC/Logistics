@@ -585,9 +585,11 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     //如果在路上处于路线规划，则点击进入聊天界面
                 }else if(status == ON_ROAD){
                     if (RongIM.getInstance() != null && RongYunContext.getInstance() != null) {
-                        if (marker.getSnippet() != null)
+                        if (marker.getSnippet() != null){
                             RongIM.getInstance().startPrivateChat(getActivity(), marker.getSnippet(),
                                     RongYunContext.getInstance().getUserInfoById(marker.getSnippet()).getName());
+                        }
+//                        Toast.makeText(getActivity(),marker.getSnippet(),Toast.LENGTH_SHORT).show();
 
                     }
 

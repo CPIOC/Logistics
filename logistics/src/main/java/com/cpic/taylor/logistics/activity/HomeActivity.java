@@ -183,7 +183,9 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
         Glide.with(HomeActivity.this).load(sp.getString("img", "")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivIcon);
         Glide.with(HomeActivity.this).load(sp.getString("driving_license", "")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
 
+        registerMessageReceiver();
         init();
+
         mHandler = new Handler(HomeActivity.this);
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
         getFriendsFuction();

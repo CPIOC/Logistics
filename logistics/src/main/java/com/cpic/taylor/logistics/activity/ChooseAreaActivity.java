@@ -122,7 +122,6 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
             e.printStackTrace();
         }
 
-
         List<SearchPointHistoryData> datas = new ArrayList<>();
         try {
             datas = db.findAll(Selector.from(SearchPointHistoryData.class));
