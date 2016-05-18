@@ -1,19 +1,15 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -23,7 +19,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +35,6 @@ import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudFragment.ContactsFragment;
-import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
 import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
@@ -319,12 +313,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 1:
                 selectNavSelection(1);
                 break;
-            case 2:
-                selectNavSelection(2);
-                break;
-            case 3:
-                selectNavSelection(3);
-                break;
+
         }
     }
 
@@ -458,7 +447,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.main_conversation_liner:
+            /*case R.id.main_conversation_liner:
                 mViewPager.setCurrentItem(0);
                 break;
             case R.id.main_group_liner:
@@ -469,88 +458,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.main_customer_liner:
                 mViewPager.setCurrentItem(3);
-                break;
+                break;*/
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        this.mMenu = menu;
-        inflater.inflate(R.menu.de_main_menu, menu);
-        if (hasNewFriends) {
-            mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add_hasmessage));
-            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
-        } else {
-            mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
-            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
-        }
+
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_item1://发起聊天
-                startActivity(new Intent(this, FriendListActivity.class));
-                break;
 
-            case R.id.add_item2://选择群组
-
-                if (RongIM.getInstance() != null)
-                    RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
-                break;
-            case R.id.add_item3://通讯录
-                startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-                break;
-            case R.id.set_item1://我的账号
-                startActivity(new Intent(MainActivity.this, MyAccountActivity.class));
-                break;
-            case R.id.set_item2://新消息提醒
-                startActivity(new Intent(MainActivity.this, NewMessageRemindActivity.class));
-                break;
-            case R.id.set_item3://隐私
-                startActivity(new Intent(MainActivity.this, PrivacyActivity.class));
-                break;
-
-            case R.id.set_item5://退出
-
-                final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);
-                alterDialog.setMessage("确定退出应用？");
-                alterDialog.setCancelable(true);
-
-                alterDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        if (RongIM.getInstance() != null) {
-                            if (RongYunContext.getInstance() != null) {
-                                SharedPreferences.Editor edit = RongYunContext.getInstance().getSharedPreferences().edit();
-                                edit.putString(Constants.APP_TOKEN, Constants.DEFAULT);
-                                edit.apply();
-                            }
-                            RongIM.getInstance().logout();
-                            try {
-                                Thread.sleep(500);
-                                Process.killProcess(Process.myPid());
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
-                alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                alterDialog.show();
-
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 
