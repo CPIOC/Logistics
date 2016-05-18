@@ -39,9 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpic.taylor.logistics.R;
-import com.cpic.taylor.logistics.RongCloudFragment.ChatRoomListFragment;
 import com.cpic.taylor.logistics.RongCloudFragment.ContactsFragment;
-import com.cpic.taylor.logistics.RongCloudFragment.CustomerFragment;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
 import com.cpic.taylor.logistics.activity.LoginActivity;
@@ -375,20 +373,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                     break;
 
-                case 2:
-                    if (mChatroomFragment == null) {
-                        fragment = new ChatRoomListFragment();
-                    } else {
-                        fragment = mChatroomFragment;
-                    }
-                    break;
-                case 3:
-                    if (mCustomerFragment == null) {
-                        fragment = new CustomerFragment();
-                    } else {
-                        fragment = mCustomerFragment;
-                    }
-                    break;
+
             }
             return fragment;
         }
@@ -529,9 +514,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.set_item3://隐私
                 startActivity(new Intent(MainActivity.this, PrivacyActivity.class));
                 break;
-            case R.id.set_item4://关于融云
-                startActivity(new Intent(MainActivity.this, AboutRongCloudActivity.class));
-                break;
+
             case R.id.set_item5://退出
 
                 final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);

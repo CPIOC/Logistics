@@ -102,7 +102,7 @@
             <TextView
                 android:id="@+id/text_licence_id"
                 style="@style/TextContentWiser"
-                android:text="皖A 80167"/>
+                android:text=""/>
 
         </LinearLayout>
 
@@ -120,7 +120,7 @@
             <TextView
                 android:id="@+id/text_version_id"
                 style="@style/TextContentWiser"
-                android:text="哈弗"/>
+                android:text=""/>
 
         </LinearLayout>
 

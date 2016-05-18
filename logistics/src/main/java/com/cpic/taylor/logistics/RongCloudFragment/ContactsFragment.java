@@ -20,7 +20,6 @@ import com.cpic.taylor.logistics.RongCloudActivity.GroupListActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.PersonalDetailActivity;
-import com.cpic.taylor.logistics.RongCloudActivity.PublicServiceActivity;
 import com.cpic.taylor.logistics.RongCloudModel.Friend;
 import com.cpic.taylor.logistics.RongCloudWidget.PinnedHeaderListView;
 import com.cpic.taylor.logistics.RongCloudWidget.SwitchGroup;
@@ -156,9 +155,6 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
                     RongIM.getInstance().startSubConversationList(mainActivity, Conversation.ConversationType.GROUP);
                 }*/
                 Intent intent=new Intent(getActivity(),GroupListActivity.class);
-                startActivity(intent);
-            } else if (friendId == "★003") {
-                Intent intent = new Intent(mainActivity, PublicServiceActivity.class);
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(mainActivity, PersonalDetailActivity.class);

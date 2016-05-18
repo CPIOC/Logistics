@@ -622,9 +622,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public void onChanged(ConnectionStatus status) {
-        Log.d(TAG, "onChanged:" + status);
+        Log.d("Tag", "onChanged:" + status);
         if (status.getMessage().equals(ConnectionStatus.DISCONNECTED.getMessage())) {
         }
+
     }
 
 
