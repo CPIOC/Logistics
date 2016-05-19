@@ -70,7 +70,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by Taylor on 2016/5/4.
  */
-public class HomeActivity extends BaseActivity implements  Handler.Callback{
+public class HomeActivity extends BaseActivity implements Handler.Callback {
 
     // 记录上次点击返回键的时间
     private long lastTime;
@@ -122,7 +122,7 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
     private int HANDLER_LOGIN_FAILURE = 2;
     private int HANDLER_LOGIN_HAS_FOCUS = 3;
     private int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
-    private boolean isFirst=false;
+    private boolean isFirst = false;
 
     private static final int USER_ICON = 0;
     private static final int NAME = 1;
@@ -148,6 +148,7 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
 
     @Override
     protected void loadXml() {
+
         setContentView(R.layout.activity_home);
     }
 
@@ -195,12 +196,13 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
     /**
      * 从服务器获取好友列表
      */
-    private void getFriendsFuction(){
+
+    private void getFriendsFuction() {
 
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        params.addBodyParameter("token",sp.getString("token",null) );
+        params.addBodyParameter("token", sp.getString("token", null));
         String url = UrlUtils.POST_URL + UrlUtils.path_friendslist;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
@@ -244,7 +246,6 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
                                     friendsList.add(userInfos);
                                 }
                             }
-
 
 
                             if (friendsList != null) {
@@ -454,16 +455,18 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
 //            showShortToast("再按一次退出程序");
 //            lastTime = currentTime;
 //        }
+
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 注意
         intent.addCategory(Intent.CATEGORY_HOME);
         this.startActivity(intent);
 
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-//        super.onSaveInstanceState(outState, outPersistentState);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     private void showPopupWindow(View v, final int type1, final int type2, final boolean isUser) {
@@ -694,19 +697,18 @@ public class HomeActivity extends BaseActivity implements  Handler.Callback{
         if (msg.what == HANDLER_LOGIN_FAILURE) {
 
 
-
         } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
 
 //            if (mDialog != null)
 //                mDialog.dismiss();
-            if (dialog !=null){
+            if (dialog != null) {
                 dialog.dismiss();
             }
             /**
              * 融云登录成功
              */
             // WinToast.toast(LoginActivity.this, R.string.login_success);
-            startActivity(new Intent(this,HomeActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
             finish();
         } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
 

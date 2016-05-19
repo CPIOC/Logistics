@@ -1,12 +1,15 @@
 package com.cpic.taylor.logistics.activity;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -203,6 +206,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
 
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onGetInputtips(List<Tip> list, int rCode) {
         if (rCode == 1000) {// 正确返回
@@ -223,6 +227,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
             ChooseAreaActivity.this.getWindow().setAttributes(params);
             popupDetails.setBackgroundDrawable(new ColorDrawable());
             popupDetails.setOutsideTouchable(false);
+            popupDetails.setFocusable(true);
             popupDetails.showAsDropDown(tvLine, DensityUtil.dip2px(ChooseAreaActivity.this, 80), 0);
             popupDetails.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
@@ -237,6 +242,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                    Log.i("oye","dian"+i);
                     if (tvArea.getText().toString().equals("市区")) {
                         showShortToast("请填写市区");
                     } else {
