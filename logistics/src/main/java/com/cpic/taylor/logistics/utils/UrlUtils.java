@@ -47,5 +47,7 @@ public class UrlUtils {
     public final static String path_getUserinfo = "getUserinfo";
     //附近的人
     public final static String path_nearList = "nearList";
+    //通过账号获取用户信息
+    public final static String path_getLogininfo = "getLogininfo";
 
 }

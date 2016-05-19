@@ -3,8 +3,10 @@ package com.cpic.taylor.logistics.RongCloudaAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
 import com.cpic.taylor.logistics.RongCloudModel.FriendApplyData;
+import com.cpic.taylor.logistics.RongCloudUtils.Constants;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -25,7 +32,13 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.MessageContent;
+import io.rong.imlib.model.UserInfo;
+import io.rong.message.ContactNotificationMessage;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -39,11 +52,13 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
     private HttpUtils post;
     private RequestParams params;
     private SharedPreferences sp;
+    private NewFriendListActivity newFriendListActivity;
 
     public NewFriendApplyListAdapter(List<FriendApplyData> results, Context context) {
         this.mResults = results;
         this.mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
+        newFriendListActivity= (NewFriendListActivity) context;
     }
 
 
@@ -84,7 +99,7 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
         viewHolder.mFrienduState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                friendAction(mResults.get(position).getId(), "1",position);
+                friendAction(mResults.get(position).getId(), "1",position,mResults.get(position).getCloud_id(),mResults.get(position));
                 mResults.remove(position);
                 notifyDataSetChanged();
             }
@@ -93,7 +108,7 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
         viewHolder.mFrienduStateRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                friendAction(mResults.get(position).getId(), "2",position);
+                friendAction(mResults.get(position).getId(), "2",position,mResults.get(position).getCloud_id(),mResults.get(position));
                 mResults.remove(position);
                 notifyDataSetChanged();
             }
@@ -111,7 +126,7 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
         AsyncImageView mPortraitImg;
     }
 
-    private void friendAction(String user_id, final String type,int position) {
+    private void friendAction(String user_id, final String type, final int position, final String cloud_id, final FriendApplyData friendApplyData) {
 
         post = new HttpUtils();
         params = new RequestParams();
@@ -147,9 +162,19 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
 
                         if ("1".equals(type)) {
                             showShortToast("已同意");
-                           // UserInfo info = new UserInfo(mResults.get(position).get, mResultList.get(position).getUsername(), mResultList.get(position).getPortrait() == null ? null : Uri.parse(mResultList.get(position).getPortrait()));
+                            UserInfos f = new UserInfos();
+                            f.setUserid(cloud_id);
+                            f.setUsername(friendApplyData.getName());
+                            f.setPortrait(friendApplyData.getImg());
+                            f.setStatus("1");
+                            RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, cloud_id);
+                           // sendFirstMessage(cloud_id);
+                            ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE, sp.getString("name", ""), sp.getString("name", ""), "已同意加你为好友");
+                            sendMessage(contact, cloud_id);
                         } else if ("2".equals(type)) {
                             showShortToast("已拒绝");
+                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, cloud_id);
                         }
 
 
@@ -162,6 +187,61 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
             }
 
         });
+
+    }
+
+    private void sendMessage(MessageContent messageContent, final String currentUserId) {
+
+        RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, currentUserId, messageContent, "加为好友", "好友",
+                new RongIMClient.SendMessageCallback() {
+                    @Override
+                    public void onSuccess(Integer integer) {
+
+                        RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, currentUserId);
+
+                    }
+
+                    @Override
+                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
+    }
+
+    /**
+     * 添加好友成功后，向对方发送一条消息
+     *
+     * @param id 对方id
+     */
+    public void sendFirstMessage(String id) {
+        final AgreedFriendRequestMessage message = new AgreedFriendRequestMessage(id, "agree");
+        if (RongYunContext.getInstance() != null) {
+            sp = PreferenceManager.getDefaultSharedPreferences(newFriendListActivity);
+            //获取当前用户的 userid
+            String  userid = sp.getString("cloud_id","");
+            String  username = sp.getString("name","");
+            String userportrait = sp.getString("img","");
+            UserInfo userInfo = new UserInfo(userid, username, Uri.parse(userportrait));
+            //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项
+            message.setUserInfo(userInfo);
+            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+
+                //发送一条添加成功的自定义消息，此条消息不会在ui上展示
+                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null, null, new RongIMClient.SendMessageCallback() {
+                    @Override
+                    public void onError(Integer messageId, RongIMClient.ErrorCode e) {
+                        Log.e("Tag", Constants.DEBUG + "------DeAgreedFriendRequestMessage----onError--");
+                    }
+
+                    @Override
+                    public void onSuccess(Integer integer) {
+                        Log.e("Tag", Constants.DEBUG + "------DeAgreedFriendRequestMessage----onSuccess--" + message.getMessage());
+
+                    }
+                });
+            }
+        }
+
 
     }
 

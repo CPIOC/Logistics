@@ -119,9 +119,10 @@ public class PersonalDetailActivity extends BaseApiActivity {
                     getUserinfoAndAddFriend(currentUserId);
                     //mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
                     sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
-                    ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("", ""), sp.getString("cloud_id", ""), "请加为好友");
-                    contact.setExtra("I'm Bob");
+                    ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("cloud_id", ""), currentUserId, "请求添加为好友");
+                    contact.setMessage(currentUserId);
                     sendMessage(contact, currentUserId);
+
 
                 }
             }
@@ -131,12 +132,14 @@ public class PersonalDetailActivity extends BaseApiActivity {
         getUserinfoAndAddFriend(currentUserId,"");
     }
 
-    private void sendMessage(MessageContent messageContent, String currentUserId) {
+    private void sendMessage(MessageContent messageContent, final String currentUserId) {
 
-        RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, currentUserId, messageContent, "加为好友", "好友",
+        RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, currentUserId, messageContent, "", "",
                 new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onSuccess(Integer integer) {
+
+                        RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, currentUserId);
 
                     }
 

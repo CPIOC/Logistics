@@ -128,6 +128,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     mViewPager.setCurrentItem(1);
                     setTitleBarContact();
                     currentIndex = 1;
+                    if(null!=mContactsFragment)
+                    mContactsFragment.getFriendList();
                 }
 
             }
@@ -312,6 +314,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 1:
                 selectNavSelection(1);
+                if(null!=mContactsFragment)
+                    mContactsFragment.getFriendList();
                 break;
 
         }
@@ -466,7 +470,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public boolean onCreateOptionsMenu(Menu menu) {
 
 
-
         return true;
     }
 
@@ -526,7 +529,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         pop.setFocusable(true);
         pop.setOutsideTouchable(true);
         pop.setContentView(view);
-        pop.showAsDropDown(v, Integer.parseInt("-"+Px2DpUtils.dip2px(MainActivity.this,70)),0);
+        pop.showAsDropDown(v, Integer.parseInt("-" + Px2DpUtils.dip2px(MainActivity.this, 70)), 0);
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             // 在dismiss中恢复透明度
@@ -587,7 +590,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /**
      * 通讯录Fragment
      */
-    private Fragment mContactsFragment;
+    private ContactsFragment mContactsFragment;
     /**
      * 会话TextView
      */

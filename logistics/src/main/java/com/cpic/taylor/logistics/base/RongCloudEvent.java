@@ -6,15 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
@@ -26,6 +30,14 @@ import com.cpic.taylor.logistics.RongCloudMessage.ContactsProvider;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.bean.Login;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
@@ -96,6 +108,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private AbstractHttpRequest<User> getUserInfoByUserIdHttpRequest;
     private AbstractHttpRequest<User> getFriendByUserIdHttpRequest;
     private Handler mHandler;
+
+
+    private HttpUtils post;
+    private RequestParams params;
 
     /**
      * 初始化 RongCloud.
@@ -229,8 +245,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         if (Build.VERSION.SDK_INT < 11) {
             notification = new Notification(RongContext.getInstance().getApplicationInfo().icon, "自定义 notification", System.currentTimeMillis());
-           // notification.setLatestEventInfo(RongContext.getInstance(), "自定义 title", "这是 Content:" + msg.getObjectName(), pendingIntent);
-            notification = new Notification.Builder(RongContext.getInstance()).setContentTitle("自定义 title").setContentText("这是 Content:" + msg.getObjectName()).setContentIntent( pendingIntent).build();
+            // notification.setLatestEventInfo(RongContext.getInstance(), "自定义 title", "这是 Content:" + msg.getObjectName(), pendingIntent);
+            notification = new Notification.Builder(RongContext.getInstance()).setContentTitle("自定义 title").setContentText("这是 Content:" + msg.getObjectName()).setContentIntent(pendingIntent).build();
 
             notification.flags = Notification.FLAG_AUTO_CANCEL;
             notification.defaults = Notification.DEFAULT_SOUND;
@@ -298,10 +314,19 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             in.putExtra("AGREE_REQUEST", true);
             mContext.sendBroadcast(in);
         } else if (messageContent instanceof ContactNotificationMessage) {//好友添加消息
+
+
             ContactNotificationMessage contactContentMessage = (ContactNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getExtra());
+
+            Log.e("Tag", "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getTargetUserId());
+            getLoginInfo(contactContentMessage.getTargetUserId(), contactContentMessage.getMessage());
             Log.d(TAG, "onReceived-ContactNotificationMessage:+getmessage:" + contactContentMessage.getMessage().toString());
             Intent in = new Intent();
+            String msg = contactContentMessage.getMessage();
+
+            Log.e("Tag", "getMessage" + msg);
+
             in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
             in.putExtra("rongCloud", contactContentMessage);
             in.putExtra("has_message", true);
@@ -317,6 +342,77 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         return false;
 
+    }
+
+    private void getLoginInfo(final String mobile, final String msg) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        Log.e("Tag", "mobile" + mobile);
+        params.addBodyParameter("login", mobile);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getLogininfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+
+                showShortToast("登录失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+
+                Login login = JSONObject.parseObject(responseInfo.result, Login.class);
+                int code = login.getCode();
+                if (code == 1) {
+
+                    if (null != login.getData()) {
+
+                        Log.e("Tag", "mobile" + mobile);
+                        String idd = login.getData().getCloud_id();
+                        String named = login.getData().getName();
+                        String uritestd = login.getData().getImg();
+                        UserInfo userInfod = new UserInfo(idd, named, Uri.parse(uritestd));
+                        RongIM.getInstance().refreshUserInfoCache(userInfod);
+
+                        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+                        String id = sp.getString("cloud_id", "");
+                        Log.e("Tag", "cloud_id" + id+idd);
+                        if (!id.equals(idd)) {
+
+                            UserInfos f = new UserInfos();
+                            f.setUserid(idd);
+                            f.setUsername(named);
+                            f.setPortrait(uritestd);
+                            f.setStatus("1");
+                            RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+                            Log.e("Tag", "mobile" + id+idd);
+                        }
+
+
+                    }
+
+
+                } else {
+
+                    showShortToast(login.getMsg());
+
+                }
+
+            }
+
+        });
+
+
+    }
+
+    protected void showShortToast(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
 

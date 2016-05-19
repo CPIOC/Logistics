@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,10 +79,29 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
         }
         mainActivity.registerReceiver(mBroadcastReciver, intentFilter);
 
-        getFriendList();
+
         return view;
     }
-    private void getFriendList() {
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //getFriendList();
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("Tag","1");
+
+    }
+
+    public void getFriendList() {
 
         ArrayList<UserInfo> userInfos = null;
 
@@ -109,10 +129,7 @@ public class ContactsFragment extends Fragment implements SwitchGroup.ItemHander
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
+
 
     @Override
     public void onClick(View v) {

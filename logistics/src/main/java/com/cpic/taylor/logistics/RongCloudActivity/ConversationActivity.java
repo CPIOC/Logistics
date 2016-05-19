@@ -85,6 +85,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      * 会话类型
      */
     private Conversation.ConversationType mConversationType;
+
     /**
      * title
      */

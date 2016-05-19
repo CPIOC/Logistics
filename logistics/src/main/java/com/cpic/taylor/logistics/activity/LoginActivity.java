@@ -3,6 +3,7 @@ package com.cpic.taylor.logistics.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,6 +44,7 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Taylor on 2016/5/4.
@@ -254,6 +256,19 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             if (dialog != null) {
                                 dialog.dismiss();
                             }
+
+                            String  id = sp.getString("cloud_id","");
+                            String  name = sp.getString("name","");
+                            String uritest = sp.getString("img","");
+                            UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
+                            RongIM.getInstance().refreshUserInfoCache(userInfo);
+
+                            String  idd = "WL_82";
+                            String  named = sp.getString("name","");
+                            String uritestd = sp.getString("img","");
+                            UserInfo userInfod = new UserInfo(idd,named, Uri.parse(uritestd));
+                            //RongIM.getInstance().refreshUserInfoCache(userInfod);
+
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
 

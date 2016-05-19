@@ -134,9 +134,9 @@ public class SearchFriendActivity extends BaseApiActivity {
                 }
                 if(keyCode == KeyEvent.KEYCODE_BACK){
                     finish();
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
 
