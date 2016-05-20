@@ -666,13 +666,12 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         return resizeBmp;
     }
 
-
     @Override
     protected void onResume() {
         isForeground = true;
         super.onResume();
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean("isclose", false);
+        editor.putBoolean("isclose", isForeground);
         editor.commit();
     }
 
@@ -683,7 +682,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         super.onPause();
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean("isclose", true);
+        editor.putBoolean("isclose", isForeground);
         editor.commit();
     }
 

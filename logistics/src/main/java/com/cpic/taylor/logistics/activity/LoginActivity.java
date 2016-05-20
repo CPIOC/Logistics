@@ -210,12 +210,8 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                         dialog.dismiss();
                     }
                 }
-
             }
-
         });
-
-
     }
 
 
