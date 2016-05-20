@@ -44,6 +44,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
@@ -105,6 +106,42 @@ public class PersonalDetailActivity extends BaseApiActivity {
                     if (currentUserId != null)
                         RongIM.getInstance().startPrivateChat(PersonalDetailActivity.this, currentUserId,
                                 RongYunContext.getInstance().getUserInfoById(currentUserId).getName());
+                    RongIM.getInstance().getRongIMClient().getLatestMessages(Conversation.ConversationType.PRIVATE, currentUserId, 50, new RongIMClient.ResultCallback<List<Message>>() {
+                        @Override
+                        public void onSuccess(List<Message> messages) {
+
+                            if(null!=messages){
+                                for (int i=0;i<messages.size();i++){
+
+                                    Message msg=messages.get(i);
+
+                                    MessageContent messageContent = messages.get(i).getContent();
+
+                                    if(messageContent instanceof ContactNotificationMessage){
+
+                                        int msgArray[]=new int[1];
+                                        msgArray[0]=msg.getMessageId();
+                                        if(((ContactNotificationMessage) messageContent).getOperation().equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+
+                                        }else {
+
+                                            RongIM.getInstance().getRongIMClient().deleteMessages(msgArray);
+                                        }
+
+
+                                    }
+
+
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
                 }
             }
         });
@@ -129,7 +166,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
         });
 
         initData();
-        getUserinfoAndAddFriend(currentUserId,"");
+        getUserinfoAndAddFriend(currentUserId, "");
     }
 
     private void sendMessage(MessageContent messageContent, final String currentUserId) {
@@ -150,7 +187,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 });
     }
 
-    public void getUserinfoAndAddFriend(String cloud_id,String str) {
+    public void getUserinfoAndAddFriend(String cloud_id, String str) {
 
         post = new HttpUtils();
         params = new RequestParams();
@@ -186,17 +223,16 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
 
                     if (null != rcUser.getData()) {
-                        if(null==rcUser.getData().get(0).getCar_models()){
+                        if (null == rcUser.getData().get(0).getCar_models()) {
                             text_version_id.setText("");
-                        }else {
+                        } else {
                             text_version_id.setText(rcUser.getData().get(0).getCar_models());
                         }
-                        if(null==rcUser.getData().get(0).getPlate_number()){
+                        if (null == rcUser.getData().get(0).getPlate_number()) {
                             text_licence_id.setText("");
-                        }else {
+                        } else {
                             text_licence_id.setText(rcUser.getData().get(0).getPlate_number());
                         }
-
 
 
                     }

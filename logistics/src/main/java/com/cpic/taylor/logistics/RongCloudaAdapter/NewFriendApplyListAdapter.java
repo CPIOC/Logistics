@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
@@ -33,7 +35,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.MessageContent;
@@ -87,14 +88,14 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.mFrienduUserName = (TextView) convertView.findViewById(R.id.item_friend_username);
             viewHolder.mFrienduState = (TextView) convertView.findViewById(R.id.item_friend_state);
-            viewHolder.mPortraitImg = (AsyncImageView) convertView.findViewById(R.id.item_friend_portrait);
+            viewHolder.mPortraitImg = (ImageView) convertView.findViewById(R.id.item_friend_portrait);
             viewHolder.mFrienduStateRefuse = (TextView) convertView.findViewById(R.id.item_friend_state_refuse);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
 
         }
-
+        Glide.with(mContext).load(mResults.get(position).getImg()).placeholder(R.drawable.de_default_portrait).fitCenter().into(viewHolder.mPortraitImg);
         viewHolder.mFrienduUserName.setText(mResults.get(position).getName());
         viewHolder.mFrienduState.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +124,7 @@ public class NewFriendApplyListAdapter extends android.widget.BaseAdapter {
         TextView mFrienduUserName;
         TextView mFrienduState;
         TextView mFrienduStateRefuse;
-        AsyncImageView mPortraitImg;
+        ImageView mPortraitImg;
     }
 
     private void friendAction(String user_id, final String type, final int position, final String cloud_id, final FriendApplyData friendApplyData) {

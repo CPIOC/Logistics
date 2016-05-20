@@ -5,11 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -32,13 +34,28 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudFragment.ContactsFragment;
+import com.cpic.taylor.logistics.RongCloudModel.FriendApply;
+import com.cpic.taylor.logistics.RongCloudModel.FriendApplyData;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
 import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.Px2DpUtils;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+
+import java.util.ArrayList;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -74,6 +91,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      * 1:通讯录fragment
      */
     private static int currentIndex = 0;
+
+    private Handler mHandler;
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+    private FriendApply friendApply;
 
 
     @Override
@@ -150,6 +173,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mViewPager.setAdapter(mDemoFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
         initData();
+        getApplyListCompare();
     }
 
     @Override
@@ -564,6 +588,76 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
 
+    }
+
+    public void getApplyListCompare() {
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        String url = UrlUtils.POST_URL + UrlUtils.path_applyList;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<FriendApply>() {
+                    }.getType();
+                    friendApply = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (friendApply.getCode() == 1) {
+
+
+                    if (null != friendApply.getData()) {
+
+
+                        ArrayList<FriendApplyData> friendApplyDatas=new ArrayList<FriendApplyData>();
+                        friendApplyDatas=friendApply.getData();
+
+                        for (int i=0;i<friendApplyDatas.size();i++){
+
+                            UserInfos f = new UserInfos();
+                            f.setUserid(friendApplyDatas.get(i).getCloud_id());
+                            f.setUsername(friendApplyDatas.get(i).getName());
+                            f.setPortrait(friendApplyDatas.get(i).getImg());
+                            f.setStatus("1");
+                            RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+
+                        }
+
+
+                    }
+
+                } else {
+                    showShortToast(friendApply.getMsg());
+                }
+
+            }
+
+        });
+
+    }
+
+    protected void showShortToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 

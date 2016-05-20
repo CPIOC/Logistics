@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudActivity.NewFriendListActivity;
@@ -27,11 +26,13 @@ import com.cpic.taylor.logistics.RongCloudActivity.PhotoActivity;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
 import com.cpic.taylor.logistics.RongCloudMessage.ContactsProvider;
+import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
-import com.cpic.taylor.logistics.bean.Login;
 import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -41,6 +42,8 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
+
+import java.util.List;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -112,6 +115,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
     private HttpUtils post;
     private RequestParams params;
+    RCUser rcUser;
 
     /**
      * 初始化 RongCloud.
@@ -289,6 +293,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     public boolean onReceived(Message message, int left) {
 
         MessageContent messageContent = message.getContent();
+        String senderUserId = message.getSenderUserId();
         if (messageContent instanceof TextMessage) {//文本消息
             TextMessage textMessage = (TextMessage) messageContent;
             Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
@@ -319,13 +324,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             ContactNotificationMessage contactContentMessage = (ContactNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getExtra());
 
-            Log.e("Tag", "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getTargetUserId());
-            getLoginInfo(contactContentMessage.getTargetUserId(), contactContentMessage.getMessage());
+            Log.e("Tag", "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getTargetUserId() + contactContentMessage.getUserInfo());
+
+            getLoginInfo(senderUserId, contactContentMessage.getMessage());
             Log.d(TAG, "onReceived-ContactNotificationMessage:+getmessage:" + contactContentMessage.getMessage().toString());
             Intent in = new Intent();
             String msg = contactContentMessage.getMessage();
-
-            Log.e("Tag", "getMessage" + msg);
+            Log.e("Tag", "getMessage" + contactContentMessage.getOperation());
 
             in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
             in.putExtra("rongCloud", contactContentMessage);
@@ -348,8 +353,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         post = new HttpUtils();
         params = new RequestParams();
         Log.e("Tag", "mobile" + mobile);
-        params.addBodyParameter("login", mobile);
-        String url = UrlUtils.POST_URL + UrlUtils.path_getLogininfo;
+        params.addBodyParameter("cloud_id", mobile);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
             public void onStart() {
@@ -366,23 +371,32 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
 
+                String result = responseInfo.result;
 
-                Login login = JSONObject.parseObject(responseInfo.result, Login.class);
-                int code = login.getCode();
-                if (code == 1) {
 
-                    if (null != login.getData()) {
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (rcUser.getCode() == 1) {
+
+                    if (null != rcUser.getData()) {
 
                         Log.e("Tag", "mobile" + mobile);
-                        String idd = login.getData().getCloud_id();
-                        String named = login.getData().getName();
-                        String uritestd = login.getData().getImg();
+                        String idd = rcUser.getData().get(0).getCloud_id();
+                        String named = rcUser.getData().get(0).getName();
+                        String uritestd = rcUser.getData().get(0).getImg();
                         UserInfo userInfod = new UserInfo(idd, named, Uri.parse(uritestd));
                         RongIM.getInstance().refreshUserInfoCache(userInfod);
 
                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
                         String id = sp.getString("cloud_id", "");
-                        Log.e("Tag", "cloud_id" + id+idd);
+                        Log.e("Tag", "cloud_id" + id + idd);
                         if (!id.equals(idd)) {
 
                             UserInfos f = new UserInfos();
@@ -391,7 +405,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                             f.setPortrait(uritestd);
                             f.setStatus("1");
                             RongYunContext.getInstance().insertOrReplaceUserInfos(f);
-                            Log.e("Tag", "mobile" + id+idd);
+                            Log.e("Tag", "mobile" + id + idd);
                         }
 
 
@@ -400,7 +414,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
                 } else {
 
-                    showShortToast(login.getMsg());
+                    showShortToast(rcUser.getMsg());
 
                 }
 
@@ -762,8 +776,56 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         } else if (messageContent instanceof ContactNotificationMessage) {
             Log.e(TAG, "---onConversationClick--ContactNotificationMessage-");
+            if(((ContactNotificationMessage) messageContent).getOperation().equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
 
-            context.startActivity(new Intent(context, NewFriendListActivity.class));
+                if (RongIM.getInstance() != null && RongYunContext.getInstance() != null) {
+
+                    if (null!=conversation.getConversationSenderId() )
+                        RongIM.getInstance().startPrivateChat(context, conversation.getConversationSenderId(),
+                                RongYunContext.getInstance().getUserInfoById(conversation.getConversationSenderId()).getName());
+                }
+                RongIM.getInstance().getRongIMClient().getLatestMessages(Conversation.ConversationType.PRIVATE,conversation.getConversationSenderId(), 50, new RongIMClient.ResultCallback<List<Message>>() {
+                    @Override
+                    public void onSuccess(List<Message> messages) {
+
+                        if(null!=messages){
+                            for (int i=0;i<messages.size();i++){
+
+                                Message msg=messages.get(i);
+
+                                MessageContent messageContent = messages.get(i).getContent();
+
+                                if(messageContent instanceof ContactNotificationMessage){
+
+                                    int msgArray[]=new int[1];
+                                    msgArray[0]=msg.getMessageId();
+                                    if(((ContactNotificationMessage) messageContent).getOperation().equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+
+                                    }else {
+
+                                        RongIM.getInstance().getRongIMClient().deleteMessages(msgArray);
+                                    }
+
+
+                                }
+
+
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
+
+
+            }else {
+                context.startActivity(new Intent(context, NewFriendListActivity.class));
+            }
+
             return true;
         }
 
