@@ -80,6 +80,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
     private int HANDLER_LOGIN_FAILURE = 2;
     private int HANDLER_LOGIN_HAS_FOCUS = 3;
     private int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
+    private int firstLogin=0;
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -184,6 +185,17 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                 Login login = JSONObject.parseObject(responseInfo.result, Login.class);
                 int code = login.getCode();
                 if (code == 1) {
+                    if(etName.getText().toString().equals(sp.getString("mobile", ""))){
+                        /**
+                         * 非第一次登录
+                         */
+                        firstLogin=0;
+                    }else {
+                        /**
+                         * 第一次登录
+                         */
+                        firstLogin=1;
+                    }
                     sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("mobile", etName.getText().toString());
@@ -251,6 +263,9 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             // mGetMyGroupsRequest = RongYunContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
                             if (dialog != null) {
                                 dialog.dismiss();
+                            }
+                            if(firstLogin==1){
+                                RongYunContext.getInstance().deleteUserInfos();
                             }
 
                             String  id = sp.getString("cloud_id","");

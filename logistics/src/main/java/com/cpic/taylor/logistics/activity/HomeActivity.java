@@ -67,6 +67,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Taylor on 2016/5/4.
@@ -234,7 +236,6 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
 
                 if (myFriends.getCode() == 1) {
 
-                    RongYunContext.getInstance().deleteUserInfos();
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -448,6 +449,11 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("driving_license",driving_license);
                     editor.commit();
+                    String  id = sp.getString("cloud_id","");
+                    String  name = etName.getText().toString();
+                    String uritest = data.getString("img");
+                    UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
+                    RongIM.getInstance().setCurrentUserInfo(userInfo);
 
                 } else {
                     showShortToast(obj.getString("msg"));

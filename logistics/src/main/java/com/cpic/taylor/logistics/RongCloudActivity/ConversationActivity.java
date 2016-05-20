@@ -557,6 +557,10 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             if (userInfos == null) {
                 getSupportActionBar().setTitle("");
                 chatNameTv.setText("");
+                getSupportActionBar().setTitle("陌生人");
+                chatNameTv.setText("陌生人");
+                chatLogo.setVisibility(View.GONE);
+                Log.e("Tag","chatLogo");
             } else {
 
                 ArrayList<UserInfo> userInfoList = null;
@@ -569,6 +573,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     for (int i = 0; i < userInfoList.size(); i++) {
 
                         if (userInfos.getUserid().equals(userInfoList.get(i).getUserId())) {
+                            Log.e("Tag",userInfos.getUserid()+userInfoList.get(i).getUserId());
                             chatType = 1;
                         }
                     }
@@ -580,11 +585,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
                 } else {
 
+
                     getSupportActionBar().setTitle("陌生人");
                     chatNameTv.setText("陌生人");
                     chatLogo.setVisibility(View.GONE);
 
                 }
+
+
 
 
             }
