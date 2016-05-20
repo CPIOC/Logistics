@@ -627,6 +627,10 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
                     //如果在路上处于路线规划，则点击进入聊天界面
                 }else if(status == ON_ROAD){
+                    if (marker.getTitle().equals("起点")||marker.getTitle().equals("终点")){
+                        return;
+                    }
+
                     if (RongIM.getInstance() != null && RongYunContext.getInstance() != null) {
                         String str=marker.getSnippet();
                         String [] strs = str.split("[!]");
@@ -637,7 +641,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         }
 //                        Toast.makeText(getActivity(),marker.getSnippet(),Toast.LENGTH_SHORT).show();
                     }
-
                 }
             }
         });
@@ -689,7 +692,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 } else if (driveRouteResult != null && driveRouteResult.getPaths() == null) {
                     Toast.makeText(getActivity(), "没有结果", Toast.LENGTH_SHORT).show();
                 }
-
             } else {
                 Toast.makeText(getActivity(), "没有结果", Toast.LENGTH_SHORT).show();
             }
@@ -726,7 +728,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     area2 =  data.getStringExtra("areaProvice");
                     tvStop.setText(area2+name2);
                     tvStop.setTextColor(getResources().getColor(R.color.home_tv_area));
-                    doSearchQuery(area2,name2);
+                    doSearchQuery(name2,area2);
                     break;
             }
         }
@@ -776,6 +778,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     public void onPoiItemSearched(PoiItem poiItem, int i) {
 
     }
+
 
 
 }

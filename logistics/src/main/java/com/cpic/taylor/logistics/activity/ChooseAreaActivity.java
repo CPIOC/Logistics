@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -242,7 +241,6 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    Log.i("oye","dian"+i);
                     if (tvArea.getText().toString().equals("市区")) {
                         showShortToast("请填写市区");
                     } else {

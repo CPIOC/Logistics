@@ -48,6 +48,7 @@ import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
 import com.cpic.taylor.logistics.fragment.HomeRoadFragment;
+import com.cpic.taylor.logistics.popup.LoadImgPop;
 import com.cpic.taylor.logistics.utils.ExampleUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.RoundImageView;
@@ -95,6 +96,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     private RoundImageView ivIcon;
     private EditText etName, etCarNum, etCarType;
     private ImageView ivCarInfo;
+    private ImageView ivAdd;
 
     private static final int CAMERA = 0;
     private static final int PHOTO = 1;
@@ -171,6 +173,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         ivCarInfo = (ImageView) findViewById(R.id.layout_iv_carinfo);
         ivIcon = (RoundImageView) findViewById(R.id.layout_iv_icon);
         dialog = ProgressDialogHandle.getProgressDialog(HomeActivity.this, null);
+        ivAdd = (ImageView) findViewById(R.id.layout_iv_add);
     }
 
     @Override
@@ -375,6 +378,17 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         ivCarInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                showPopupWindow(view, INFO_CAMERA, INFO_PHOTO, false);
+                LoadImgPop pop = new LoadImgPop(pw,screenWidth,HomeActivity.this,sp.getString("driving_license", ""));
+                pop.showLookCameraPop();
+
+
+            }
+        });
+
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 showPopupWindow(view, INFO_CAMERA, INFO_PHOTO, false);
             }
         });
@@ -404,7 +418,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
             params.addBodyParameter("car_models", etCarType.getText().toString());
         } else if (status == CAR_INFO) {
             params.addBodyParameter("driving_license", new File(path1));
-            Log.i("oye", "请求" + path1);
+//            Log.i("oye", "请求" + path1);
         }
         params.addBodyParameter("token", token);
 
@@ -428,6 +442,13 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
                 int code = obj.getIntValue("code");
                 if (code == 1) {
                     showShortToast("修改成功");
+                    JSONObject data = obj.getJSONObject("data");
+                    String driving_license = data.getString("driving_license");
+                    sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("driving_license",driving_license);
+                    editor.commit();
+
                 } else {
                     showShortToast(obj.getString("msg"));
                 }
@@ -455,13 +476,10 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
 //            showShortToast("再按一次退出程序");
 //            lastTime = currentTime;
 //        }
-
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 注意
         intent.addCategory(Intent.CATEGORY_HOME);
         this.startActivity(intent);
-
-
     }
 
     @Override

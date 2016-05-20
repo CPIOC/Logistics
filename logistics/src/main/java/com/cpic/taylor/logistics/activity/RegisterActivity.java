@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
@@ -95,7 +96,47 @@ public class RegisterActivity extends BaseActivity{
                     showLongToast("手机号码格式不正确");
                     return;
                 }
+                getCode();
                 time.start();
+            }
+        });
+    }
+    private void getCode(){
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("mobile",etMobile.getText().toString());
+        String url = UrlUtils.POST_URL+ UrlUtils.path_code;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (dialog != null){
+                    dialog.show();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+                JSONObject obj = JSONObject.parseObject(responseInfo.result);
+                int code = obj.getIntValue("code");
+                if (code == 1){
+                    Toast.makeText(RegisterActivity.this,"获取验证码成功，请注意查收短信",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(RegisterActivity.this,obj.getString("msg"),Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+                Toast.makeText(RegisterActivity.this,"获取验证码失败，请检查网络连接",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -165,6 +206,8 @@ public class RegisterActivity extends BaseActivity{
         public void onTick(long millisUntilFinished) {// 计时过程
             tvGetCode.setClickable(false);// 防止重复点击
             tvGetCode.setText(millisUntilFinished / 1000 + "s" + "重新验证");
+
+
         }
     }
 }

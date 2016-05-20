@@ -11,6 +11,8 @@ public class UrlUtils {
     public final static String path_login = "login";
     //注册接口
     public final static String path_register = "register";
+    //验证码
+    public final static String path_code = "code";
     //忘记密码
     public final static String path_forgotPwd = "forgotPwd";
     //修改用户资料
