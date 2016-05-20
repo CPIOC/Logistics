@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -110,12 +111,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     public static final int SET_TARGETID_TITLE = 0;
 
     private TextView chatNameTv;
+    private ImageView chatLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
         chatNameTv = (TextView) findViewById(R.id.chat_activity_title);
+        chatLogo = (ImageView) findViewById(R.id.chat_member_logo);
         mDialog = new LoadingDialog(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.dingbu_fanhui2);
@@ -182,6 +185,13 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                         mHandler.sendEmptyMessage(SET_TARGETID_TITLE);
                     }
                 }
+            }
+        });
+
+        chatLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enterSettingActivity();
             }
         });
 
@@ -331,7 +341,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
         if (token.equals(Constants.DEFAULT)) {
 
-            startActivity(new Intent(ConversationActivity.this,LoginActivity.class));
+            startActivity(new Intent(ConversationActivity.this, LoginActivity.class));
             finish();
         } else {
             reconnect(token);
@@ -463,7 +473,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                             if (publicServiceProfile != null && publicServiceProfile.getName() != null)
 
                                 getSupportActionBar().setTitle(publicServiceProfile.getName());
-                                chatNameTv.setText(publicServiceProfile.getName());
+                            chatNameTv.setText(publicServiceProfile.getName());
                         }
 
                         @Override
@@ -548,8 +558,35 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 getSupportActionBar().setTitle("");
                 chatNameTv.setText("");
             } else {
-                getSupportActionBar().setTitle(userInfos.getUsername().toString());
-                chatNameTv.setText(userInfos.getUsername().toString());
+
+                ArrayList<UserInfo> userInfoList = null;
+                //获取好友列表
+                if (RongYunContext.getInstance() != null) {
+                    userInfoList = RongYunContext.getInstance().getFriendList();
+                }
+                int chatType = 0;
+                if (null != userInfoList) {
+                    for (int i = 0; i < userInfoList.size(); i++) {
+
+                        if (userInfos.getUserid().equals(userInfoList.get(i).getUserId())) {
+                            chatType = 1;
+                        }
+                    }
+                }
+                if (1 == chatType) {
+
+                    getSupportActionBar().setTitle(userInfos.getUsername().toString());
+                    chatNameTv.setText(userInfos.getUsername().toString());
+
+                } else {
+
+                    getSupportActionBar().setTitle("陌生人");
+                    chatNameTv.setText("陌生人");
+                    chatLogo.setVisibility(View.GONE);
+
+                }
+
+
             }
         }
 
@@ -582,7 +619,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 if (mConversationType == null)
                     return true;
 
-                enterSettingActivity();
+                //enterSettingActivity();
                 break;
             case android.R.id.home:
                 if (!closeRealTimeLocation()) {

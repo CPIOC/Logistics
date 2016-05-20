@@ -42,6 +42,7 @@ import com.cpic.taylor.logistics.RongCloudFragment.ContactsFragment;
 import com.cpic.taylor.logistics.RongCloudModel.FriendApply;
 import com.cpic.taylor.logistics.RongCloudModel.FriendApplyData;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
+import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendApplyListAdapter;
 import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.Px2DpUtils;
@@ -173,7 +174,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mViewPager.setAdapter(mDemoFragmentPagerAdapter);
         mViewPager.addOnPageChangeListener(this);
         initData();
-        getApplyListCompare();
     }
 
     @Override
@@ -628,6 +628,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                     if (null != friendApply.getData()) {
 
+
+                        NewFriendApplyListAdapter mAdapter = new NewFriendApplyListAdapter(friendApply.getData(), MainActivity.this);
 
                         ArrayList<FriendApplyData> friendApplyDatas=new ArrayList<FriendApplyData>();
                         friendApplyDatas=friendApply.getData();
