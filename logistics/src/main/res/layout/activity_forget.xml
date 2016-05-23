@@ -57,7 +57,7 @@
                 android:textSize="@dimen/content_tv_size"
                 android:hint="@string/et_check_num"
                 android:drawableLeft="@mipmap/yanzhengma"
-                android:inputType="textPassword"
+
                 />
 
             <TextView
@@ -91,7 +91,8 @@
             android:hint="@string/et_input_pwd"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/dl_mima"
-            android:inputType="phone"
+
+            android:inputType="textPassword"
             />
         <TextView
             style="@style/divide_line"
@@ -102,7 +103,7 @@
             android:hint="@string/et_input_again"
             style="@style/edit_style"
             android:drawableLeft="@mipmap/chongzhimima"
-            android:inputType="phone"
+            android:inputType="textPassword"
             />
 
     </LinearLayout>

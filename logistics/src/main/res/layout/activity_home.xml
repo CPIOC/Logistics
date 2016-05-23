@@ -64,6 +64,7 @@
                     android:text="路况" />
 
                 <RadioButton
+                    android:id="@+id/activity_home_rbtn_line_police"
                     style="@style/home_rbtn_style"
                     android:tag="2"
                     android:text="报警" />

@@ -30,7 +30,6 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.bean.SearchPointHistoryData;
 import com.cpic.taylor.logistics.utils.AMapUtil;
-import com.cpic.taylor.logistics.utils.DensityUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
@@ -61,6 +60,9 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
     private int action = 0;
 
     private Intent intent;
+
+    private ArrayList<String> listString;
+    private ArrayList<String> listDetails;
 
 
     /**
@@ -99,9 +101,9 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
     @Override
     protected void initData() {
-        if (action == START){
+        if (action == START) {
             etArea.setHint("您从哪里出发");
-        }else if(action == STOP){
+        } else if (action == STOP) {
             etArea.setHint("您要去哪里");
         }
         initSql();
@@ -130,14 +132,13 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         } catch (DbException e) {
             e.printStackTrace();
         }
-        for (int i = 0;i < datas.size();i++){
+        for (int i = 0; i < datas.size(); i++) {
             search_datas.add(datas.get(i));
         }
 
         adapter1 = new HistoryAdapter();
         adapter1.setDatas(search_datas);
         lvHistory.setAdapter(adapter1);
-
 
     }
 
@@ -147,8 +148,8 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         tvArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChooseAreaActivity.this,CityPickerActivity.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(ChooseAreaActivity.this, CityPickerActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
         etArea.addTextChangedListener(new TextWatcher() {
@@ -160,17 +161,14 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                if (popupDetails != null &&popupDetails.isShowing()){
+                    popupDetails.dismiss();
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
-                if (popupDetails != null && popupDetails.isShowing()) {
-                    popupDetails.dismiss();
-                }
                 String newText = editable.toString().trim();
                 if (!AMapUtil.IsEmptyOrNullString(newText)) {
                     InputtipsQuery inputquery = new InputtipsQuery(newText, tvArea.getText().toString());
@@ -178,6 +176,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                     inputTips.setInputtipsListener(ChooseAreaActivity.this);
                     inputTips.requestInputtipsAsyn();
                 }
+
             }
         });
         tvCancel.setOnClickListener(new View.OnClickListener() {
@@ -190,77 +189,109 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 intent = new Intent();
                 intent.putExtra("areaProvice", search_datas.get(i).getArea());
-                intent.putExtra("areaName",  search_datas.get(i).getDetails());
+                intent.putExtra("areaName", search_datas.get(i).getDetails());
                 setResult(RESULT_OK, intent);
                 finish();
-
             }
         });
 
-
     }
-
 
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onGetInputtips(List<Tip> list, int rCode) {
         if (rCode == 1000) {// 正确返回
-            final ArrayList<String> listString = new ArrayList<String>();
+            listString = new ArrayList<String>();
+            listDetails = new ArrayList<String>();
             for (int i = 0; i < list.size(); i++) {
                 listString.add(list.get(i).getName());
+                listDetails.add(list.get(i).getDistrict());
             }
-            View view = View.inflate(ChooseAreaActivity.this, R.layout.popupwindow_area, null);
-            popupDetails = new PopupWindow(view, screenWidth * 4 / 5, screenHight / 2);
-            popupDetails.setFocusable(false);
-            lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
+//            Log.i("oye",list.size()+"");
+            if (list.size()!=0){
+                showPopwupWindow();
+            }else {
+                showShortToast("暂无此地理信息");
+            }
 
-            adapter = new AreaAdapter();
-            adapter.setDatas(listString);
-            lvArea.setAdapter(adapter);
-
-            WindowManager.LayoutParams params = ChooseAreaActivity.this.getWindow().getAttributes();
-            ChooseAreaActivity.this.getWindow().setAttributes(params);
-            popupDetails.setBackgroundDrawable(new ColorDrawable());
-            popupDetails.setOutsideTouchable(false);
-            popupDetails.setFocusable(true);
-            popupDetails.showAsDropDown(tvLine, DensityUtil.dip2px(ChooseAreaActivity.this, 80), 0);
-            popupDetails.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    WindowManager.LayoutParams params = ChooseAreaActivity.this.getWindow().getAttributes();
-                    params.alpha = 1f;
-                    getWindow().setAttributes(params);
-                }
-            });
-
-            lvArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    if (tvArea.getText().toString().equals("市区")) {
-                        showShortToast("请填写市区");
-                    } else {
-                        intent = new Intent();
-                        intent.putExtra("areaProvice", tvArea.getText().toString());
-                        intent.putExtra("areaName", listString.get(i));
-                        try {
-                            db.save(new SearchPointHistoryData(1, tvArea.getText().toString(), listString.get(i)));
-                        } catch (DbException e) {
-                            e.printStackTrace();
-                        }
-                        setResult(RESULT_OK, intent);
-                        finish();
-                        popupDetails.dismiss();
-                    }
-                }
-            });
         } else {
 
         }
+    }
+
+    private void showPopwupWindow() {
+        View view = View.inflate(ChooseAreaActivity.this, R.layout.popupwindow_area, null);
+        popupDetails = new PopupWindow(view, screenWidth, screenHight * 9 / 10);
+        popupDetails.setFocusable(false);
+        lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
+        WindowManager.LayoutParams params = ChooseAreaActivity.this.getWindow().getAttributes();
+        ChooseAreaActivity.this.getWindow().setAttributes(params);
+        popupDetails.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popupDetails.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popupDetails.setBackgroundDrawable(new ColorDrawable());
+        popupDetails.setOutsideTouchable(true);
+        popupDetails.setFocusable(false);
+        popupDetails.showAsDropDown(tvLine);
+
+        popupDetails.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams params = ChooseAreaActivity.this.getWindow().getAttributes();
+                params.alpha = 1f;
+                getWindow().setAttributes(params);
+            }
+        });
+
+        adapter = new AreaAdapter();
+        adapter.setDatas(listString, listDetails);
+        lvArea.setAdapter(adapter);
+
+        lvArea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+                String str = listDetails.get(i);
+                String result;
+                if (tvArea.getText().toString().equals("市区")) {
+                    if (listDetails.get(i).equals("")){
+                        showShortToast("该地点覆盖地区较多，请选择其他精确地址");
+                        return;
+                    }
+
+                    if (listDetails.get(i).contains("省") && listDetails.get(i).contains("市") && !listDetails.get(i).contains("自治洲")) {
+                        result = str.substring(str.indexOf("省") + 1, str.indexOf("市"));
+                    } else if (listDetails.get(i).contains("市") && !listDetails.get(i).contains("省") && !listDetails.get(i).contains("自治区")) {
+                        result = str.substring(0, str.indexOf("市"));
+                    } else if (listDetails.get(i).contains("市") && listDetails.get(i).contains("自治区")) {
+                        result = str.substring(str.indexOf("自治区") + 3, str.indexOf("市"));
+                    } else if (listDetails.get(i).contains("省") && listDetails.get(i).contains("市") && listDetails.get(i).contains("自治洲")) {
+                        result = str.substring(str.indexOf("自治州") + 3, str.indexOf("市"));
+                    } else if (listDetails.get(i).contains("特别行政区") && listDetails.get(i).contains("区")) {
+                        result = str.substring(str.indexOf("特别行政区") + 5, str.indexOf("区"));
+                    } else {
+                        result = str;
+                    }
+                    tvArea.setText(result);
+
+                    intent = new Intent();
+                    intent.putExtra("areaProvice", tvArea.getText().toString());
+                    intent.putExtra("areaName", listString.get(i));
+                    try {
+                        db.save(new SearchPointHistoryData(1, tvArea.getText().toString(), listString.get(i)));
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    popupDetails.dismiss();
+                }
+            }
+        });
     }
 
     @Override
@@ -276,10 +307,12 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
     public class AreaAdapter extends BaseAdapter {
 
         private ArrayList<String> datas;
+        private ArrayList<String> datas2;
 
 
-        public void setDatas(ArrayList<String> datas) {
+        public void setDatas(ArrayList<String> datas, ArrayList<String> datas2) {
             this.datas = datas;
+            this.datas2 = datas2;
         }
 
         @Override
@@ -304,23 +337,25 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                 holder = new ViewHolder();
                 view = View.inflate(ChooseAreaActivity.this, R.layout.item_area_list, null);
                 holder.tvArea = (TextView) view.findViewById(R.id.item_area_tv);
+                holder.tvDetails = (TextView) view.findViewById(R.id.item_area_tv_details);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
             }
             holder.tvArea.setText(datas.get(i));
+            holder.tvDetails.setText(datas2.get(i));
 
             return view;
         }
 
         class ViewHolder {
-            TextView tvArea;
+            TextView tvArea, tvDetails;
         }
     }
 
     private class HistoryAdapter extends BaseAdapter {
 
-        private ArrayList<SearchPointHistoryData> datas ;
+        private ArrayList<SearchPointHistoryData> datas;
 
         public void setDatas(ArrayList<SearchPointHistoryData> datas) {
             this.datas = datas;
@@ -367,7 +402,7 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1&&data != null){
+        if (requestCode == 1 && data != null) {
             tvArea.setText(data.getStringExtra("city"));
         }
 

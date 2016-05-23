@@ -10,11 +10,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,7 +56,7 @@ import java.util.ArrayList;
  * Created by Taylor on 2016/4/29.
  */
 public class HomeRoadFragment extends Fragment {
-    private HomeActivity homeActivity;
+    private HomeActivity homeActivity ;
     private ListView road_info_list;
     private RoadInfoListAdapter roadInfoListAdapter;
     private SpeechSynthesizer mTts;
@@ -90,6 +92,12 @@ public class HomeRoadFragment extends Fragment {
             road_info_list.setSelection(roadInfoListAdapter.getCount() - 1);// 改变滚动条的位置
         }
     };
+
+    private LinearLayout linear;
+    private float mPosX;
+    private float mPosY;
+    private float mCurrentPosX;
+    private float mCurrentPosY;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,6 +105,7 @@ public class HomeRoadFragment extends Fragment {
         homeActivity = (HomeActivity) getActivity();
         View view = inflater.inflate(R.layout.fragment_home_road, null);
         road_info_list = (ListView) view.findViewById(R.id.road_info_list);
+        linear = (LinearLayout) view.findViewById(R.id.linear_road);
         mSharedPreferences = homeActivity.getSharedPreferences(TtsSettings.PREFER_NAME, homeActivity.MODE_PRIVATE);
         //roadInfoListAdapter = new RoadInfoListAdapter();
         //road_info_list.setAdapter(roadInfoListAdapter);
@@ -133,9 +142,49 @@ public class HomeRoadFragment extends Fragment {
             }
         });
         loadData();
-
+//        registerListener();
         return view;
 
+    }
+
+    private void registerListener() {
+        linear.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    // 按下
+                    case MotionEvent.ACTION_DOWN:
+                        mPosX = event.getX();
+                        mPosY = event.getY();
+
+                        break;
+                    // 移动
+                    case MotionEvent.ACTION_MOVE:
+                        mCurrentPosX = event.getX();
+                        mCurrentPosY = event.getY();
+
+                        if (mCurrentPosX - mPosX > 20 && Math.abs(mCurrentPosY - mPosY) < 10) {
+                             Log.i("oye", "向右");
+                        } else if (mCurrentPosX - mPosX < -20 && Math.abs(mCurrentPosY - mPosY) < 10) {
+                            // Log.i("oye", "向左");
+
+                        } else if (mCurrentPosY - mPosY > 0 && Math.abs(mCurrentPosX - mPosX) < 10) {
+                            // Log.i("oye", "向下");
+                        } else if (mCurrentPosY - mPosY < 0 && Math.abs(mCurrentPosX - mPosX) < 10) {
+                            // Log.i("oye", "向上");
+                        }
+                        break;
+                    // 拿起
+                    case MotionEvent.ACTION_UP:
+
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     private void loadData() {

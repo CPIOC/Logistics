@@ -93,7 +93,7 @@
         <activity android:name=".activity.ForgetPwdActivity"></activity>
         <activity android:name=".activity.ChangePwdActivity"></activity>
         <activity android:name=".activity.RegisterActivity"></activity>
-        <activity android:name=".activity.ChooseAreaActivity"></activity>
+        <activity android:name=".activity.ChooseAreaActivity" android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".activity.MainActivity"></activity>
         <activity android:name=".activity.CityPickerActivity"
             android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustPan"
