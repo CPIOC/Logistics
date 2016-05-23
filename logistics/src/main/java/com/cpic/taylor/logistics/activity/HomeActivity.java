@@ -43,6 +43,7 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.MyFriends;
+import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
@@ -68,6 +69,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.UserInfo;
 
@@ -136,6 +138,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     private static final int CAR_INFO = 4;
 
     private SharedPreferences sp;
+    RCUser rcUser;
 
     /**
      * jpush
@@ -456,6 +459,10 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
                     String uritest = data.getString("img");
                     UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
                     RongIM.getInstance().setCurrentUserInfo(userInfo);
+                    RongIM.getInstance().refreshUserInfoCache(userInfo);
+                    //RongContext.getInstance().getUserInfoCache().put(id,userInfo);
+
+                    //refreshRCInfo(id);
 
                 } else {
                     showShortToast(obj.getString("msg"));
@@ -470,6 +477,72 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
                 showShortToast("修改失败,请检查网络连接");
             }
         });
+    }
+
+    private void refreshRCInfo(final String cloud_id) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", cloud_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+
+                showShortToast("登录失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (rcUser.getCode() == 1) {
+
+                    if (null != rcUser.getData()) {
+
+                        String idd = rcUser.getData().get(0).getCloud_id();
+                        String named = rcUser.getData().get(0).getName();
+                        String uritestd = rcUser.getData().get(0).getImg();
+                        UserInfos f = new UserInfos();
+                        f.setUserid(idd);
+                        f.setUsername(named);
+                        f.setPortrait(uritestd);
+                        f.setStatus("1");
+                        UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                        RongContext.getInstance().getUserInfoCache().put(idd,userInfo);
+                        RongIM.getInstance().refreshUserInfoCache(userInfo);
+
+
+                    }
+
+
+                } else {
+
+                    showShortToast(rcUser.getMsg());
+
+                }
+
+            }
+
+        });
+
+
     }
 
     @Override

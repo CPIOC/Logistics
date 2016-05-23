@@ -288,6 +288,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
+                            Log.e("Tag","ErrorCode"+e.getValue());
                             mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
                         }
                     }

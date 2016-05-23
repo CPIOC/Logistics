@@ -181,7 +181,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setGroupUserInfoProvider(this, true);
 //        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
-//        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        RongIM.getInstance().setMessageAttachedUserInfo(true);
     }
 
     /**
@@ -299,6 +299,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         if (RongYunContext.getInstance() != null) {
 
             UserInfos userInfos = RongYunContext.getInstance().getUserInfosById(message.getSenderUserId());
+
             if (userInfos == null) {
                 getLoginInfo(senderUserId);
 
@@ -621,7 +622,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         UserInfos userInfo = RongYunContext.getInstance().getUserInfosById(userId);
 
         if (userInfo == null) {
-            getUserInfoByUserIdHttpRequest = RongYunContext.getInstance().getDemoApi().getUserInfoByUserId(userId, (ApiCallback<User>) this);
+            getLoginInfo(userId);
         }
 
         return RongYunContext.getInstance().getUserInfoById(userId);

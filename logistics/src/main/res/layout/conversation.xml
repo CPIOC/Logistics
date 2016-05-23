@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -13,10 +14,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:paddingRight="20dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:onClick="backTo"
+            android:paddingRight="20dp"
             android:src="@drawable/dingbu_fanhui2" />
 
         <TextView
@@ -24,7 +25,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="聊天"
+            android:ellipsize="end"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:text=""
             android:textSize="18sp" />
 
         <ImageView
@@ -43,6 +47,7 @@
             android:layout_alignParentBottom="true"
             android:background="#e9e9e9"></View>
     </RelativeLayout>
+
     <fragment
         android:id="@+id/conversation"
         android:name="io.rong.imkit.fragment.ConversationFragment"
