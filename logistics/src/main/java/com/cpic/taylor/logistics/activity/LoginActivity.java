@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -184,6 +185,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                 Login login = JSONObject.parseObject(responseInfo.result, Login.class);
                 int code = login.getCode();
+                sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                 if (code == 1) {
                     if(etName.getText().toString().equals(sp.getString("mobile", ""))){
                         /**
@@ -196,7 +198,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                          */
                         firstLogin=1;
                     }
-                    sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("mobile", etName.getText().toString());
                     editor.putString("pwd", etPwd.getText().toString());
@@ -265,8 +267,11 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                                 dialog.dismiss();
                             }
                             if(firstLogin==1){
+                                if(null!=RongYunContext.getInstance())
                                 RongYunContext.getInstance().deleteUserInfos();
                             }
+
+                            Log.e("Tag","firstLogin"+firstLogin);
 
                             String  id = sp.getString("cloud_id","");
                             String  name = sp.getString("name","");
@@ -274,11 +279,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
                             RongIM.getInstance().refreshUserInfoCache(userInfo);
 
-                            String  idd = "WL_82";
-                            String  named = sp.getString("name","");
-                            String uritestd = sp.getString("img","");
-                            UserInfo userInfod = new UserInfo(idd,named, Uri.parse(uritestd));
-                            //RongIM.getInstance().refreshUserInfoCache(userInfod);
+
 
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
