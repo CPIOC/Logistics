@@ -458,9 +458,9 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
                     String  name = etName.getText().toString();
                     String uritest = data.getString("img");
                     UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
-                    RongIM.getInstance().setCurrentUserInfo(userInfo);
-                    RongIM.getInstance().refreshUserInfoCache(userInfo);
-                    //RongContext.getInstance().getUserInfoCache().put(id,userInfo);
+                    //RongIM.getInstance().setCurrentUserInfo(userInfo);
+                    //RongIM.getInstance().refreshUserInfoCache(userInfo);
+                    RongContext.getInstance().getUserInfoCache().put(id,userInfo);
 
                     //refreshRCInfo(id);
 

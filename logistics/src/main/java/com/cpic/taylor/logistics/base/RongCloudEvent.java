@@ -181,7 +181,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setGroupUserInfoProvider(this, true);
 //        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
-        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        //RongIM.getInstance().setMessageAttachedUserInfo(true);
     }
 
     /**
@@ -303,6 +303,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             if (userInfos == null) {
                 getLoginInfo(senderUserId);
 
+            }else{
+                compareUserInfo(senderUserId,"");
             }
 
         }
@@ -408,7 +410,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                         f.setPortrait(uritestd);
                         f.setStatus("1");
                         RongYunContext.getInstance().insertOrReplaceUserInfos(f);
-                        UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                        UserInfo userInfo = new UserInfo(idd, named, Uri.parse(uritestd));
                         RongIM.getInstance().refreshUserInfoCache(userInfo);
 
 
@@ -493,6 +495,77 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                             f.setStatus("1");
                             RongYunContext.getInstance().insertOrReplaceUserInfos(f);
                         }
+
+
+                    }
+
+
+                } else {
+
+                    showShortToast(rcUser.getMsg());
+
+                }
+
+            }
+
+        });
+
+
+    }
+
+    private void compareUserInfo(final String mobile,String msg) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", mobile);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+
+                showShortToast("登录失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (rcUser.getCode() == 1) {
+
+                    if (null != rcUser.getData()) {
+
+                        String idd = rcUser.getData().get(0).getCloud_id();
+                        String named = rcUser.getData().get(0).getName();
+                        String uritestd = rcUser.getData().get(0).getImg();
+                        if(uritestd.equals(RongYunContext.getInstance().getUserInfosById(mobile).getPortrait())){
+
+                        }else {
+                            UserInfos f = new UserInfos();
+                            f.setUserid(idd);
+                            f.setUsername(named);
+                            f.setPortrait(uritestd);
+                            f.setStatus("1");
+                            RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+                            UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                            RongIM.getInstance().refreshUserInfoCache(userInfo);
+                        }
+
 
 
                     }

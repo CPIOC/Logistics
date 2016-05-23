@@ -277,7 +277,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             String  name = sp.getString("name","");
                             String uritest = sp.getString("img","");
                             UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
-                            RongIM.getInstance().refreshUserInfoCache(userInfo);
+                            RongIM.getInstance().setCurrentUserInfo(userInfo);
 
 
 
