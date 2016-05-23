@@ -22,6 +22,7 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudModel.Friend;
 import com.cpic.taylor.logistics.RongCloudModel.MyGroup;
 import com.cpic.taylor.logistics.RongCloudModel.MyGroupData;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -69,6 +70,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
     protected void initView() {
 
         setContentView(R.layout.group_list);
+        CloseActivityClass.activityList.add(this);
         group_list_view = (ListView) findViewById(R.id.group_list_view);
         group_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

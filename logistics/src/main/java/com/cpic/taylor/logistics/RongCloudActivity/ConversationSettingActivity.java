@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 
 /**
@@ -19,6 +20,7 @@ public class ConversationSettingActivity extends BaseActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CloseActivityClass.activityList.add(this);
         setContentView(R.layout.de_ac_setting);
         getSupportActionBar().setTitle(R.string.de_actionbar_set_conversation);
         getSupportActionBar().hide();

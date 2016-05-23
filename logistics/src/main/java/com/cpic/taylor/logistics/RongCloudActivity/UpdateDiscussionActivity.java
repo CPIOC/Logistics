@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -27,7 +28,7 @@ public class UpdateDiscussionActivity extends  BaseActionBarActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_update_name);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.de_actionbar_update_discussion);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);

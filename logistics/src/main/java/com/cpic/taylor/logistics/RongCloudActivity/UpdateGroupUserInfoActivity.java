@@ -11,6 +11,7 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.GroupUserInfo;
@@ -27,7 +28,7 @@ public class UpdateGroupUserInfoActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_update_group_info);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.de_actionbar_update_group);
         mNewName = (EditText) findViewById(R.id.et_new_name);
 

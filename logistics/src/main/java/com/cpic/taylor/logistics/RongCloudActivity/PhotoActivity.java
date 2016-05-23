@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +30,7 @@ public class PhotoActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_photo);
+        CloseActivityClass.activityList.add(this);
 
         mPhotoFragment = (PhotoFragment)getSupportFragmentManager().findFragmentById(R.id.photo_fragment);
         Uri uri = getIntent().getParcelableExtra("photo");

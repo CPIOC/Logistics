@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.resource.Resource;
 
 import io.rong.imkit.RongIM;
@@ -40,7 +41,7 @@ public class MyAccountActivity extends BaseActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_myaccount);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.de_actionbar_myacc);
 
         mImgMyPortrait = (AsyncImageView) findViewById(R.id.img_my_portrait);

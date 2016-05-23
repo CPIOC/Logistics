@@ -11,6 +11,7 @@ import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -37,7 +38,7 @@ public class ConversationListActivity extends BaseApiActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        CloseActivityClass.activityList.add(this);
         mDialog = new LoadingDialog(this);
         Intent intent = getIntent();
 

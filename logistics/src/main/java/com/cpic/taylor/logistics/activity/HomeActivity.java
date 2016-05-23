@@ -49,6 +49,7 @@ import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
 import com.cpic.taylor.logistics.fragment.HomeRoadFragment;
 import com.cpic.taylor.logistics.popup.LoadImgPop;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.ExampleUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.RoundImageView;
@@ -154,6 +155,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     protected void loadXml() {
 
         setContentView(R.layout.activity_home);
+        CloseActivityClass.activityList.add(this);
     }
 
     @Override
@@ -696,6 +698,9 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     @Override
     protected void onDestroy() {
         unregisterReceiver(mMessageReceiver);
+        showShortToast("该账号已在其他设备上登录");
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
         super.onDestroy();
     }
 

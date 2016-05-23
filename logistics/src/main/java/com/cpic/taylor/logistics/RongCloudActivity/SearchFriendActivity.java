@@ -20,6 +20,7 @@ import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -46,6 +47,7 @@ public class SearchFriendActivity extends BaseApiActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_search);
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.public_account_search);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);

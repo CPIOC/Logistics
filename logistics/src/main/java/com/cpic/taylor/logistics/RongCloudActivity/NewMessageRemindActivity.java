@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 
 /**
@@ -17,7 +18,7 @@ public class NewMessageRemindActivity extends BaseActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_new_message_remind);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.new_message_notice);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);

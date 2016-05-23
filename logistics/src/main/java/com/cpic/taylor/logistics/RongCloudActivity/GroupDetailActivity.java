@@ -20,6 +20,7 @@ import com.cpic.taylor.logistics.RongCloudFragment.GroupListFragment;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -61,7 +62,7 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_fr_group_intro);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.personal_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);

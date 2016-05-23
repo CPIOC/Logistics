@@ -15,6 +15,7 @@ import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -34,7 +35,7 @@ public class UpdateNameActivity extends BaseApiActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_update_name);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.my_username);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);

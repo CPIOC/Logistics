@@ -30,6 +30,7 @@ import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -819,6 +820,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         Log.d("Tag", "onChanged:" + status);
         if (status.getMessage().equals(ConnectionStatus.DISCONNECTED.getMessage())) {
         }
+        if (status.getMessage().equals(ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT.getMessage())) {
+
+            CloseActivityClass.exitClient(mContext);
+        }
+
 
     }
 

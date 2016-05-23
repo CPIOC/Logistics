@@ -26,6 +26,7 @@ import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
 import com.cpic.taylor.logistics.bean.setRoute;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -72,6 +73,7 @@ public class SearchNewFriendActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CloseActivityClass.activityList.add(this);
         setContentView(R.layout.de_ac_search);
         getSupportActionBar().setTitle(R.string.public_account_search);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

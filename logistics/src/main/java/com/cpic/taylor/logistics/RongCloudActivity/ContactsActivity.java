@@ -22,6 +22,7 @@ import com.cpic.taylor.logistics.RongCloudWidget.SwitchItemView;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ContactsMultiChoiceAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.FriendListAdapter;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class ContactsActivity extends BaseActionBarActivity implements SwitchGro
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_address_fragment);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.add_contacts);
         mListView = (PinnedHeaderListView) findViewById(R.id.de_ui_friend_list);
         mSwitchGroup = (SwitchGroup) findViewById(R.id.de_ui_friend_message);

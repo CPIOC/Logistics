@@ -18,6 +18,7 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.DateUtils;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -40,6 +41,7 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.disturb);
+        CloseActivityClass.activityList.add(this);
 
         Log.e(TAG, "--------onCreate-DisturbActivity-----");
 

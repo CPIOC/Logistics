@@ -25,6 +25,7 @@ import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -85,7 +86,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_fr_personal_intro);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.de_actionbar_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);

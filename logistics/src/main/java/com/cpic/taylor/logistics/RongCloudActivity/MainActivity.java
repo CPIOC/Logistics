@@ -45,6 +45,7 @@ import com.cpic.taylor.logistics.RongCloudaAdapter.ConversationListAdapterEx;
 import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendApplyListAdapter;
 import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.Px2DpUtils;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -104,7 +105,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_main);
-
+        CloseActivityClass.activityList.add(this);
         RongIM.getInstance().enableNewComingMessageIcon(true);
         RongIM.getInstance().enableUnreadMessageIcon(true);
 

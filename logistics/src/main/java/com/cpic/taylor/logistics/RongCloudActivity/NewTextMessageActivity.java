@@ -11,6 +11,7 @@ import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudaAdapter.NewTextReplyAdapter;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -39,6 +40,7 @@ public class NewTextMessageActivity extends BaseApiActivity implements AdapterVi
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.de_ac_reply);
+        CloseActivityClass.activityList.add(this);
 
         getSupportActionBar().setTitle("选择回复的人");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

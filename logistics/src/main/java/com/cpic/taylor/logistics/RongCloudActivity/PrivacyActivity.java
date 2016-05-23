@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 
 
 /**
@@ -17,7 +18,7 @@ public class PrivacyActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_privacy);
-
+        CloseActivityClass.activityList.add(this);
         getSupportActionBar().setTitle(R.string.set_privacy);
 
         RelativeLayout mTheBlackList = (RelativeLayout) findViewById(R.id.rl_the_blacklist);

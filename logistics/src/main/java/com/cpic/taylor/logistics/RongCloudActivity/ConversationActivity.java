@@ -30,6 +30,7 @@ import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunApi;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -117,6 +118,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
+        CloseActivityClass.activityList.add(this);
         chatNameTv = (TextView) findViewById(R.id.chat_activity_title);
         chatLogo = (ImageView) findViewById(R.id.chat_member_logo);
         mDialog = new LoadingDialog(this);
