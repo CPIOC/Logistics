@@ -117,9 +117,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                 if (conversation != null && conversation.getConversationType() != null) {
                     mMemberIds.add(conversation.getTargetId());
-
+                    Log.e("tag", "getSenderUserName"+mTargetId+conversation.getTargetId());
                 }
-                Log.e("tag", "getSenderUserName");
+
 
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
 
@@ -153,6 +153,8 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         if (isFromSetting) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
                 selectButtonShowStyle(1, 0);
+                Log.e("Tag","selectButtonShowStyle"+2+444);
+
 
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
@@ -163,6 +165,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             mNumberLists = (ArrayList<String>) discussion.getMemberIdList();
 
                             selectButtonShowStyle(mNumberLists.size() - 1, 0);
+                            Log.e("Tag","selectButtonShowStyle"+3);
                         }
 
                         @Override
@@ -175,8 +178,10 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             if (mTargetId != null) {
                 mTargetIds = mTargetId.split(",");
                 selectButtonShowStyle(mTargetIds.length, 0);
+                Log.e("Tag","selectButtonShowStyle"+4);
             } else {
                 selectButtonShowStyle(0, 0);
+                Log.e("Tag","selectButtonShowStyle"+5);
             }
         }
 
@@ -261,7 +266,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                 }
                             }
 
-                        RongIM.getInstance().getRongIMClient().createDiscussion(groupName, ids, new RongIMClient.CreateDiscussionCallback() {
+                      /*  RongIM.getInstance().getRongIMClient().createDiscussion(groupName, ids, new RongIMClient.CreateDiscussionCallback() {
 
                             @Override
                             public void onSuccess(String s) {
@@ -274,7 +279,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             public void onError(RongIMClient.ErrorCode e) {
                                 Log.e(TAG, "-----selectPeopleComplete---=＝onError＝＝＝＝＋＋＋＋" + e);
                             }
-                        });
+                        });*/
+                        creatTwoDiscussion(mTargetId, userInfos);
+                        Log.e("tag", "getSendercajjjjjjjjjjjjjjjjjjUserName");
 
                     } else {
 
@@ -505,10 +512,12 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                     if (isFromSetting) {
                         if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
-                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count).sendToTarget();
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count-1).sendToTarget();
+                            Log.e("Tag","selectButtonShowStylecount1"+count);
                         } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
 //                            if()
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - 1).sendToTarget();
+                            Log.e("Tag","selectButtonShowStylecount2"+count);
                         }
                     } else {
                         if (mTargetId != null)
@@ -516,6 +525,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                         else
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - mMemberIds.size()).sendToTarget();
                     }
+                    Log.e("Tag","selectButtonShowStylecount2"+count);
                 }
             };
         }
@@ -542,6 +552,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     public boolean handleMessage(Message msg) {
         if (msg.what == HANDLE_UPDATE_CONFIRM_BUTTON) {
             selectButtonShowStyle((Integer) msg.obj, 0);
+            Log.e("Tag","selectButtonShowStyle"+1+"dddd"+(Integer) msg.obj);
         }
         return false;
     }

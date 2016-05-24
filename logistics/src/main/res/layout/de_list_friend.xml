@@ -51,7 +51,7 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:textSize="15sp"
-            android:text="确认(2)"
+            android:text="确认()"
             android:textColor="#33B94C" />
     </RelativeLayout>
 
