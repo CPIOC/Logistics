@@ -345,7 +345,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             Log.d(TAG, "onReceived-ContactNotificationMessage:+getmessage:" + contactContentMessage.getMessage().toString());
             Intent in = new Intent();
             String msg = contactContentMessage.getMessage();
-            Log.e("Tag", "getMessage" + contactContentMessage.getOperation());
+
 
             in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
             in.putExtra("rongCloud", contactContentMessage);
@@ -355,6 +355,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             DiscussionNotificationMessage discussionNotificationMessage = (DiscussionNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-discussionNotificationMessage:getExtra;" + discussionNotificationMessage.getOperator());
             setDiscussionName(message.getTargetId());
+            Log.e("Tag", "getMessageddd" + discussionNotificationMessage);
         } else {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
         }

@@ -207,6 +207,8 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         enterSettingActivity();
     }
 
+
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -398,6 +400,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             setGroupActionBar(targetId);
         } else if (conversationType.equals(Conversation.ConversationType.DISCUSSION)) {
             setDiscussionActionBar(targetId, mTargetIds);
+           // chatNameTv.setText(title);
         } else if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
             getSupportActionBar().setTitle(title);
             chatNameTv.setText(title);
@@ -765,6 +768,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     @Override
     protected void onResume() {
         super.onResume();
+        setActionBarTitle(mConversationType, mTargetId);
         showRealTimeLocationBar(null);
     }
 
