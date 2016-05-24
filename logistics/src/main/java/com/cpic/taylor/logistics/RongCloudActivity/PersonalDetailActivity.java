@@ -157,8 +157,10 @@ public class PersonalDetailActivity extends BaseApiActivity {
                     getUserinfoAndAddFriend(currentUserId);
                     //mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
                     sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
+                    //ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("cloud_id", ""), currentUserId, "请求添加为好友");
+                    //contact.setMessage(currentUserId);
                     ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("cloud_id", ""), currentUserId, "请求添加为好友");
-                    contact.setMessage(currentUserId);
+                    contact.setMessage("请求添加你为好友");
                     sendMessage(contact, currentUserId);
 
 
