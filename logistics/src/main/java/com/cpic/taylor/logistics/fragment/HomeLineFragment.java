@@ -6,17 +6,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -149,9 +154,19 @@ public class HomeLineFragment extends Fragment implements LocationSource,
 
         }
     };
+
+    private PopupWindow pw;
+    private TextView tvFast,tvMoney,tvRoad,tvHold;
+    private int screenWidth;
+    private int chooseType;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenWidth = metrics.widthPixels;
 
         View view = inflater.inflate(R.layout.fragment_home_line, null);
         mapView = (MapView) view.findViewById(R.id.map);
@@ -174,12 +189,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             area1 = sp.getString("start","");
             area2 = sp.getString("end","");
             token = sp.getString("token","");
+            chooseType = sp.getInt("chooseType",0);
             setfromandtoMarker();
             aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
             aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mEndPoint))
                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end)));
-            searchRouteResult(1, RouteSearch.DrivingDefault);
+            searchRouteResult(1, chooseType);
             linearLayout.setVisibility(View.GONE);
             btnBack.setVisibility(View.VISIBLE);
         }
@@ -221,24 +237,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
             public void onClick(View view) {
                 if (null != mStartPoint&&null!=mEndPoint){
                     aMap.clear();
-                    setfromandtoMarker();
+
                     aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(mStartPoint))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start)));
                     aMap.addMarker(new MarkerOptions()
                             .position(AMapUtil.convertToLatLng(mEndPoint))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end)));
-                    searchRouteResult(1, RouteSearch.DrivingDefault);
-                    linearLayout.setVisibility(View.GONE);
-                    btnBack.setVisibility(View.VISIBLE);
-                    sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("start",area1);
-                    editor.putString("end",area2);
-                    editor.putString("startLat",mStartPoint.getLatitude()+"");
-                    editor.putString("startLng",mStartPoint.getLongitude()+"");
-                    editor.putString("endLat",mEndPoint.getLatitude()+"");
-                    editor.putString("endLng",mEndPoint.getLongitude()+"");
-                    editor.commit();
+                    showChoosePop();
 
                 }else if (null == mStartPoint){
                     Toast.makeText(getActivity(), "起点未设置", Toast.LENGTH_SHORT).show();
@@ -297,6 +302,72 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         });
     }
 
+    /**
+     * 弹出路线选择规划
+     */
+    private void showChoosePop() {
+        View view = View.inflate(getActivity(), R.layout.pop_choose_line, null);
+        tvFast = (TextView) view.findViewById(R.id.btn_fast);
+        tvMoney = (TextView) view.findViewById(R.id.btn_avoid);
+        tvRoad = (TextView) view.findViewById(R.id.btn_fast_road);
+        tvHold = (TextView) view.findViewById(R.id.btn_hold);
+
+        pw = new PopupWindow(view, screenWidth * 99 / 100, LinearLayout.LayoutParams.WRAP_CONTENT);
+        pw.setFocusable(true);
+        WindowManager.LayoutParams params = getActivity().getWindow()
+                .getAttributes();
+        getActivity().getWindow().setAttributes(params);
+
+        pw.setBackgroundDrawable(new ColorDrawable());
+        pw.setOutsideTouchable(true);
+
+        pw.setAnimationStyle(R.style.pw_anim_style);
+
+        pw.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+        pw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams params =getActivity().getWindow().getAttributes();
+                params.alpha = 1f;
+                getActivity().getWindow().setAttributes(params);
+            }
+        });
+        tvFast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseType = RouteSearch.DrivingDefault;
+                searchRouteResult(1, RouteSearch.DrivingDefault);
+            }
+        });
+
+        tvMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseType = RouteSearch.DrivingSaveMoney;
+                searchRouteResult(1, RouteSearch.DrivingSaveMoney);
+            }
+        });
+
+        tvRoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseType = RouteSearch.DrivingShortDistance;
+                searchRouteResult(1, RouteSearch.DrivingShortDistance);
+            }
+        });
+        tvHold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseType = RouteSearch.DrivingNoHighWay;
+                searchRouteResult(1, RouteSearch.DrivingNoHighWay);
+            }
+        });
+
+
+    }
+
     //设置线路
     private void setfromandtoMarker() {
 
@@ -345,6 +416,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(lp)).snippet(datas.get(i).getCloud_id()+"!"+datas.get(i).getImg())
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cool))).setTitle(datas.get(i).getUser_name());
                         aMap.setMyLocationEnabled(true);
+
                     }
                 }
             }
@@ -385,8 +457,23 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, mode, null,
                 null, "");// 第一个参数表示路径规划的起点和终点，第二个参数表示驾车模式，第三个参数表示途经点，第四个参数表示避让区域，第五个参数表示避让道路
         mRouteSearch.calculateDriveRouteAsyn(query);// 异步路径规划驾车模式查询
-    }
 
+        //发送请求获取顺路的人的头像
+        setfromandtoMarker();
+
+        linearLayout.setVisibility(View.GONE);
+        btnBack.setVisibility(View.VISIBLE);
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("start",area1);
+        editor.putString("end",area2);
+        editor.putInt("chooseType",mode);
+        editor.putString("startLat",mStartPoint.getLatitude()+"");
+        editor.putString("startLng",mStartPoint.getLongitude()+"");
+        editor.putString("endLat",mEndPoint.getLatitude()+"");
+        editor.putString("endLng",mEndPoint.getLongitude()+"");
+        editor.commit();
+    }
     /**
      * 设置一些amap的属性
      */
@@ -399,8 +486,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         aMap.setOnMarkerClickListener(this);// 添加点击marker监听事件
         aMap.setInfoWindowAdapter(this);// 添加显示infowindow监听事件
     }
-
-
 
     /**
      * 开始进行poi搜索
@@ -490,7 +575,21 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-//                Log.i("oye","成功"+responseInfo.result);
+//                Log.i("oye","成功实时定位");
+                setRoute route = JSONObject.parseObject(responseInfo.result,setRoute.class);
+                int code = route.getCode();
+                if (code == 1){
+                    datas = route.getData();
+                    LatLonPoint lp ;
+                    for (int i =0;i<datas.size();i++){
+
+                        lp = new LatLonPoint(Double.parseDouble(datas.get(i).getLat()),Double.parseDouble(datas.get(i).getLng()));
+                        aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(lp)).snippet(datas.get(i).getCloud_id()+"!"+datas.get(i).getImg())
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cool))).setTitle(datas.get(i).getUser_name());
+//                        aMap.setMyLocationEnabled(true);
+                    }
+                }
+
             }
 
             @Override
@@ -630,21 +729,18 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     if (marker.getTitle().equals("起点")||marker.getTitle().equals("终点")){
                         return;
                     }
-
                     if (RongIM.getInstance() != null && RongYunContext.getInstance() != null) {
                         String str=marker.getSnippet();
                         String [] strs = str.split("[!]");
                         String name = strs[0];
                         if (marker.getSnippet() != null){
-                            RongIM.getInstance().startPrivateChat(getActivity(), name,
-                                    "");
+                            RongIM.getInstance().startPrivateChat(getActivity(), name,"");
                         }
 //                        Toast.makeText(getActivity(),marker.getSnippet(),Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
-
         return view;
     }
 
@@ -749,7 +845,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     List<PoiItem> poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
-                    Log.i("oye",poiItems.size()+"");
+//                    Log.i("oye",poiItems.size()+"");
                     if (status == START){
                        mStartPoint = poiItems.get(0).getLatLonPoint();
                     }else if (status == STOP){

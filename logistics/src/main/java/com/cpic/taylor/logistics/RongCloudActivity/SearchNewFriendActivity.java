@@ -121,11 +121,12 @@ public class SearchNewFriendActivity extends BaseActivity {
         if (null != stringType) {
             if (stringType.equals("near_by")) {
                 sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
-                loadFriendNearBy(sp.getString("lat", null), sp.getString("lng", null));
+//                Log.i("oye",sp.getString("now_latitude", "")+"------"+sp.getString("now_longitude", ""));
+                loadFriendNearBy(sp.getString("now_latitude", ""), sp.getString("now_longitude", ""));
 
             } else if (stringType.equals("same_route")) {
                 sp = PreferenceManager.getDefaultSharedPreferences(SearchNewFriendActivity.this);
-                loadFriendSameRoute(sp.getString("start", null), sp.getString("end", null));
+                loadFriendSameRoute(sp.getString("start", ""), sp.getString("end", ""));
             }
         }
 
@@ -213,6 +214,7 @@ public class SearchNewFriendActivity extends BaseActivity {
         params.addBodyParameter("token", sp.getString("token", null));
         params.addBodyParameter("lat", lat);
         params.addBodyParameter("lng", lng);
+//        Log.i("oye",lat+"------"+lng);
         String url = UrlUtils.POST_URL + UrlUtils.path_nearList;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
             @Override
@@ -262,8 +264,6 @@ public class SearchNewFriendActivity extends BaseActivity {
                             mListSearch.setAdapter(myAdapterNear);
                         }
                     }
-
-
                 } else {
                     showShortToast(sameRoutineFriends.getMsg());
                 }

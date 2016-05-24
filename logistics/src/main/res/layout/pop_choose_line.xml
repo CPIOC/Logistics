@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/remark_backgroud"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/btn_fast"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="速度优先"
+            android:textColor="#0B83CE"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/btn_avoid"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="费用优先"
+            android:textColor="#0B83CE"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/btn_fast_road"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="距离优先"
+            android:textColor="#0B83CE"
+            android:textSize="17sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/btn_hold"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="避开高速"
+            android:textColor="#0B83CE"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
