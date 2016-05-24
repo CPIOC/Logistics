@@ -11,6 +11,14 @@
 
     </com.amap.api.maps.MapView>
 
+    <CheckBox
+        android:id="@+id/fragment_home_line_cbox_traffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/traffic_check"
+        android:layout_margin="5dp"
+        />
+
     <LinearLayout
         android:id="@+id/fragment_home_line_linearlayout"
         android:layout_width="match_parent"

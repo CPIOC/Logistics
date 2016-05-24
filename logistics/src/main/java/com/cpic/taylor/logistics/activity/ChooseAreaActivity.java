@@ -229,12 +229,13 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
         lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
         WindowManager.LayoutParams params = ChooseAreaActivity.this.getWindow().getAttributes();
         ChooseAreaActivity.this.getWindow().setAttributes(params);
+
         popupDetails.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popupDetails.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         popupDetails.setBackgroundDrawable(new ColorDrawable());
         popupDetails.setOutsideTouchable(true);
-        popupDetails.setFocusable(false);
         popupDetails.showAsDropDown(tvLine);
+        popupDetails.setFocusable(false);
 
         popupDetails.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -262,7 +263,6 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                         showShortToast("该地点覆盖地区较多，请选择其他精确地址");
                         return;
                     }
-
                     if (listDetails.get(i).contains("省") && listDetails.get(i).contains("市") && !listDetails.get(i).contains("自治洲")) {
                         result = str.substring(str.indexOf("省") + 1, str.indexOf("市"));
                     } else if (listDetails.get(i).contains("市") && !listDetails.get(i).contains("省") && !listDetails.get(i).contains("自治区")) {

@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -106,6 +108,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
     private Intent intent;
 
 
+    private CheckBox cboxTraffic;
     /**
      * 检索功能
      */
@@ -174,12 +177,15 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvStop = (TextView) view.findViewById(R.id.fragment_line_tv_stop);
         btnQuery = (Button) view.findViewById(R.id.fragment_line_btn_query);
         btnBack = (Button) view.findViewById(R.id.fragment_line_btn_back);
+        cboxTraffic = (CheckBox) view.findViewById(R.id.fragment_home_line_cbox_traffic);
+
         dialog = ProgressDialogHandle.getProgressDialog(getActivity(),null);
         linearLayout = (LinearLayout) view.findViewById(R.id.fragment_home_line_linearlayout);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
 
         init(view);
         aMap.setOnMarkerClickListener(this);
+
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (!"".equals(sp.getString("startLat",""))&&!"".equals(sp.getString("startLng",""))&&!"".equals(sp.getString("endLat",""))&&!"".equals(sp.getString("endLng",""))){
             isOnroad = true;
@@ -276,7 +282,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         tvStop.setText("目的地");
                         tvStop.setTextColor(Color.parseColor("#FF8904"));
                         linearLayout.setVisibility(View.VISIBLE);
-
                         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("start","");
@@ -286,9 +291,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         editor.putString("endLat","");
                         editor.putString("endLng","");
                         editor.commit();
-
                         dialogInterface.dismiss();
-
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -300,8 +303,18 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 builder.show();
             }
         });
-    }
+        cboxTraffic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    aMap.setTrafficEnabled(true);
+                }else{
+                    aMap.setTrafficEnabled(false);
+                }
+            }
+        });
 
+    }
     /**
      * 弹出路线选择规划
      */
@@ -332,11 +345,13 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 WindowManager.LayoutParams params =getActivity().getWindow().getAttributes();
                 params.alpha = 1f;
                 getActivity().getWindow().setAttributes(params);
+
             }
         });
         tvFast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pw.dismiss();
                 chooseType = RouteSearch.DrivingDefault;
                 searchRouteResult(1, RouteSearch.DrivingDefault);
             }
@@ -345,6 +360,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pw.dismiss();
                 chooseType = RouteSearch.DrivingSaveMoney;
                 searchRouteResult(1, RouteSearch.DrivingSaveMoney);
             }
@@ -353,6 +369,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvRoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pw.dismiss();
                 chooseType = RouteSearch.DrivingShortDistance;
                 searchRouteResult(1, RouteSearch.DrivingShortDistance);
             }
@@ -360,8 +377,10 @@ public class HomeLineFragment extends Fragment implements LocationSource,
         tvHold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pw.dismiss();
                 chooseType = RouteSearch.DrivingNoHighWay;
                 searchRouteResult(1, RouteSearch.DrivingNoHighWay);
+
             }
         });
 

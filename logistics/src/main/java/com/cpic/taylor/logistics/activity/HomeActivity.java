@@ -171,7 +171,6 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         rgroup = (RadioGroup) findViewById(R.id.activity_home_rgroup);
         lastButton = (RadioButton) findViewById(R.id.activity_home_rbtn_line);
         rbtn_road = (RadioButton) findViewById(R.id.activity_home_rbtn_line_road);
-
         /**
          * 侧滑控件
          */
