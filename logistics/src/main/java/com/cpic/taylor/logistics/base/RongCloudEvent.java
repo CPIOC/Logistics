@@ -30,6 +30,7 @@ import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.activity.HomeActivity;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -910,6 +911,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         }
         if (status.getMessage().equals(ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT.getMessage())) {
 
+
+            Intent intent = new Intent();
+            intent.setAction(HomeActivity.KICKED_OFFLINE_BY_OTHER_CLIENT);
+            mContext.sendBroadcast(intent);
             CloseActivityClass.exitClient(mContext);
         }
 

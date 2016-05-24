@@ -136,9 +136,11 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     private static final int CAR_NUM = 2;
     private static final int CAR_TYPE = 3;
     private static final int CAR_INFO = 4;
+    public static final String KICKED_OFFLINE_BY_OTHER_CLIENT = "Login on the other device, and be kicked offline.";
 
     private SharedPreferences sp;
     RCUser rcUser;
+    private ConnectKickedReceiveBroadCast connectKickedReceiveBroadCast;
 
     /**
      * jpush
@@ -195,6 +197,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         Glide.with(HomeActivity.this).load(sp.getString("driving_license", "")).placeholder(R.mipmap.empty_photo).fitCenter().into(ivCarInfo);
 
         registerMessageReceiver();
+        registerConnectKickedReceive();
         init();
 
         mHandler = new Handler(HomeActivity.this);
@@ -771,9 +774,10 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     @Override
     protected void onDestroy() {
         unregisterReceiver(mMessageReceiver);
-        showShortToast("该账号已在其他设备上登录");
+        unregisterReceiver(connectKickedReceiveBroadCast);
+        /*showShortToast("该账号已在其他设备上登录");
         Intent intent=new Intent(this,LoginActivity.class);
-        startActivity(intent);
+        startActivity(intent);*/
         super.onDestroy();
     }
 
@@ -791,6 +795,13 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(MESSAGE_RECEIVED_ACTION);
         registerReceiver(mMessageReceiver, filter);
+    }
+    public void registerConnectKickedReceive() {
+        connectKickedReceiveBroadCast = new ConnectKickedReceiveBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(KICKED_OFFLINE_BY_OTHER_CLIENT);
+        registerReceiver(connectKickedReceiveBroadCast, filter);
     }
 
     @Override
@@ -834,6 +845,19 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
                 }
             }
         }
+    }
+
+    public class ConnectKickedReceiveBroadCast extends BroadcastReceiver
+    {
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            showShortToast("该账号已在其他设备上登录");
+            Intent in =new Intent(HomeActivity.this,LoginActivity.class);
+            startActivity(in);
+        }
+
     }
 
 }
