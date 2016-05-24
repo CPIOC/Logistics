@@ -26,6 +26,7 @@
             android:textSize="18sp"/>
 
         <View
+            android:id="@+id/under_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
@@ -178,10 +179,6 @@
             android:textColor="#0E0E0E"
             android:textSize="15sp" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DEDEDE"></View>
 
     <ListView
         android:id="@+id/de_search_list"

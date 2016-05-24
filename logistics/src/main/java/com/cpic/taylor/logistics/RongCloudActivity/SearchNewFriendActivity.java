@@ -65,6 +65,7 @@ public class SearchNewFriendActivity extends BaseActivity {
     private RequestParams params;
     private SharedPreferences sp;
     MyNewFriends myFriends;
+    private View under_line;
     private setRoute msetRoute;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
     private SameRoutineFriends sameRoutineFriends;
@@ -80,10 +81,10 @@ public class SearchNewFriendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CloseActivityClass.activityList.add(this);
         setContentView(R.layout.de_ac_search);
-        getSupportActionBar().setTitle(R.string.public_account_search);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
+
+
         getSupportActionBar().hide();
+        under_line=findViewById(R.id.under_line);
         searchNewFriendTitle = (TextView) findViewById(R.id.search_activity_title);
         searchNewFriendTitle.setText("新的朋友");
         routeMembersLl = (LinearLayout) findViewById(R.id.layout_add);
@@ -92,6 +93,7 @@ public class SearchNewFriendActivity extends BaseActivity {
         routeMembersLl.setVisibility(View.GONE);
         nearByMembersLl.setVisibility(View.GONE);
         searchFriendLl.setVisibility(View.GONE);
+        under_line.setVisibility(View.GONE);
         mEtSearch = (SearchView) findViewById(R.id.de_ui_search);
         mEtSearch.setVisibility(View.GONE);
         Button mBtSearch = (Button) findViewById(R.id.de_search);
@@ -254,9 +256,9 @@ public class SearchNewFriendActivity extends BaseActivity {
                                 friendsList.add(userInfos);
                             }
                         }
-                        sameRoutineFriendsData=sameRoutineFriends.getData();
+                        sameRoutineFriendsData = sameRoutineFriends.getData();
                         if (null != friendsList) {
-                            myAdapterNear = new SearchFriendNearByAdapter(friendsList, SearchNewFriendActivity.this,sameRoutineFriendsData);
+                            myAdapterNear = new SearchFriendNearByAdapter(friendsList, SearchNewFriendActivity.this, sameRoutineFriendsData);
                             mListSearch.setAdapter(myAdapterNear);
                         }
                     }
@@ -329,7 +331,7 @@ public class SearchNewFriendActivity extends BaseActivity {
                             myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
                             mListSearch.setAdapter(myAdapter);
                         }
-                        userName=null;
+                        userName = null;
 
                     }
 
