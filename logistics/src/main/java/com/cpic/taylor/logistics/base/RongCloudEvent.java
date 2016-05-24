@@ -553,7 +553,19 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                         String idd = rcUser.getData().get(0).getCloud_id();
                         String named = rcUser.getData().get(0).getName();
                         String uritestd = rcUser.getData().get(0).getImg();
+                        Log.e("Tag"," String uritestd"+uritestd);
                         if(uritestd.equals(RongYunContext.getInstance().getUserInfosById(mobile).getPortrait())){
+
+                            Log.e("Tag","uritestd"+uritestd);
+                            Log.e("Tag","getPortrait"+RongYunContext.getInstance().getUserInfosById(mobile).getPortrait());
+                            UserInfos f = new UserInfos();
+                            f.setUserid(idd);
+                            f.setUsername(named);
+                            f.setPortrait(uritestd);
+                            f.setStatus("1");
+                            RongYunContext.getInstance().insertOrReplaceUserInfos(f);
+                            UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                            RongIM.getInstance().refreshUserInfoCache(userInfo);
 
                         }else {
                             UserInfos f = new UserInfos();
@@ -564,6 +576,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                             RongYunContext.getInstance().insertOrReplaceUserInfos(f);
                             UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
                             RongIM.getInstance().refreshUserInfoCache(userInfo);
+                            Log.e("Tag","refreshUserInfoCache"+userInfo.getPortraitUri());
                         }
 
 
