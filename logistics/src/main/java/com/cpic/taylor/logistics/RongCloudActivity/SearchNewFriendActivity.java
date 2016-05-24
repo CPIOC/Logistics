@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,8 +21,11 @@ import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.ApiResult;
 import com.cpic.taylor.logistics.RongCloudModel.Friends;
 import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
+import com.cpic.taylor.logistics.RongCloudModel.SameRoutineFriends;
+import com.cpic.taylor.logistics.RongCloudModel.SameRoutineFriendsData;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
+import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendNearByAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
 import com.cpic.taylor.logistics.bean.setRoute;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
@@ -54,6 +56,7 @@ public class SearchNewFriendActivity extends BaseActivity {
     private List<ApiResult> mResultList;
     private SearchFriendAdapter adapter;
     private SearchMyFriendAdapter myAdapter;
+    private SearchFriendNearByAdapter myAdapterNear;
     private LinearLayout routeMembersLl, nearByMembersLl, searchFriendLl;
     private String userName = null;
     private TextView searchNewFriendTitle;
@@ -64,6 +67,8 @@ public class SearchNewFriendActivity extends BaseActivity {
     MyNewFriends myFriends;
     private setRoute msetRoute;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
+    private SameRoutineFriends sameRoutineFriends;
+    private ArrayList<SameRoutineFriendsData> sameRoutineFriendsData;
 
     /**
      * 代表附近的人或者路线上的人
@@ -122,7 +127,6 @@ public class SearchNewFriendActivity extends BaseActivity {
             }
         }
 
-        Log.e("Tag1", "执行几次");
 
     }
 
@@ -226,40 +230,40 @@ public class SearchNewFriendActivity extends BaseActivity {
                 try {
 
                     Gson gson = new Gson();
-                    java.lang.reflect.Type type = new TypeToken<MyNewFriends>() {
+                    java.lang.reflect.Type type = new TypeToken<SameRoutineFriends>() {
                     }.getType();
-                    myFriends = gson.fromJson(result, type);
+                    sameRoutineFriends = gson.fromJson(result, type);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if (myFriends.getCode() == 1) {
+                if (sameRoutineFriends.getCode() == 1) {
 
-                    if (null != myFriends.getData()) {
-                        for (int i = 0; i < myFriends.getData().size(); i++) {
+                    if (null != sameRoutineFriends.getData()) {
+                        for (int i = 0; i < sameRoutineFriends.getData().size(); i++) {
                             UserInfos userInfos = new UserInfos();
-                            userInfos.setUserid(myFriends.getData().get(i).getCloud_id());
-                            userInfos.setUsername(myFriends.getData().get(i).getName());
-                            userInfos.setUser_id_login(myFriends.getData().get(i).getId());
+                            userInfos.setUserid(sameRoutineFriends.getData().get(i).getCloud_id());
+                            userInfos.setUsername(sameRoutineFriends.getData().get(i).getName());
+                            userInfos.setUser_id_login(sameRoutineFriends.getData().get(i).getUser_id());
                             userInfos.setStatus("1");
-                            if (myFriends.getData().get(i).getImg() != null)
-                                userInfos.setPortrait(myFriends.getData().get(i).getImg());
-                            Log.e("Tag1", "sp.getString" + sp.getString("cloud_id", ""));
+                            if (sameRoutineFriends.getData().get(i).getImg() != null)
+                                userInfos.setPortrait(sameRoutineFriends.getData().get(i).getImg());
                             if (userInfos.getUserid().equals(sp.getString("cloud_id", ""))) {
 
                             } else {
                                 friendsList.add(userInfos);
                             }
                         }
+                        sameRoutineFriendsData=sameRoutineFriends.getData();
                         if (null != friendsList) {
-                            myAdapter = new SearchMyFriendAdapter(friendsList, SearchNewFriendActivity.this);
-                            mListSearch.setAdapter(myAdapter);
+                            myAdapterNear = new SearchFriendNearByAdapter(friendsList, SearchNewFriendActivity.this,sameRoutineFriendsData);
+                            mListSearch.setAdapter(myAdapterNear);
                         }
                     }
 
 
                 } else {
-                    showShortToast(myFriends.getMsg());
+                    showShortToast(sameRoutineFriends.getMsg());
                 }
 
             }

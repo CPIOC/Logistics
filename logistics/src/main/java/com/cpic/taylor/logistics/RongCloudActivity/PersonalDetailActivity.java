@@ -375,6 +375,13 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 mPersonalImg.setResource(new Resource(userInfo.getPortraitUri()));
                 mPersonalName.setText(userInfo.getName());
             }
+            sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
+            if(null!=currentUserId&&currentUserId.equals(sp.getString("cloud_id",""))){
+                mAddFriend.setVisibility(View.GONE);
+                mSendMessage.setVisibility(View.GONE);
+            }
+
+            Log.e("Tag","currentUserId1"+currentUserId);
         } else if (getIntent().hasExtra("CONTACTS_USER")) {
 
             currentUserId = getIntent().getStringExtra("CONTACTS_USER");
@@ -386,6 +393,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
             mPersonalId.setVisibility(View.GONE);
             mAddFriend.setVisibility(View.GONE);
             mSendMessage.setVisibility(View.VISIBLE);
+            Log.e("Tag","currentUserId2"+currentUserId);
         } else if (getIntent().hasExtra("USER_SEARCH")) {
             isSearch = getIntent().getBooleanExtra("USER_SEARCH", false);
             mAddFriend.setVisibility(View.VISIBLE);
@@ -393,6 +401,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
             mPersonalImg.setResource(new Resource(userInfo.getPortraitUri()));
             mPersonalName.setText(userInfo.getName());
             currentUserId = userInfo.getUserId();
+            Log.e("Tag","currentUserId3"+currentUserId);
         }
 
         if (currentUserId != null)
