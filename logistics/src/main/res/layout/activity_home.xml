@@ -271,7 +271,19 @@
 
             </LinearLayout>
             <TextView style="@style/divide_line"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"/>
+
+            <Button
+                android:id="@+id/activity_home_btn_login_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_login_select"
+                android:layout_gravity="center_horizontal"
+                android:text="退出登录"
+                android:textColor="#FFFFFF"
+                />
+
         </LinearLayout>
     </RelativeLayout>
 

@@ -3,6 +3,7 @@ package com.cpic.taylor.logistics.base;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.cpic.taylor.logistics.RongCloudMessage.AgreedFriendRequestMessage;
@@ -38,6 +39,10 @@ public class MyApplication extends Application {
     public static int mDisplayHeight;
 
     private static final String TAG = "JPush";
+
+
+    private SharedPreferences sp;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -54,7 +59,7 @@ public class MyApplication extends Application {
          * Jpush
          */
 //        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+        JPushInterface.init(this);            // 初始化 JPush
 
 /**
  * 注意：
@@ -95,8 +100,27 @@ public class MyApplication extends Application {
                 }
             }
         }
+        initLogin();
 
 
+    }
+
+    private void initLogin() {
+//        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        boolean isLogin = sp.getBoolean("isLogin",false);
+//        if (isLogin){
+//            new Handler().postDelayed(new Runnable() {
+//                public void run() {
+//                    Intent mainIntent = new Intent(getApplicationContext(),HomeActivity.class);
+//                   startActivity(mainIntent);
+//
+//                }
+//            }, 1000);
+
+//            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//            startActivity(intent);
+
+//        }
     }
 
     private void initDisplay() {

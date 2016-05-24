@@ -200,6 +200,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                     }
 
                     SharedPreferences.Editor editor = sp.edit();
+                    editor.putBoolean("isLogin",false);
                     editor.putString("mobile", etName.getText().toString());
                     editor.putString("pwd", etPwd.getText().toString());
                     editor.putString("img", login.getData().getImg());

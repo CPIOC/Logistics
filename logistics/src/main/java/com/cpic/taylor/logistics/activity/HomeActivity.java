@@ -1,9 +1,11 @@
 package com.cpic.taylor.logistics.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -29,6 +31,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,9 +45,15 @@ import com.bumptech.glide.Glide;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudActivity.MainActivity;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudModel.Friends;
+import com.cpic.taylor.logistics.RongCloudModel.Groups;
 import com.cpic.taylor.logistics.RongCloudModel.MyFriends;
 import com.cpic.taylor.logistics.RongCloudModel.RCUser;
+import com.cpic.taylor.logistics.RongCloudModel.User;
+import com.cpic.taylor.logistics.RongCloudUtils.Constants;
+import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.base.BaseActivity;
+import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
@@ -63,6 +72,9 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+import com.sea_monster.network.ApiCallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,12 +83,13 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Taylor on 2016/5/4.
  */
-public class HomeActivity extends BaseActivity implements Handler.Callback {
+public class HomeActivity extends BaseActivity implements ApiCallback, Handler.Callback{
 
     // 记录上次点击返回键的时间
     private long lastTime;
@@ -93,6 +106,8 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     // 管理Fragment的List集合
     private List<Fragment> mFragList;
     public String curFragmentTag = "";
+
+    private Button btnLoginOut;
 
     /**
      * 侧滑部分
@@ -142,6 +157,20 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
     RCUser rcUser;
     private ConnectKickedReceiveBroadCast connectKickedReceiveBroadCast;
 
+
+
+    /**
+     * 融云登录定义
+     */
+    public static final String INTENT_IMAIL = "intent_email";
+    public static final String INTENT_PASSWORD = "intent_password";
+    private AbstractHttpRequest<User> loginHttpRequest;
+    private AbstractHttpRequest<Friends> getUserInfoHttpRequest;
+    private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
+    private LoadingDialog mDialog;
+    String userName;
+    private int firstLogin=0;
+
     /**
      * jpush
      *
@@ -182,6 +211,7 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         ivIcon = (RoundImageView) findViewById(R.id.layout_iv_icon);
         dialog = ProgressDialogHandle.getProgressDialog(HomeActivity.this, null);
         ivAdd = (ImageView) findViewById(R.id.layout_iv_add);
+        btnLoginOut = (Button) findViewById(R.id.activity_home_btn_login_out);
     }
 
     @Override
@@ -201,6 +231,9 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
 
         mHandler = new Handler(HomeActivity.this);
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        if (!sp.getBoolean("isLogin",false)){
+            httpGetTokenSuccess(sp.getString("cloud_token",""));
+        }
         getFriendsFuction();
 
     }
@@ -401,7 +434,45 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
             }
         });
 
-
+        btnLoginOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setTitle("是否退出登录?");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (RongIM.getInstance() != null) {
+                            if (RongYunContext.getInstance() != null) {
+                                SharedPreferences.Editor edit = RongYunContext.getInstance().getSharedPreferences().edit();
+                                edit.putString(Constants.APP_TOKEN, Constants.DEFAULT);
+                                edit.apply();
+                            }
+                            RongIM.getInstance().logout();
+                        }
+                        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putBoolean("isLogin",true);
+                        editor.putString("start","");
+                        editor.putString("end","");
+                        editor.putString("startLat","");
+                        editor.putString("startLng","");
+                        editor.putString("endLat","");
+                        editor.putString("endLng","");
+                        editor.commit();
+                        finish();
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        });
     }
 
     /**
@@ -803,33 +874,6 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         registerReceiver(connectKickedReceiveBroadCast, filter);
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        if (msg.what == HANDLER_LOGIN_FAILURE) {
-
-
-        } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
-
-//            if (mDialog != null)
-//                mDialog.dismiss();
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-            /**
-             * 融云登录成功
-             */
-            // WinToast.toast(LoginActivity.this, R.string.login_success);
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
-
-        } else if (msg.what == HANDLER_LOGIN_HAS_NO_FOCUS) {
-
-        }
-
-        return false;
-    }
-
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override
@@ -858,5 +902,128 @@ public class HomeActivity extends BaseActivity implements Handler.Callback {
         }
 
     }
+
+    /**
+     * 融云 connect 操作
+     *
+     * @param token
+     */
+    private void httpGetTokenSuccess(String token) {
+        try {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                        @Override
+                        public void onTokenIncorrect() {
+                            showShortToast("token错误");
+                        }
+
+                        @Override
+                        public void onSuccess(String userId) {
+
+//                            if (isFirst) {
+//                            } else {
+//                                final List<UserInfos> list = RongYunContext.getInstance().loadAllUserInfos();
+//                                if (list == null || list.size() == 0) {
+//                                }
+//                            }
+
+                            SharedPreferences.Editor edit = RongYunContext.getInstance().getSharedPreferences().edit();
+                            edit.putString(Constants.APP_USER_ID, userId);
+                            edit.apply();
+
+                            RongCloudEvent.getInstance().setOtherListener();
+
+                            //请求 demo server 获得自己所加入得群组。
+                            //getFriendsFuction();
+                            // mGetMyGroupsRequest = RongYunContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+//                            if(firstLogin==1){
+//                                if(null!=RongYunContext.getInstance())
+//                                    RongYunContext.getInstance().deleteUserInfos();
+//                            }
+
+                            String  id = sp.getString("cloud_id","");
+                            String  name = sp.getString("name","");
+                            String uritest = sp.getString("img","");
+                            UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
+                            RongIM.getInstance().setCurrentUserInfo(userInfo);
+
+
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode e) {
+                            Log.e("Tag","ErrorCode"+e.getValue());
+                            mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+                        }
+                    }
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onComplete(final AbstractHttpRequest abstractHttpRequest, final Object o) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onCallApiSuccess(abstractHttpRequest, o);
+            }
+        });
+    }
+
+    @Override
+    public void onFailure(final AbstractHttpRequest abstractHttpRequest, final BaseException e) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onCallApiFailure(abstractHttpRequest, e);
+            }
+        });
+    }
+
+    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
+
+        if (loginHttpRequest != null && loginHttpRequest.equals(request)) {
+        } else if (getUserInfoHttpRequest != null && getUserInfoHttpRequest.equals(request)) {
+        } else if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+
+        }
+    }
+
+    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
+
+        if (loginHttpRequest != null && loginHttpRequest.equals(request)) {
+            if (mDialog != null)
+                mDialog.dismiss();
+        } else if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+        }
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+
+        if (msg.what == HANDLER_LOGIN_FAILURE) {
+
+            // WinToast.toast(LoginActivity.this, R.string.login_failure);
+
+        } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
+
+            /**
+             * 融云登录成功
+             */
+//            startActivity(new Intent(this, HomeActivity.class));
+//            finish();
+        } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
+
+        } else if (msg.what == HANDLER_LOGIN_HAS_NO_FOCUS) {
+
+        }
+
+        return false;
+    }
+
+
 
 }

@@ -76,6 +76,13 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="47efd4c8532f9cf4b68057b9427bec15" />
+        <activity android:name=".base.SpashActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activity.ChatMainActivity">
         </activity>
@@ -84,11 +91,7 @@
 
         </activity>
         <activity android:name=".activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.ForgetPwdActivity"></activity>
         <activity android:name=".activity.ChangePwdActivity"></activity>

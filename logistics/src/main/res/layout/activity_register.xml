@@ -98,6 +98,29 @@
             android:drawableLeft="@mipmap/dl_mima"
             android:hint="@string/et_login_pwd"
             android:inputType="textPassword" />
+
+        <TextView
+            style="@style/divide_line"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
+        <EditText
+            android:id="@+id/activity_register_et_carnum"
+            style="@style/edit_style"
+            android:drawableLeft="@mipmap/dl_mima"
+            android:hint="请输入车牌号"
+             />
+        <TextView
+            style="@style/divide_line"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:id="@+id/activity_register_et_cartype"
+            style="@style/edit_style"
+            android:drawableLeft="@mipmap/dl_mima"
+            android:hint="请输入车型"
+            />
+
     </LinearLayout>
 
     <Button

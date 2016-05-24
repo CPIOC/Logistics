@@ -10,10 +10,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorTitleBar">
 
-        <ImageView
-            android:id="@+id/activity_login_iv_back"
-            style="@style/title_iv_back" />
-
         <TextView
             android:id="@+id/activity_login_tv_login"
             style="@style/title_tv_style"

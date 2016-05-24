@@ -28,7 +28,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
  */
 public class RegisterActivity extends BaseActivity{
 
-    private EditText etMobile,etCode,etPwd;
+    private EditText etMobile,etCode,etPwd,etCarNum,etCarType;
     private Button btnRegister;
     private TextView tvGetCode;
 
@@ -59,6 +59,9 @@ public class RegisterActivity extends BaseActivity{
         etPwd = (EditText) findViewById(R.id.activity_register_et_pwd);
         btnRegister = (Button) findViewById(R.id.activity_register_btn_register);
         tvGetCode = (TextView) findViewById(R.id.activity_register_tv_getcode);
+        etCarNum = (EditText) findViewById(R.id.activity_register_et_carnum);
+        etCarType = (EditText) findViewById(R.id.activity_register_et_cartype);
+
         dialog = ProgressDialogHandle.getProgressDialog(RegisterActivity.this,null);
         time = new TimeCount(60000, 1000);
     }
@@ -148,9 +151,10 @@ public class RegisterActivity extends BaseActivity{
         params.addBodyParameter("mobile",etMobile.getText().toString());
         params.addBodyParameter("password",etPwd.getText().toString());
         params.addBodyParameter("code",etCode.getText().toString());
+        params.addBodyParameter("plate_number",etCarNum.getText().toString());
+        params.addBodyParameter("car_models",etCarType.getText().toString());
 
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
-
             @Override
             public void onStart() {
                 super.onStart();
