@@ -18,11 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
+import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.FriendMultiChoiceAdapter;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -70,6 +74,8 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     private RequestParams params;
     private SharedPreferences sp;
     private String groupName = "群聊";
+    private String userName;
+    private RCUser rcUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,11 +115,16 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 Conversation conversation = RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.PRIVATE, mTargetId);
 
-                if (conversation != null && conversation.getConversationType() != null)
+                if (conversation != null && conversation.getConversationType() != null) {
                     mMemberIds.add(conversation.getTargetId());
+
+                }
+                Log.e("tag", "getSenderUserName");
+
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
 
             }
+            Log.e("tag", "mConversationType" + mConversationType + "mTargetId" + mTargetId);
         }
         super.onCreate(savedInstanceState);
     }
@@ -211,6 +222,8 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             return;
         }
 
+        Log.e("tag", "mConversationTyfffffffpe55555" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
+
         if (mConversationType == Conversation.ConversationType.DISCUSSION || userInfos.size() + mMemberIds.size() > 1) {
 
             StringBuilder sb = new StringBuilder();
@@ -236,36 +249,42 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                 if (isFromSetting) {
 
+                    Log.e("tag", "mMemberIds.size()" + mMemberIds.size());
+
                     if (mMemberIds.size() == 1) {
                         Log.e(TAG, "-----selectPeopleComplete---MemberIds.size():" + sb.toString());
                         if (RongIM.getInstance() != null)
                             //addChatGroup(groupName,TextUtils.join(",", ids));
-                            if(null!=groupName){
-                                if(groupName.length()>10){
-                                    groupName=groupName.substring(0,8)+"...";
+                            if (null != groupName) {
+                                if (groupName.length() > 10) {
+                                    groupName = groupName.substring(0, 8) + "...";
                                 }
                             }
 
-                            RongIM.getInstance().getRongIMClient().createDiscussion(groupName, ids, new RongIMClient.CreateDiscussionCallback() {
+                        RongIM.getInstance().getRongIMClient().createDiscussion(groupName, ids, new RongIMClient.CreateDiscussionCallback() {
 
-                                @Override
-                                public void onSuccess(String s) {
-                                    Log.e(TAG, "-----selectPeopleComplete---=＝onSuccess＝＝＝＝＋＋＋＋" + s);
+                            @Override
+                            public void onSuccess(String s) {
+                                Log.e(TAG, "-----selectPeopleComplete---=＝onSuccess＝＝＝＝＋＋＋＋" + s);
 
-                                    getActivity().finish();
-                                }
+                                getActivity().finish();
+                            }
 
-                                @Override
-                                public void onError(RongIMClient.ErrorCode e) {
-                                    Log.e(TAG, "-----selectPeopleComplete---=＝onError＝＝＝＝＋＋＋＋" + e);
-                                }
-                            });
+                            @Override
+                            public void onError(RongIMClient.ErrorCode e) {
+                                Log.e(TAG, "-----selectPeopleComplete---=＝onError＝＝＝＝＋＋＋＋" + e);
+                            }
+                        });
 
                     } else {
+
+
                         mLoadingDialog.show();
 
                         if (!TextUtils.isEmpty(mTargetId)) {
-
+                            Log.e("tag", "mMemberIds.size(3)" + mMemberIds.size());
+                            Log.e("tag", "userInfos" + userInfos.size());
+                            creatTwoDiscussion(mTargetId, userInfos);
                             RongIM.getInstance().getRongIMClient().addMemberToDiscussion(mTargetId, ids, new RongIMClient.OperationCallback() {
                                 @Override
                                 public void onSuccess() {
@@ -287,9 +306,11 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                         }
                     }
                 } else {
+                    Log.e("tag", "mConversationTyfffffffpe2" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
                     if (mMemberIds.size() == 0) {
                         //RongIM.getInstance().
-                                createDiscussionChat(getActivity(), ids, groupName);
+
+                        createDiscussionChat(getActivity(), ids, groupName);
 
                         getActivity().finish();
                     } else {
@@ -318,7 +339,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             ids.addAll(mMemberIds);
 
                             //RongIM.getInstance().
-                                    createDiscussionChat(getActivity(), ids, groupName);
+                            createDiscussionChat(getActivity(), ids, groupName);
 
                         }
                     }
@@ -326,25 +347,113 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             }
         } else if (mConversationType == Conversation.ConversationType.PRIVATE) {
 
-            RongIM.getInstance().startPrivateChat(getActivity(), userInfos.get(0).getUserId(), userInfos.get(0).getName());
-            getActivity().finish();
+            //RongIM.getInstance().startPrivateChat(getActivity(), userInfos.get(0).getUserId(), userInfos.get(0).getName());
+            Log.e("tag", "mConversationType2" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
+            //createDiscussionChat(getActivity(), ids, groupName);
+            creatTwoDiscussion(mTargetId, userInfos);
+            // getActivity().finish();
             return;
         }
 
     }
 
+    private void creatTwoDiscussion(final String cloud_id, final ArrayList<UserInfo> userInfos) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", cloud_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+
+                showShortToast("登录失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (rcUser.getCode() == 1) {
+
+                    if (null != rcUser.getData()) {
+
+
+                        String idd = rcUser.getData().get(0).getCloud_id();
+                        String named = rcUser.getData().get(0).getName();
+                        String uritestd = rcUser.getData().get(0).getImg();
+                        UserInfos f = new UserInfos();
+                        f.setUserid(idd);
+                        f.setUsername(named);
+                        f.setPortrait(uritestd);
+                        f.setStatus("1");
+                        UserInfo userInfo = new UserInfo(idd, named, Uri.parse(uritestd));
+
+
+                        StringBuilder sbb = new StringBuilder();
+                        List<String> idss = new ArrayList<String>();
+
+                        //idss.add(userInfos.get(0).getUserId());
+
+                        for (UserInfo item : userInfos) {
+                            idss.add(item.getUserId());
+                            if (sbb.length() <= 60) {
+                                if (sbb.length() > 0 && !TextUtils.isEmpty(item.getName()))
+                                    sbb.append(",");
+                                sbb.append(item.getName());
+                            }
+                        }
+                        idss.add(userInfo.getUserId());
+                        groupName = sbb.toString() + "," + userInfo.getName();
+                        createDiscussionChat(getActivity(), idss, groupName);
+                        Log.e("tag", "mConversationType2" + "2" + userInfo.getUserId() + userInfos.get(0).getUserId());
+                        Log.e("tag", "mConversationType2" + "2" + mTargetId + groupName + "ids" + idss.size() + "userInfos" + userInfos.get(0).getUserId());
+                        getActivity().finish();
+
+                    }
+
+
+                } else {
+
+                    showShortToast(rcUser.getMsg());
+
+                }
+
+            }
+
+        });
+
+
+    }
+
     public void createDiscussionChat(final Context context, final List<String> targetUserIds, final String title) {
-        if(context != null && targetUserIds != null && targetUserIds.size() != 0) {
-            if(RongContext.getInstance() == null) {
+        if (context != null && targetUserIds != null && targetUserIds.size() != 0) {
+            if (RongContext.getInstance() == null) {
                 throw new ExceptionInInitializerError("RongCloud SDK not init");
-            } else if(RongIM.getInstance().getRongIMClient() == null) {
+            } else if (RongIM.getInstance().getRongIMClient() == null) {
                 RLog.d(this, "disconnect", "RongIMClient does not init.");
             } else {
                 RongIM.getInstance().getRongIMClient().createDiscussion(title, targetUserIds, new RongIMClient.CreateDiscussionCallback() {
                     public void onSuccess(String targetId) {
                         Uri uri = Uri.parse("rong://" + context.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.DISCUSSION.getName().toLowerCase()).appendQueryParameter("targetIds", TextUtils.join(",", targetUserIds)).appendQueryParameter("delimiter", ",").appendQueryParameter("targetId", targetId).appendQueryParameter("title", title).build();
                         context.startActivity(new Intent("android.intent.action.VIEW", uri));
-                        addChatGroup(groupName,targetId);
+                        addChatGroup(groupName, targetId);
 
                     }
 
@@ -446,7 +555,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void addChatGroup(String chat_name,String ids) {
+    private void addChatGroup(String chat_name, String ids) {
 
         post = new HttpUtils();
         params = new RequestParams();
