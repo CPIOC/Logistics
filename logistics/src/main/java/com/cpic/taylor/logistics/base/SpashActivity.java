@@ -57,7 +57,6 @@ public class SpashActivity extends BaseActivity {
                 SpashActivity.this.finish();
             }
         }, 10);
-
     }
 
 

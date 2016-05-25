@@ -225,17 +225,15 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
     private void showPopwupWindow() {
         View view = View.inflate(ChooseAreaActivity.this, R.layout.popupwindow_area, null);
         popupDetails = new PopupWindow(view, screenWidth, screenHight * 9 / 10);
-        popupDetails.setFocusable(false);
         lvArea = (ListView) view.findViewById(R.id.pop_area_lv);
         WindowManager.LayoutParams params = ChooseAreaActivity.this.getWindow().getAttributes();
         ChooseAreaActivity.this.getWindow().setAttributes(params);
-
         popupDetails.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popupDetails.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         popupDetails.setBackgroundDrawable(new ColorDrawable());
         popupDetails.setOutsideTouchable(true);
         popupDetails.showAsDropDown(tvLine);
-        popupDetails.setFocusable(false);
+        popupDetails.setFocusable(true);
 
         popupDetails.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -278,6 +276,18 @@ public class ChooseAreaActivity extends BaseActivity implements PoiSearch.OnPoiS
                     }
                     tvArea.setText(result);
 
+                    intent = new Intent();
+                    intent.putExtra("areaProvice", tvArea.getText().toString());
+                    intent.putExtra("areaName", listString.get(i));
+                    try {
+                        db.save(new SearchPointHistoryData(1, tvArea.getText().toString(), listString.get(i)));
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    popupDetails.dismiss();
+                }else{
                     intent = new Intent();
                     intent.putExtra("areaProvice", tvArea.getText().toString());
                     intent.putExtra("areaName", listString.get(i));

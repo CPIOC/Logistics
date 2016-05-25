@@ -322,8 +322,7 @@ public class HomeRoadFragment extends Fragment {
         }
 
         @Override
-        public void onBufferProgress(int percent, int beginPos, int endPos,
-                                     String info) {
+        public void onBufferProgress(int percent, int beginPos, int endPos, String info) {
             // 合成进度
             mPercentForBuffering = percent;
             //WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format), mPercentForBuffering, mPercentForPlaying));
@@ -458,36 +457,34 @@ public class HomeRoadFragment extends Fragment {
             vh.iv_voice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (null != animationDrawable) {
-                        animationDrawable.stop();
-                    }
-                    if (null != vh.iv_voice) {
-                        vh.iv_voice.setImageResource(R.drawable.voice);
-                    }
+//                    if (null != animationDrawable) {
+//                        animationDrawable.stop();
+//                    }
+//                    if (null != vh.iv_voice) {
+//                        vh.iv_voice.setImageResource(R.drawable.voice);
+//                    }
+//                    vh.iv_voice.setImageResource(R.drawable.voice);
+//
+//                    vh.iv_voice.setImageResource(R.drawable.ani);
+//                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
+//                    animationDrawable.stop();
+//                    vh.iv_voice.setImageResource(R.drawable.voice);
+//                    mTts.stopSpeaking();
+//                    startPlay(vh.iv_voice,roadInfoList.get(position).getContent());
+//                    vh.iv_voice.setImageResource(R.drawable.ani);
+//                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
+//                    animationDrawable.start();
+                    road_info_list.performItemClick(view,position,R.id.iv_voice);
 
-                    vh.iv_voice.setImageResource(R.drawable.voice);
-
-                    vh.iv_voice.setImageResource(R.drawable.ani);
-                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
-                    animationDrawable.stop();
-                    vh.iv_voice.setImageResource(R.drawable.voice);
-                    mTts.stopSpeaking();
-                    startPlay(vh.iv_voice,roadInfoList.get(position).getContent());
-                    vh.iv_voice.setImageResource(R.drawable.ani);
-                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
-                    animationDrawable.start();
                 }
             });
 
 
             return convertview;
         }
-
-
     }
 
     class ViewHolder {
-
         ImageView userLogo;
         TextView timestamp;
         ImageView iv_voice;
