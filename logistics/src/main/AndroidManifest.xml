@@ -68,7 +68,7 @@
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/huoche"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

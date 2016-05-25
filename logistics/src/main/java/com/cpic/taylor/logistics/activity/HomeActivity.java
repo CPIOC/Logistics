@@ -55,6 +55,7 @@ import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunContext;
+import com.cpic.taylor.logistics.bean.Login;
 import com.cpic.taylor.logistics.fragment.HomeLineFragment;
 import com.cpic.taylor.logistics.fragment.HomePoliceFragment;
 import com.cpic.taylor.logistics.fragment.HomeRoadFragment;
@@ -228,13 +229,67 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         registerMessageReceiver();
         registerConnectKickedReceive();
         init();
-
         mHandler = new Handler(HomeActivity.this);
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        if (!sp.getBoolean("isLogin",false)){
-            httpGetTokenSuccess(sp.getString("cloud_token",""));
+        if (!sp.getBoolean("isLogin",true)){
+            //自动登录
+            antoLogin();
         }
         getFriendsFuction();
+
+    }
+
+    /**
+     * 自动登录代码
+     */
+    private void antoLogin() {
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+        params.addBodyParameter("mobile", sp.getString("mobile",""));
+        params.addBodyParameter("password",sp.getString("pwd",""));
+        params.addBodyParameter("device", JPushInterface.getRegistrationID(getApplicationContext()));
+        String url = UrlUtils.POST_URL + UrlUtils.path_login;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("自动登录失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+//                Log.i("oye",responseInfo.result);
+                Login login = JSONObject.parseObject(responseInfo.result, Login.class);
+                int code = login.getCode();
+                if (code == 1) {
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putBoolean("isLogin",false);
+                    editor.putString("img", login.getData().getImg());
+                    editor.putString("name", login.getData().getName());
+                    editor.putString("plate_number", login.getData().getPlate_number());
+                    editor.putString("car_models", login.getData().getCar_models());
+                    editor.putString("driving_license", login.getData().getDriving_license());
+                    editor.putString("token", login.getData().getToken());
+                    editor.putString("cloud_id", login.getData().getCloud_id());
+                    editor.putString("cloud_token", login.getData().getCloud_token());
+                    editor.commit();
+
+                    /**
+                     * 融云登录成功
+                     */
+                    httpGetTokenSuccess(login.getData().getCloud_token());
+//                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+//                    finish();
+                } else {
+                    showShortToast(login.getMsg());
+                }
+            }
+        });
 
     }
 
@@ -265,7 +320,6 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                 String result = responseInfo.result;
                 JSONObject jsonObj = null;
                 try {
-
                     Gson gson = new Gson();
                     java.lang.reflect.Type type = new TypeToken<MyFriends>() {
                     }.getType();

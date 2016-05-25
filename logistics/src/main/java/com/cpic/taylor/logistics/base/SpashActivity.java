@@ -65,6 +65,4 @@ public class SpashActivity extends BaseActivity {
     protected void registerListener() {
 
     }
-
-
 }
