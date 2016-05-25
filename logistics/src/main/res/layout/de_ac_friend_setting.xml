@@ -114,6 +114,12 @@
             android:name="com.cpic.taylor.logistics.RongCloudFragment.setting.RongClearConversationMsgFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <fragment
+            android:id="@+id/de_fr_collection"
+            android:name="com.cpic.taylor.logistics.RongCloudFragment.setting.RongCollectGroupFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
         <Button
             android:id="@+id/de_fr_delete"

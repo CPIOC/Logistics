@@ -304,8 +304,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             if (userInfos == null) {
                 getLoginInfo(senderUserId);
 
-            }else{
-                compareUserInfo(senderUserId,"");
+            } else {
+                compareUserInfo(senderUserId, "");
             }
 
         }
@@ -356,9 +356,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             DiscussionNotificationMessage discussionNotificationMessage = (DiscussionNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-discussionNotificationMessage:getExtra;" + discussionNotificationMessage.getOperator());
             setDiscussionName(message.getTargetId());
-            Log.e("Tag", "getMessageddd" + discussionNotificationMessage);
+            Log.e("Tag", "getExtra" + message.getExtra());
+            Log.e("Tag", "getMessageId" + message.getMessageId());
+            Log.e("Tag", "getConversationType" + message.getConversationType());
+            Log.e("Tag", "getContent" + message.getContent());
+            Log.e("Tag", "getTargetId" + message.getTargetId());
+            Log.e("Tag", "discussionNotificationMessagegetOperator" + discussionNotificationMessage.getOperator());
+            Log.e("Tag", "discussionNotificationMessagegetType" + discussionNotificationMessage.getType());
+
         } else {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
+            // Log.e("Tag", "getMessageddd" + discussionNotificationMessage);
         }
 
 
@@ -515,7 +523,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
     }
 
-    private void compareUserInfo(final String mobile,String msg) {
+    private void compareUserInfo(final String mobile, String msg) {
         post = new HttpUtils();
         params = new RequestParams();
         params.addBodyParameter("cloud_id", mobile);
@@ -555,32 +563,31 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                         String idd = rcUser.getData().get(0).getCloud_id();
                         String named = rcUser.getData().get(0).getName();
                         String uritestd = rcUser.getData().get(0).getImg();
-                        Log.e("Tag"," String uritestd"+uritestd);
-                        if(uritestd.equals(RongYunContext.getInstance().getUserInfosById(mobile).getPortrait())){
+                        Log.e("Tag", " String uritestd" + uritestd);
+                        if (uritestd.equals(RongYunContext.getInstance().getUserInfosById(mobile).getPortrait())) {
 
-                            Log.e("Tag","uritestd"+uritestd);
-                            Log.e("Tag","getPortrait"+RongYunContext.getInstance().getUserInfosById(mobile).getPortrait());
+                            Log.e("Tag", "uritestd" + uritestd);
+                            Log.e("Tag", "getPortrait" + RongYunContext.getInstance().getUserInfosById(mobile).getPortrait());
                             UserInfos f = new UserInfos();
                             f.setUserid(idd);
                             f.setUsername(named);
                             f.setPortrait(uritestd);
                             f.setStatus("1");
                             RongYunContext.getInstance().insertOrReplaceUserInfos(f);
-                            UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                            UserInfo userInfo = new UserInfo(idd, named, Uri.parse(uritestd));
                             RongIM.getInstance().refreshUserInfoCache(userInfo);
 
-                        }else {
+                        } else {
                             UserInfos f = new UserInfos();
                             f.setUserid(idd);
                             f.setUsername(named);
                             f.setPortrait(uritestd);
                             f.setStatus("1");
                             RongYunContext.getInstance().insertOrReplaceUserInfos(f);
-                            UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                            UserInfo userInfo = new UserInfo(idd, named, Uri.parse(uritestd));
                             RongIM.getInstance().refreshUserInfoCache(userInfo);
-                            Log.e("Tag","refreshUserInfoCache"+userInfo.getPortraitUri());
+                            Log.e("Tag", "refreshUserInfoCache" + userInfo.getPortraitUri());
                         }
-
 
 
                     }

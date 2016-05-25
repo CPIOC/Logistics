@@ -47,6 +47,7 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
     private android.support.v4.app.Fragment mToTopFragment;
     private String mDiscussionName;
     private FragmentTransaction fragmentTransaction;
+    private android.support.v4.app.Fragment mCollectFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
 
         mAddNumberFragment = getChildFragmentManager().findFragmentById(R.id.de_fr_add_friend);
         mToTopFragment = getChildFragmentManager().findFragmentById(R.id.de_fr_to_top);
-
+        mCollectFragment=getChildFragmentManager().findFragmentById(R.id.de_fr_collection);
         fragmentTransaction = getFragmentManager().beginTransaction();
 
         mDeleteBtn.setOnClickListener(this);
@@ -116,6 +117,8 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
             });
         } else if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
 
+            fragmentTransaction.hide(mCollectFragment);
+            fragmentTransaction.commit();
         } else if (mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
             fragmentTransaction.hide(mAddNumberFragment);
             fragmentTransaction.hide(mToTopFragment);

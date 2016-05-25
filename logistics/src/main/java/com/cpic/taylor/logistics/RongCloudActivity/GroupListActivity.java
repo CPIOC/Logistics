@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Discussion;
 
 /**
  * Created by xuan on 2016/5/13.
@@ -188,7 +190,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
         @Override
         public View getView(final int position, View convertview, ViewGroup arg2) {
-            ViewHolder vh;
+            final ViewHolder vh;
             if (convertview == null) {
                 vh = new ViewHolder();
                 LayoutInflater inflater = LayoutInflater.from(GroupListActivity.this);
@@ -201,7 +203,24 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
                 vh = (ViewHolder) convertview.getTag();
             }
 
-            vh.name.setText(myGroupDataList.get(position).chat_name);
+            //vh.name.setText(myGroupDataList.get(position).chat_name);
+
+            RongIM.getInstance().getRongIMClient().getDiscussion(myGroupDataList.get(position).getTarget_id(), new RongIMClient.ResultCallback<Discussion>() {
+                @Override
+                public void onSuccess(Discussion discussion) {
+
+                    // mDiscussionName = discussion.getName();
+                    Log.e("Tag","mDiscussionName"+discussion.getName());
+                    vh.name.setText(discussion.getName());
+                    //addChatGroup(discussion.getName(),conversation.getTargetId());
+
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                }
+            });
             return convertview;
         }
 

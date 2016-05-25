@@ -81,7 +81,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
     private int HANDLER_LOGIN_FAILURE = 2;
     private int HANDLER_LOGIN_HAS_FOCUS = 3;
     private int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
-    private int firstLogin=0;
+    private int firstLogin = 0;
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -187,20 +187,20 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                 int code = login.getCode();
                 sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                 if (code == 1) {
-                    if(etName.getText().toString().equals(sp.getString("mobile", ""))){
+                    if (etName.getText().toString().equals(sp.getString("mobile", ""))) {
                         /**
                          * 非第一次登录
                          */
-                        firstLogin=0;
-                    }else {
+                        firstLogin = 0;
+                    } else {
                         /**
                          * 第一次登录
                          */
-                        firstLogin=1;
+                        firstLogin = 1;
                     }
 
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("isLogin",false);
+                    editor.putBoolean("isLogin", false);
                     editor.putString("mobile", etName.getText().toString());
                     editor.putString("pwd", etPwd.getText().toString());
                     editor.putString("img", login.getData().getImg());
@@ -267,19 +267,40 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
                             if (dialog != null) {
                                 dialog.dismiss();
                             }
-                            if(firstLogin==1){
-                                if(null!=RongYunContext.getInstance())
-                                RongYunContext.getInstance().deleteUserInfos();
+                            if (firstLogin == 1) {
+                                if (null != RongYunContext.getInstance())
+                                    RongYunContext.getInstance().deleteUserInfos();
+
+                               /* if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                                    ArrayList<Conversation> conversationList = (ArrayList<Conversation>) RongIMClient.getInstance().getConversationList();
+                                    if (null != conversationList) {
+                                        for (int i = 0; i < conversationList.size(); i++) {
+                                            RongIM.getInstance().getRongIMClient().clearConversations(new RongIMClient.ResultCallback<Boolean>() {
+
+                                                @Override
+                                                public void onSuccess(Boolean aBoolean) {
+
+                                                    Log.e("Tag","new login"+"清空前用户聊天信息");
+
+                                                }
+
+                                                @Override
+                                                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                                }
+                                            }, conversationList.get(i).getConversationType());
+                                        }
+                                    }
+                                }*/
                             }
 
-                            Log.e("Tag","firstLogin"+firstLogin);
+                            Log.e("Tag", "firstLogin" + firstLogin);
 
-                            String  id = sp.getString("cloud_id","");
-                            String  name = sp.getString("name","");
-                            String uritest = sp.getString("img","");
-                            UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
+                            String id = sp.getString("cloud_id", "");
+                            String name = sp.getString("name", "");
+                            String uritest = sp.getString("img", "");
+                            UserInfo userInfo = new UserInfo(id, name, Uri.parse(uritest));
                             RongIM.getInstance().setCurrentUserInfo(userInfo);
-
 
 
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
@@ -289,7 +310,7 @@ public class LoginActivity extends BaseActivity implements ApiCallback, Handler.
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
-                            Log.e("Tag","ErrorCode"+e.getValue());
+                            Log.e("Tag", "ErrorCode" + e.getValue());
                             mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
                         }
                     }
