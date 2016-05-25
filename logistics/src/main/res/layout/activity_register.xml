@@ -106,7 +106,7 @@
         <EditText
             android:id="@+id/activity_register_et_carnum"
             style="@style/edit_style"
-            android:drawableLeft="@mipmap/dl_mima"
+            android:drawableLeft="@mipmap/chepai"
             android:hint="请输入车牌号"
              />
         <TextView
@@ -117,7 +117,7 @@
         <EditText
             android:id="@+id/activity_register_et_cartype"
             style="@style/edit_style"
-            android:drawableLeft="@mipmap/dl_mima"
+            android:drawableLeft="@mipmap/chexing"
             android:hint="请输入车型"
             />
 

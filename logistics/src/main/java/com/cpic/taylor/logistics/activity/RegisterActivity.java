@@ -82,6 +82,10 @@ public class RegisterActivity extends BaseActivity{
                     showShortToast("用户名和密码不得为空");
                     return;
                 }
+                if (etCarType.getText().toString() == null || etCarNum.getText().toString() == null||"".equals(etCarType.getText().toString()) || "".equals(etCarNum.getText().toString())){
+                    showShortToast("请输入您的车牌号和车型");
+                    return;
+                }
 
                 registerAction();
             }
@@ -210,8 +214,6 @@ public class RegisterActivity extends BaseActivity{
         public void onTick(long millisUntilFinished) {// 计时过程
             tvGetCode.setClickable(false);// 防止重复点击
             tvGetCode.setText(millisUntilFinished / 1000 + "s" + "重新验证");
-
-
         }
     }
 }

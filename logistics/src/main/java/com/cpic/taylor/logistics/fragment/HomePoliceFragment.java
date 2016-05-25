@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,8 +55,15 @@ public class HomePoliceFragment extends Fragment{
     private HttpUtils post;
     private RequestParams params;
     private Dialog dialog;
+    private LinearLayout linearLayout;
 
     private String address,token,lat,lng;
+
+
+    private float mPosX;
+    private float mPosY;
+    private float mCurrentPosX;
+    private float mCurrentPosY;
 
 
     private AMapLocationClient mLocationClient;
@@ -66,9 +74,7 @@ public class HomePoliceFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_home_police,null);
         initView(view);
 
-        /**
-         * 获取当前地址信息
-         */
+
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         token = sp.getString("token","");
 
@@ -143,6 +149,58 @@ public class HomePoliceFragment extends Fragment{
             }
         });
 
+//        linearLayout.setOnTouchListener(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction()){
+//                    case MotionEvent.ACTION_DOWN:
+//                        mPosX = motionEvent.getX();
+//                        mPosY = motionEvent.getY();
+//                         Log.i("oye", "ACTION_DOWN");
+//                        break;
+//                    // 移动
+//                    case MotionEvent.ACTION_MOVE:
+//                        Log.i("oye", "ACTION_MOVE");
+//                        mCurrentPosX = motionEvent.getX();
+//                        mCurrentPosY = motionEvent.getY();
+//
+//                        if (mCurrentPosX - mPosX > 20 && Math.abs(mCurrentPosY - mPosY) < 10) {
+//                            // Log.i("oye", "向右");
+//
+//                        } else if (mCurrentPosX - mPosX < -20 && Math.abs(mCurrentPosY - mPosY) < 10) {
+//                             Log.i("oye", "向左");
+//                            new Handler().postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    Intent intent = new Intent(getActivity(), ChatMainActivity.class);
+//                                    startActivity(intent);
+//                                }
+//                            }, 10);
+//                        } else if (mCurrentPosY - mPosY > 0 && Math.abs(mCurrentPosX - mPosX) < 10) {
+//                            // Log.i("oye", "向下");
+//                        } else if (mCurrentPosY - mPosY < 0 && Math.abs(mCurrentPosX - mPosX) < 10) {
+//                            // Log.i("oye", "向上");
+//                        }
+//                        break;
+//                    // 拿起
+//                    case MotionEvent.ACTION_UP:
+//                        Log.i("oye", "ACTION_UP");
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
+//                return true;
+//            }
+//        });
+
+//        linearLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.i("oye", "danji");
+//            }
+//        });
 
     }
 
@@ -150,6 +208,7 @@ public class HomePoliceFragment extends Fragment{
         tvAddress = (TextView) view.findViewById(R.id.fragment_home_police_tv_address);
         elv = (ExpandableListView) view.findViewById(R.id.fragment_home_police_elv);
         dialog = ProgressDialogHandle.getProgressDialog(getActivity(),null);
+        linearLayout = (LinearLayout) view.findViewById(R.id.linear_police);
     }
 
     /**
