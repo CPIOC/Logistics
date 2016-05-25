@@ -117,14 +117,14 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                 if (conversation != null && conversation.getConversationType() != null) {
                     mMemberIds.add(conversation.getTargetId());
-                    Log.e("tag", "getSenderUserName"+mTargetId+conversation.getTargetId());
+                    //Log.e("tag", "getSenderUserName"+mTargetId+conversation.getTargetId());
                 }
 
 
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
 
             }
-            Log.e("tag", "mConversationType" + mConversationType + "mTargetId" + mTargetId);
+            //Log.e("tag", "mConversationType" + mConversationType + "mTargetId" + mTargetId);
         }
         super.onCreate(savedInstanceState);
     }
@@ -153,7 +153,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         if (isFromSetting) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
                 selectButtonShowStyle(1, 0);
-                Log.e("Tag","selectButtonShowStyle"+2+444);
+                //Log.e("Tag","selectButtonShowStyle"+2+444);
 
 
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
@@ -165,7 +165,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             mNumberLists = (ArrayList<String>) discussion.getMemberIdList();
 
                             selectButtonShowStyle(mNumberLists.size() - 1, 0);
-                            Log.e("Tag","selectButtonShowStyle"+3);
+                            //Log.e("Tag","selectButtonShowStyle"+3);
                         }
 
                         @Override
@@ -178,10 +178,10 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             if (mTargetId != null) {
                 mTargetIds = mTargetId.split(",");
                 selectButtonShowStyle(mTargetIds.length, 0);
-                Log.e("Tag","selectButtonShowStyle"+4);
+                //Log.e("Tag", "selectButtonShowStyle" + 4);
             } else {
                 selectButtonShowStyle(0, 0);
-                Log.e("Tag","selectButtonShowStyle"+5);
+                //Log.e("Tag", "selectButtonShowStyle" + 5);
             }
         }
 
@@ -210,6 +210,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     private final void selectPeopleComplete() {
         if (mAdapter == null)
             return;
+        //Log.e("tag", "mMemberIds.size()hehehehehe" );
         ArrayList<UserInfo> userInfos = ((FriendMultiChoiceAdapter) mAdapter).getChoiceUserInfos();
 
         int selected = 0;
@@ -227,7 +228,8 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             return;
         }
 
-        Log.e("tag", "mConversationTyfffffffpe55555" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
+
+        //Log.e("tag", "mConversationTyfffffffpe55555" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
 
         if (mConversationType == Conversation.ConversationType.DISCUSSION || userInfos.size() + mMemberIds.size() > 1) {
 
@@ -254,10 +256,10 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                 if (isFromSetting) {
 
-                    Log.e("tag", "mMemberIds.size()" + mMemberIds.size());
+                    //Log.e("tag", "mMemberIds.size()" + mMemberIds.size());
 
                     if (mMemberIds.size() == 1) {
-                        Log.e(TAG, "-----selectPeopleComplete---MemberIds.size():" + sb.toString());
+                        //Log.e(TAG, "-----selectPeopleComplete---MemberIds.size():" + sb.toString());
                         if (RongIM.getInstance() != null)
                             //addChatGroup(groupName,TextUtils.join(",", ids));
                             if (null != groupName) {
@@ -281,7 +283,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                             }
                         });*/
                         creatTwoDiscussion(mTargetId, userInfos);
-                        Log.e("tag", "getSendercajjjjjjjjjjjjjjjjjjUserName");
+                        //Log.e("tag", "getSendercajjjjjjjjjjjjjjjjjjUserName");
 
                     } else {
 
@@ -289,9 +291,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                         mLoadingDialog.show();
 
                         if (!TextUtils.isEmpty(mTargetId)) {
-                            Log.e("tag", "mMemberIds.size(3)" + mMemberIds.size());
-                            Log.e("tag", "userInfos" + userInfos.size());
-                            creatTwoDiscussion(mTargetId, userInfos);
+                            //Log.e("tag", "mMemberIds.size(3)" + mMemberIds.size());
+                            //Log.e("tag", "userInfos" + userInfos.size());
+
                             RongIM.getInstance().getRongIMClient().addMemberToDiscussion(mTargetId, ids, new RongIMClient.OperationCallback() {
                                 @Override
                                 public void onSuccess() {
@@ -310,10 +312,11 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                     }
                                 }
                             });
+                            //creatTwoDiscussion(mTargetId, userInfos);
                         }
                     }
                 } else {
-                    Log.e("tag", "mConversationTyfffffffpe2" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
+                    //Log.e("tag", "mConversationTyfffffffpe2" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
                     if (mMemberIds.size() == 0) {
                         //RongIM.getInstance().
 
@@ -355,7 +358,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         } else if (mConversationType == Conversation.ConversationType.PRIVATE) {
 
             //RongIM.getInstance().startPrivateChat(getActivity(), userInfos.get(0).getUserId(), userInfos.get(0).getName());
-            Log.e("tag", "mConversationType2" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
+            //Log.e("tag", "mConversationType2" + "2" + mTargetId + groupName + "ids" + ids + "userInfos" + userInfos.get(0).getUserId());
             //createDiscussionChat(getActivity(), ids, groupName);
             creatTwoDiscussion(mTargetId, userInfos);
             // getActivity().finish();
@@ -429,8 +432,8 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                         idss.add(userInfo.getUserId());
                         groupName = sbb.toString() + "," + userInfo.getName();
                         createDiscussionChat(getActivity(), idss, groupName);
-                        Log.e("tag", "mConversationType2" + "2" + userInfo.getUserId() + userInfos.get(0).getUserId());
-                        Log.e("tag", "mConversationType2" + "2" + mTargetId + groupName + "ids" + idss.size() + "userInfos" + userInfos.get(0).getUserId());
+                        ///Log.e("tag", "mConversationType2" + "2" + userInfo.getUserId() + userInfos.get(0).getUserId());
+                        //Log.e("tag", "mConversationType2" + "2" + mTargetId + groupName + "ids" + idss.size() + "userInfos" + userInfos.get(0).getUserId());
                         getActivity().finish();
 
                     }
@@ -512,12 +515,12 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                     if (isFromSetting) {
                         if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
-                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count-1).sendToTarget();
-                            Log.e("Tag","selectButtonShowStylecount1"+count);
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - 1).sendToTarget();
+                            Log.e("Tag", "selectButtonShowStylecount1" + count);
                         } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
 //                            if()
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - 1).sendToTarget();
-                            Log.e("Tag","selectButtonShowStylecount2"+count);
+                            Log.e("Tag", "selectButtonShowStylecount2" + count);
                         }
                     } else {
                         if (mTargetId != null)
@@ -525,7 +528,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                         else
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - mMemberIds.size()).sendToTarget();
                     }
-                    Log.e("Tag","selectButtonShowStylecount2"+count);
+                    Log.e("Tag", "selectButtonShowStylecount2" + count);
                 }
             };
         }
@@ -552,7 +555,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     public boolean handleMessage(Message msg) {
         if (msg.what == HANDLE_UPDATE_CONFIRM_BUTTON) {
             selectButtonShowStyle((Integer) msg.obj, 0);
-            Log.e("Tag","selectButtonShowStyle"+1+"dddd"+(Integer) msg.obj);
+            Log.e("Tag", "selectButtonShowStyle" + 1 + "dddd" + (Integer) msg.obj);
         }
         return false;
     }
