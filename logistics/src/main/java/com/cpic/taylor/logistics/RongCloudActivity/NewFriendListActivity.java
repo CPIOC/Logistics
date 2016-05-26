@@ -26,6 +26,7 @@ import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendApplyListAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.NewFriendListAdapter;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
@@ -131,6 +132,16 @@ public class NewFriendListActivity extends BaseApiActivity {
 
                     }
 
+                } else if (friendApply.getCode() == 2) {
+                    Toast.makeText(NewFriendListActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(NewFriendListActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(friendApply.getMsg());
                 }
@@ -151,9 +162,9 @@ public class NewFriendListActivity extends BaseApiActivity {
         if (RongYunContext.getInstance() != null) {
             sp = PreferenceManager.getDefaultSharedPreferences(NewFriendListActivity.this);
             //获取当前用户的 userid
-            String  userid = sp.getString("cloud_id","");
-            String  username = sp.getString("name","");
-            String userportrait = sp.getString("img","");
+            String userid = sp.getString("cloud_id", "");
+            String username = sp.getString("name", "");
+            String userportrait = sp.getString("img", "");
             UserInfo userInfo = new UserInfo(userid, username, Uri.parse(userportrait));
             //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项
             message.setUserInfo(userInfo);

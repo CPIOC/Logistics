@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
@@ -111,20 +113,20 @@ public class PersonalDetailActivity extends BaseApiActivity {
                         @Override
                         public void onSuccess(List<Message> messages) {
 
-                            if(null!=messages){
-                                for (int i=0;i<messages.size();i++){
+                            if (null != messages) {
+                                for (int i = 0; i < messages.size(); i++) {
 
-                                    Message msg=messages.get(i);
+                                    Message msg = messages.get(i);
 
                                     MessageContent messageContent = messages.get(i).getContent();
 
-                                    if(messageContent instanceof ContactNotificationMessage){
+                                    if (messageContent instanceof ContactNotificationMessage) {
 
-                                        int msgArray[]=new int[1];
-                                        msgArray[0]=msg.getMessageId();
-                                        if(((ContactNotificationMessage) messageContent).getOperation().equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+                                        int msgArray[] = new int[1];
+                                        msgArray[0] = msg.getMessageId();
+                                        if (((ContactNotificationMessage) messageContent).getOperation().equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)) {
 
-                                        }else {
+                                        } else {
 
                                             RongIM.getInstance().getRongIMClient().deleteMessages(msgArray);
                                         }
@@ -240,6 +242,16 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
                     }
 
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(PersonalDetailActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(PersonalDetailActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(rcUser.getMsg());
                 }
@@ -285,6 +297,16 @@ public class PersonalDetailActivity extends BaseApiActivity {
                         showShortToast("请求添加成功");
                         finish();
 
+                    } else if ("2".equals(String.valueOf(jsonObj.getInt("code")))) {
+                        Toast.makeText(PersonalDetailActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(PersonalDetailActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 10);
                     } else {
                         showShortToast(jsonObj.getString("msg"));
                     }
@@ -338,6 +360,16 @@ public class PersonalDetailActivity extends BaseApiActivity {
 
                     }
 
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(PersonalDetailActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(PersonalDetailActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(rcUser.getMsg());
                 }
@@ -378,12 +410,12 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 mPersonalName.setText(userInfo.getName());
             }
             sp = PreferenceManager.getDefaultSharedPreferences(PersonalDetailActivity.this);
-            if(null!=currentUserId&&currentUserId.equals(sp.getString("cloud_id",""))){
+            if (null != currentUserId && currentUserId.equals(sp.getString("cloud_id", ""))) {
                 mAddFriend.setVisibility(View.GONE);
                 mSendMessage.setVisibility(View.GONE);
             }
 
-            Log.e("Tag","currentUserId1"+currentUserId);
+            Log.e("Tag", "currentUserId1" + currentUserId);
         } else if (getIntent().hasExtra("CONTACTS_USER")) {
 
             currentUserId = getIntent().getStringExtra("CONTACTS_USER");
@@ -395,7 +427,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
             mPersonalId.setVisibility(View.GONE);
             mAddFriend.setVisibility(View.GONE);
             mSendMessage.setVisibility(View.VISIBLE);
-            Log.e("Tag","currentUserId2"+currentUserId);
+            Log.e("Tag", "currentUserId2" + currentUserId);
         } else if (getIntent().hasExtra("USER_SEARCH")) {
             isSearch = getIntent().getBooleanExtra("USER_SEARCH", false);
             mAddFriend.setVisibility(View.VISIBLE);
@@ -403,7 +435,7 @@ public class PersonalDetailActivity extends BaseApiActivity {
             mPersonalImg.setResource(new Resource(userInfo.getPortraitUri()));
             mPersonalName.setText(userInfo.getName());
             currentUserId = userInfo.getUserId();
-            Log.e("Tag","currentUserId3"+currentUserId);
+            Log.e("Tag", "currentUserId3" + currentUserId);
         }
 
         if (currentUserId != null)

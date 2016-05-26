@@ -1,8 +1,10 @@
 package com.cpic.taylor.logistics.RongCloudActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
@@ -17,12 +19,14 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudModel.Friend;
 import com.cpic.taylor.logistics.RongCloudModel.MyGroup;
 import com.cpic.taylor.logistics.RongCloudModel.MyGroupData;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -55,8 +59,8 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
     private ArrayList<MyGroupData> myGroupDatas;
     private PopupWindow popuWindowDel;
     private GroupListAdapter groupListAdapter;
-    private TextView cancelTv,delTv;
-    View contentView=null;
+    private TextView cancelTv, delTv;
+    View contentView = null;
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -86,7 +90,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                onlineTel(view,i);
+                onlineTel(view, i);
                 return true;
             }
         });
@@ -95,6 +99,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
     /**
      * 删除群组提示弹框
+     *
      * @param
      */
     public void onlineTel(View view, final int position) {
@@ -118,7 +123,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
         popuWindowDel.setWidth(display.getWidth() * 80 / 100);
         popuWindowDel.showAtLocation((View) view.getParent(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
         popuWindowDel.update();
-        cancelTv = (TextView)contentView.findViewById(R.id.cancel_tv);
+        cancelTv = (TextView) contentView.findViewById(R.id.cancel_tv);
         delTv = (TextView) contentView.findViewById(R.id.yes_tv);
         cancelTv.setOnClickListener(new View.OnClickListener() {
 
@@ -131,7 +136,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
             @Override
             public void onClick(View v) {
-                deleteData(myGroupDatas.get(position).getId(),position);
+                deleteData(myGroupDatas.get(position).getId(), position);
             }
         });
         popuWindowDel.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -159,18 +164,20 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
     }
 
-    public  void backTo(View view){
+    public void backTo(View view) {
         finish();
     }
 
     public class GroupListAdapter extends BaseAdapter {
 
         ArrayList<MyGroupData> myGroupDataList;
-       public  GroupListAdapter(ArrayList<MyGroupData> myGroupDataList){
 
-           this.myGroupDataList=myGroupDataList;
+        public GroupListAdapter(ArrayList<MyGroupData> myGroupDataList) {
 
-       }
+            this.myGroupDataList = myGroupDataList;
+
+        }
+
         @Override
         public int getCount() {
 
@@ -210,7 +217,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
                 public void onSuccess(Discussion discussion) {
 
                     // mDiscussionName = discussion.getName();
-                    Log.e("Tag","mDiscussionName"+discussion.getName());
+                    Log.e("Tag", "mDiscussionName" + discussion.getName());
                     vh.name.setText(discussion.getName());
                     //addChatGroup(discussion.getName(),conversation.getTargetId());
 
@@ -272,11 +279,21 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
 
 
                     if (null != myGroup.getData()) {
-                        myGroupDatas= (ArrayList<MyGroupData>) myGroup.getData();
-                        groupListAdapter=new GroupListAdapter(myGroupDatas);
+                        myGroupDatas = (ArrayList<MyGroupData>) myGroup.getData();
+                        groupListAdapter = new GroupListAdapter(myGroupDatas);
                         group_list_view.setAdapter(groupListAdapter);
                     }
 
+                } else if (myGroup.getCode() == 2) {
+                    Toast.makeText(GroupListActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(GroupListActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(myGroup.getMsg());
                 }
@@ -316,18 +333,28 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
                 }
                 try {
                     if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
-                        if(null!=myGroupDatas){
+                        if (null != myGroupDatas) {
                             deleteDiscussionRecord(myGroupDatas.get(position).getTarget_id());
                             myGroupDatas.remove(position);
                         }
 
-                        if(null!=groupListAdapter)
-                        groupListAdapter.notifyDataSetChanged();
-                        if(null!=popuWindowDel)
-                        popuWindowDel.dismiss();
+                        if (null != groupListAdapter)
+                            groupListAdapter.notifyDataSetChanged();
+                        if (null != popuWindowDel)
+                            popuWindowDel.dismiss();
 
                         showShortToast("删除成功");
 
+                    } else if ("2".equals(String.valueOf(jsonObj.getInt("code")))) {
+                        Toast.makeText(GroupListActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(GroupListActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 10);
                     } else {
                         showShortToast(jsonObj.getString("msg"));
                     }
@@ -340,7 +367,7 @@ public class GroupListActivity extends com.cpic.taylor.logistics.base.BaseActivi
         });
     }
 
-    private void deleteDiscussionRecord(final String targetId){
+    private void deleteDiscussionRecord(final String targetId) {
         if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
             RongIM.getInstance().getRongIMClient().quitDiscussion(targetId, new RongIMClient.OperationCallback() {
                 @Override

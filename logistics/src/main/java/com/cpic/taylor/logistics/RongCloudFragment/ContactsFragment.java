@@ -36,6 +36,7 @@ import com.cpic.taylor.logistics.RongCloudWidget.SwitchGroup;
 import com.cpic.taylor.logistics.RongCloudWidget.SwitchItemView;
 import com.cpic.taylor.logistics.RongCloudaAdapter.ContactsMultiChoiceAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.FriendListAdapter;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -56,7 +57,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Taylor on 2016/4/29.
  */
-public class ContactsFragment extends Fragment implements Handler.Callback ,SwitchGroup.ItemHander, View.OnClickListener, TextWatcher, FriendListAdapter.OnFilterFinished, AdapterView.OnItemClickListener {
+public class ContactsFragment extends Fragment implements Handler.Callback, SwitchGroup.ItemHander, View.OnClickListener, TextWatcher, FriendListAdapter.OnFilterFinished, AdapterView.OnItemClickListener {
     protected ContactsMultiChoiceAdapter mAdapter;
     private PinnedHeaderListView mListView;
     private SwitchGroup mSwitchGroup;
@@ -399,6 +400,18 @@ public class ContactsFragment extends Fragment implements Handler.Callback ,Swit
                             }
                         }
                     });
+
+                } else if (myFriends.getCode() == 2) {
+
+                    Toast.makeText(getActivity(), "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
 
                 } else {
                     showShortToast(myFriends.getmsg());

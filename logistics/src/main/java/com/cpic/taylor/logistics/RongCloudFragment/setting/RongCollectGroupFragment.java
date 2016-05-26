@@ -4,7 +4,9 @@ package com.cpic.taylor.logistics.RongCloudFragment.setting;
  * Created by xuan on 2016/5/25.
  */
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -135,6 +138,18 @@ public class RongCollectGroupFragment extends BaseSettingFragment implements Alt
                     if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
 
                         showShortToast("收藏成功");
+
+                    } else if ("2".equals(String.valueOf(jsonObj.getInt("code")))) {
+
+                        Toast.makeText(getActivity(), "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().startActivity(intent);
+                                getActivity().finish();
+                            }
+                        }, 10);
 
                     } else {
                         showShortToast(jsonObj.getString("msg"));

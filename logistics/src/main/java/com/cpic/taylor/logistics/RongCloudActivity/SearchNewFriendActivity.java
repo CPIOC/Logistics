@@ -27,6 +27,7 @@ import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchFriendNearByAdapter;
 import com.cpic.taylor.logistics.RongCloudaAdapter.SearchMyFriendAdapter;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.bean.setRoute;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
@@ -84,7 +85,7 @@ public class SearchNewFriendActivity extends BaseActivity {
 
 
         getSupportActionBar().hide();
-        under_line=findViewById(R.id.under_line);
+        under_line = findViewById(R.id.under_line);
         searchNewFriendTitle = (TextView) findViewById(R.id.search_activity_title);
         searchNewFriendTitle.setText("新的朋友");
         routeMembersLl = (LinearLayout) findViewById(R.id.layout_add);
@@ -195,8 +196,18 @@ public class SearchNewFriendActivity extends BaseActivity {
                     }
 
 
+                } else if (msetRoute.getCode() == 2) {
+                    Toast.makeText(SearchNewFriendActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SearchNewFriendActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
-                    showShortToast(myFriends.getMsg());
+                    showShortToast(msetRoute.getMsg());
                 }
 
             }
@@ -264,6 +275,16 @@ public class SearchNewFriendActivity extends BaseActivity {
                             mListSearch.setAdapter(myAdapterNear);
                         }
                     }
+                } else if (sameRoutineFriends.getCode() == 2) {
+                    Toast.makeText(SearchNewFriendActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SearchNewFriendActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(sameRoutineFriends.getMsg());
                 }
@@ -336,6 +357,16 @@ public class SearchNewFriendActivity extends BaseActivity {
                     }
 
 
+                } else if (myFriends.getCode() == 2) {
+                    Toast.makeText(SearchNewFriendActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SearchNewFriendActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(myFriends.getMsg());
                 }

@@ -153,8 +153,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     mViewPager.setCurrentItem(1);
                     setTitleBarContact();
                     currentIndex = 1;
-                    if(null!=mContactsFragment)
-                    mContactsFragment.getFriendList();
+                    if (null != mContactsFragment)
+                        mContactsFragment.getFriendList();
                 }
 
             }
@@ -339,7 +339,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 1:
                 selectNavSelection(1);
-                if(null!=mContactsFragment)
+                if (null != mContactsFragment)
                     mContactsFragment.getFriendList();
                 break;
 
@@ -632,10 +632,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                         NewFriendApplyListAdapter mAdapter = new NewFriendApplyListAdapter(friendApply.getData(), MainActivity.this);
 
-                        ArrayList<FriendApplyData> friendApplyDatas=new ArrayList<FriendApplyData>();
-                        friendApplyDatas=friendApply.getData();
+                        ArrayList<FriendApplyData> friendApplyDatas = new ArrayList<FriendApplyData>();
+                        friendApplyDatas = friendApply.getData();
 
-                        for (int i=0;i<friendApplyDatas.size();i++){
+                        for (int i = 0; i < friendApplyDatas.size(); i++) {
 
                             UserInfos f = new UserInfos();
                             f.setUserid(friendApplyDatas.get(i).getCloud_id());
@@ -649,6 +649,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                     }
 
+                } else if (friendApply.getCode() == 2) {
+                    Toast.makeText(MainActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
                 } else {
                     showShortToast(friendApply.getMsg());
                 }

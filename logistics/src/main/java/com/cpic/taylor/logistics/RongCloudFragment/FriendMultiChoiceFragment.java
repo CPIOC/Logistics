@@ -23,6 +23,7 @@ import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
 import com.cpic.taylor.logistics.RongCloudaAdapter.FriendMultiChoiceAdapter;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -439,6 +440,18 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     }
 
 
+                } else if (rcUser.getCode() == 2) {
+
+                    Toast.makeText(getActivity(), "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
+
                 } else {
 
                     showShortToast(rcUser.getMsg());
@@ -463,7 +476,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     public void onSuccess(String targetId) {
                         Uri uri = Uri.parse("rong://" + context.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.DISCUSSION.getName().toLowerCase()).appendQueryParameter("targetIds", TextUtils.join(",", targetUserIds)).appendQueryParameter("delimiter", ",").appendQueryParameter("targetId", targetId).appendQueryParameter("title", title).build();
                         context.startActivity(new Intent("android.intent.action.VIEW", uri));
-                        Log.e("Tag","群聊Ids"+targetId);
+                        Log.e("Tag", "群聊Ids" + targetId);
                         //addChatGroup(groupName, targetId);
 
                     }
@@ -605,6 +618,18 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
 
                         showShortToast("添加成功");
+
+                    } else if ("2".equals(String.valueOf(jsonObj.getInt("code")))) {
+
+                        Toast.makeText(getActivity(), "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().startActivity(intent);
+                                getActivity().finish();
+                            }
+                        }, 10);
 
                     } else {
                         showShortToast(jsonObj.getString("msg"));

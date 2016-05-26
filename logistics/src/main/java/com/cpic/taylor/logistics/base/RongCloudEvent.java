@@ -31,6 +31,7 @@ import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.activity.HomeActivity;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
@@ -427,6 +428,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     }
 
 
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(mContext, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    }, 10);
                 } else {
 
                     showShortToast(rcUser.getMsg());
@@ -510,6 +520,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     }
 
 
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(mContext, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    }, 10);
                 } else {
 
                     showShortToast(rcUser.getMsg());
@@ -593,6 +612,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     }
 
 
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(mContext, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    }, 10);
                 } else {
 
                     showShortToast(rcUser.getMsg());

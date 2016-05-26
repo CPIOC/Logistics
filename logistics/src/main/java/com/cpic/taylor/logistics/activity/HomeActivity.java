@@ -39,6 +39,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
@@ -90,7 +91,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Taylor on 2016/5/4.
  */
-public class HomeActivity extends BaseActivity implements ApiCallback, Handler.Callback{
+public class HomeActivity extends BaseActivity implements ApiCallback, Handler.Callback {
 
     // 记录上次点击返回键的时间
     private long lastTime;
@@ -159,7 +160,6 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
     private ConnectKickedReceiveBroadCast connectKickedReceiveBroadCast;
 
 
-
     /**
      * 融云登录定义
      */
@@ -170,7 +170,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private LoadingDialog mDialog;
     String userName;
-    private int firstLogin=0;
+    private int firstLogin = 0;
 
     /**
      * jpush
@@ -231,7 +231,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         init();
         mHandler = new Handler(HomeActivity.this);
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        if (!sp.getBoolean("isLogin",true)){
+        if (!sp.getBoolean("isLogin", true)) {
             //自动登录
             antoLogin();
         }
@@ -246,8 +246,8 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        params.addBodyParameter("mobile", sp.getString("mobile",""));
-        params.addBodyParameter("password",sp.getString("pwd",""));
+        params.addBodyParameter("mobile", sp.getString("mobile", ""));
+        params.addBodyParameter("password", sp.getString("pwd", ""));
         params.addBodyParameter("device", JPushInterface.getRegistrationID(getApplicationContext()));
         String url = UrlUtils.POST_URL + UrlUtils.path_login;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
@@ -268,7 +268,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                 int code = login.getCode();
                 if (code == 1) {
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("isLogin",false);
+                    editor.putBoolean("isLogin", false);
                     editor.putString("img", login.getData().getImg());
                     editor.putString("name", login.getData().getName());
                     editor.putString("plate_number", login.getData().getPlate_number());
@@ -359,6 +359,15 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                         }
                     });
 
+                } else if (myFriends.getCode() == 2) {
+                    Toast.makeText(HomeActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 10);
                 } else {
                     showShortToast(myFriends.getmsg());
                 }
@@ -474,7 +483,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
             @Override
             public void onClick(View view) {
 //                showPopupWindow(view, INFO_CAMERA, INFO_PHOTO, false);
-                LoadImgPop pop = new LoadImgPop(pw,screenWidth,HomeActivity.this,sp.getString("driving_license", ""));
+                LoadImgPop pop = new LoadImgPop(pw, screenWidth, HomeActivity.this, sp.getString("driving_license", ""));
                 pop.showLookCameraPop();
 
 
@@ -506,13 +515,13 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                         }
                         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putBoolean("isLogin",true);
-                        editor.putString("start","");
-                        editor.putString("end","");
-                        editor.putString("startLat","");
-                        editor.putString("startLng","");
-                        editor.putString("endLat","");
-                        editor.putString("endLng","");
+                        editor.putBoolean("isLogin", true);
+                        editor.putString("start", "");
+                        editor.putString("end", "");
+                        editor.putString("startLat", "");
+                        editor.putString("startLng", "");
+                        editor.putString("endLat", "");
+                        editor.putString("endLng", "");
                         editor.commit();
                         finish();
                         dialogInterface.dismiss();
@@ -579,18 +588,27 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                     String driving_license = data.getString("driving_license");
                     sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("driving_license",driving_license);
+                    editor.putString("driving_license", driving_license);
                     editor.commit();
-                    String  id = sp.getString("cloud_id","");
-                    String  name = etName.getText().toString();
+                    String id = sp.getString("cloud_id", "");
+                    String name = etName.getText().toString();
                     String uritest = data.getString("img");
-                    UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
+                    UserInfo userInfo = new UserInfo(id, name, Uri.parse(uritest));
                     //RongIM.getInstance().setCurrentUserInfo(userInfo);
                     //RongIM.getInstance().refreshUserInfoCache(userInfo);
-                    RongContext.getInstance().getUserInfoCache().put(id,userInfo);
+                    RongContext.getInstance().getUserInfoCache().put(id, userInfo);
 
                     //refreshRCInfo(id);
 
+                } else if (code == 2) {
+                    Toast.makeText(HomeActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 10);
                 } else {
                     showShortToast(obj.getString("msg"));
                 }
@@ -651,14 +669,23 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                         f.setUsername(named);
                         f.setPortrait(uritestd);
                         f.setStatus("1");
-                        UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
-                        RongContext.getInstance().getUserInfoCache().put(idd,userInfo);
+                        UserInfo userInfo = new UserInfo(idd, named, Uri.parse(uritestd));
+                        RongContext.getInstance().getUserInfoCache().put(idd, userInfo);
                         RongIM.getInstance().refreshUserInfoCache(userInfo);
 
 
                     }
 
 
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(HomeActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 10);
                 } else {
 
                     showShortToast(rcUser.getMsg());
@@ -920,6 +947,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         filter.addAction(MESSAGE_RECEIVED_ACTION);
         registerReceiver(mMessageReceiver, filter);
     }
+
     public void registerConnectKickedReceive() {
         connectKickedReceiveBroadCast = new ConnectKickedReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
@@ -944,14 +972,12 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         }
     }
 
-    public class ConnectKickedReceiveBroadCast extends BroadcastReceiver
-    {
+    public class ConnectKickedReceiveBroadCast extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
             showShortToast("该账号已在其他设备上登录");
-            Intent in =new Intent(HomeActivity.this,LoginActivity.class);
+            Intent in = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(in);
         }
 
@@ -994,10 +1020,10 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
 //                                    RongYunContext.getInstance().deleteUserInfos();
 //                            }
 
-                            String  id = sp.getString("cloud_id","");
-                            String  name = sp.getString("name","");
-                            String uritest = sp.getString("img","");
-                            UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
+                            String id = sp.getString("cloud_id", "");
+                            String name = sp.getString("name", "");
+                            String uritest = sp.getString("img", "");
+                            UserInfo userInfo = new UserInfo(id, name, Uri.parse(uritest));
                             RongIM.getInstance().setCurrentUserInfo(userInfo);
 
 
@@ -1005,7 +1031,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
-                            Log.e("Tag","ErrorCode"+e.getValue());
+                            Log.e("Tag", "ErrorCode" + e.getValue());
                             mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
                         }
                     }
@@ -1077,7 +1103,6 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
 
         return false;
     }
-
 
 
 }

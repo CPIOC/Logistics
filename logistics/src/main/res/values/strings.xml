@@ -27,7 +27,7 @@
     <string name="app_first_login">请先登陆</string>
     <string name="app_cookie_null">cookie 为空</string>
     <string name="login_erro_is_null">"用户名、密码不能为空"</string>
- 
+
     <!--主页-->
     <string name="main_name">融云</string>
     <string name="main_conversation">会话</string>
