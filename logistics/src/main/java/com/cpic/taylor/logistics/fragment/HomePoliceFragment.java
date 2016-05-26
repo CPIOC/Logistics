@@ -1,8 +1,10 @@
 package com.cpic.taylor.logistics.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.cpic.taylor.logistics.R;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.bean.Police;
 import com.cpic.taylor.logistics.bean.PoliceDataInfo;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
@@ -235,6 +238,16 @@ public class HomePoliceFragment extends Fragment{
                     adapter = new CarAdapter();
                     adapter.setDatas(datas);
                     elv.setAdapter(adapter);
+                }else if (code == 2){
+                    Toast.makeText(getActivity(),"身份验证失败，请重新登陆",Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
                 }
             }
 
@@ -420,6 +433,16 @@ public class HomePoliceFragment extends Fragment{
                 int code = obj.getIntValue("code");
                 if (code == 1){
                     Toast.makeText(getActivity(),"发送成功",Toast.LENGTH_SHORT).show();
+                }else if (code == 2){
+                    Toast.makeText(getActivity(),"身份验证失败，请重新登陆",Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
                 }else{
                     Toast.makeText(getActivity(),obj.getString("msg"),Toast.LENGTH_SHORT).show();
                 }

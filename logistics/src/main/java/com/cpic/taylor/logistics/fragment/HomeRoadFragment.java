@@ -1,5 +1,6 @@
 package com.cpic.taylor.logistics.fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.activity.HomeActivity;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.bean.RouteFriend;
 import com.cpic.taylor.logistics.bean.RouteFriendData;
 import com.cpic.taylor.logistics.utils.ApkInstaller;
@@ -231,7 +233,17 @@ public class HomeRoadFragment extends Fragment {
 
                     }
 
-                } else {
+                }else if (routeFriend.getCode() == 2){
+                    Toast.makeText(getActivity(),"身份验证失败，请重新登陆",Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
+                }else {
                     showShortToast(routeFriend.getMsg());
                 }
 

@@ -54,6 +54,7 @@ import com.amap.api.services.route.WalkRouteResult;
 import com.bumptech.glide.Glide;
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.activity.ChooseAreaActivity;
+import com.cpic.taylor.logistics.activity.LoginActivity;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.bean.SetRouteData;
 import com.cpic.taylor.logistics.bean.setRoute;
@@ -303,6 +304,9 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                 builder.show();
             }
         });
+        /**
+         * 路况信息
+         */
         cboxTraffic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -437,6 +441,16 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         aMap.setMyLocationEnabled(true);
 
                     }
+                }else if (code == 2){
+                    Toast.makeText(getActivity(),"身份验证失败，请重新登陆",Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
                 }
             }
 
@@ -607,6 +621,16 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cool))).setTitle(datas.get(i).getUser_name());
 //                        aMap.setMyLocationEnabled(true);
                     }
+                }else if (code == 2){
+                    Toast.makeText(getActivity(),"身份验证失败，请重新登陆",Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }, 10);
                 }
 
             }
