@@ -42,7 +42,6 @@ public class SpashActivity extends BaseActivity {
     @Override
     protected void initData() {
         sp = PreferenceManager.getDefaultSharedPreferences(SpashActivity.this);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

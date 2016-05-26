@@ -73,8 +73,6 @@ public class HomePoliceFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_home_police,null);
         initView(view);
-
-
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         token = sp.getString("token","");
 
@@ -87,13 +85,7 @@ public class HomePoliceFragment extends Fragment{
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden){
-//            sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//            address = sp.getString("now_address","");
-//            token = sp.getString("token","");
-//            lat = sp.getString("now_latitude","");
-//            lng = sp.getString("now_longitude","");
-//            tvAddress.setText(address);
-//            Log.i("oye",lat+lng+address);
+
         }
     }
 
@@ -149,6 +141,14 @@ public class HomePoliceFragment extends Fragment{
             }
         });
 
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"我点击啦",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 //        linearLayout.setOnTouchListener(new View.OnTouchListener() {
 //
 //            @Override
@@ -195,12 +195,6 @@ public class HomePoliceFragment extends Fragment{
 //            }
 //        });
 
-//        linearLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("oye", "danji");
-//            }
-//        });
 
     }
 
