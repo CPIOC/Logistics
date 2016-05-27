@@ -179,6 +179,10 @@
             android:textColor="#0E0E0E"
             android:textSize="15sp" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DEDEDE"></View>
 
     <ListView
         android:id="@+id/de_search_list"
