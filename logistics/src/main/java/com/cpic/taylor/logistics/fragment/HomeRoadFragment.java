@@ -218,7 +218,6 @@ public class HomeRoadFragment extends Fragment {
                 String result = responseInfo.result;
                 JSONObject jsonObj = null;
                 try {
-
                     Gson gson = new Gson();
                     java.lang.reflect.Type type = new TypeToken<RouteFriend>() {
                     }.getType();
@@ -228,7 +227,6 @@ public class HomeRoadFragment extends Fragment {
                 }
 
                 if (routeFriend.getCode() == 1) {
-
                     if (null != routeFriend.getData()) {
                         routeFriendDataList = routeFriend.getData();
                         roadInfoListAdapter = new RoadInfoListAdapter(routeFriendDataList);
