@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.cpic.taylor.logistics.activity.HomeActivity;
 import com.cpic.taylor.logistics.utils.ExampleUtil;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechSynthesizer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,27 +30,39 @@ import cn.jpush.android.api.JPushInterface;
 public class MyReceiver extends BroadcastReceiver {
 	private static final String TAG = "JPush";
 
+	private SpeechSynthesizer mTts;
+	// 缓冲进度
+	private int mPercentForBuffering = 0;
+	// 播放进度
+	private int mPercentForPlaying = 0;
+	// 引擎类型
+	private String mEngineType = SpeechConstant.TYPE_CLOUD;
+	// 默认发音人
+	private String voicer = "xiaoyan";
+	private Context context;
+
+	private SharedPreferences mSharedPreferences;
 	@Override
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+		Log.i(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 		
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
+            Log.i("oye", "[MyReceiver] 接收Registration Id : " + regId);
             //send the Registration Id to your server...
                         
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-        	Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+        	Log.i("oye", "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
         	processCustomMessage(context, bundle);
-        
+
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
+            Log.i("oye", "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+            Log.i("oye", "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         	
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
+            Log.i("oye", "[MyReceiver] 用户点击打开了通知");
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 			if (!sp.getBoolean("isclose",true)){
 				Intent i = new Intent(context, HomeActivity.class);
@@ -125,4 +139,6 @@ public class MyReceiver extends BroadcastReceiver {
 			context.sendBroadcast(msgIntent);
 		}
 	}
+
+
 }

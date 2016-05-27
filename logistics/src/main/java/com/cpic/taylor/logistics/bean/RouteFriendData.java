@@ -11,8 +11,18 @@ public class RouteFriendData {
     private  String content;
     private  String cat_id;
     private  String address;
+
+    public String getCloud_id() {
+        return cloud_id;
+    }
+
+    public void setCloud_id(String cloud_id) {
+        this.cloud_id = cloud_id;
+    }
+
     private  String created_at;
     private  String user_img;
+    private String cloud_id;
 
     public String getUser_id() {
         return user_id;

@@ -583,7 +583,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     upLoadLocation(aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
                 }
 //                Log.i("oye",aMapLocation.getAddress());
-
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
                 Toast.makeText(getActivity(),"定位失败，请检查GPS是否开启",Toast.LENGTH_SHORT).show();
@@ -615,7 +614,6 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                     datas = route.getData();
                     LatLonPoint lp ;
                     for (int i =0;i<datas.size();i++){
-
                         lp = new LatLonPoint(Double.parseDouble(datas.get(i).getLat()),Double.parseDouble(datas.get(i).getLng()));
                         aMap.addMarker(new MarkerOptions().position(AMapUtil.convertToLatLng(lp)).snippet(datas.get(i).getCloud_id()+"!"+datas.get(i).getImg())
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cool))).setTitle(datas.get(i).getUser_name());
@@ -632,9 +630,7 @@ public class HomeLineFragment extends Fragment implements LocationSource,
                         }
                     }, 10);
                 }
-
             }
-
             @Override
             public void onFailure(HttpException e, String s) {
                 Log.i("oye","失败"+s);

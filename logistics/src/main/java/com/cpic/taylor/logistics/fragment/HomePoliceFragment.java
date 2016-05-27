@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -278,9 +277,9 @@ public class HomePoliceFragment extends Fragment{
                         lat = aMapLocation.getLatitude()+"";
                         lng = aMapLocation.getLongitude()+"";
                         tvAddress.setText(address);
-                        Log.i("oye",address+"----"+lat+"-----"+lng);
                     } else {
                         //定位失败
+                        tvAddress.setText("暂无地理位置信息，请稍后点击重试");
                     }
                 }
             }

@@ -32,6 +32,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +41,6 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
@@ -53,6 +54,7 @@ import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudModel.User;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
+import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.base.BaseActivity;
 import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunContext;
@@ -65,9 +67,17 @@ import com.cpic.taylor.logistics.utils.CloseActivityClass;
 import com.cpic.taylor.logistics.utils.ExampleUtil;
 import com.cpic.taylor.logistics.utils.ProgressDialogHandle;
 import com.cpic.taylor.logistics.utils.RoundImageView;
+import com.cpic.taylor.logistics.utils.TtsSettings;
 import com.cpic.taylor.logistics.utils.UrlUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.sunflower.FlowerCollector;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -91,7 +101,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Taylor on 2016/5/4.
  */
-public class HomeActivity extends BaseActivity implements ApiCallback, Handler.Callback {
+public class HomeActivity extends BaseActivity implements ApiCallback, Handler.Callback{
 
     // 记录上次点击返回键的时间
     private long lastTime;
@@ -110,6 +120,11 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
     public String curFragmentTag = "";
 
     private Button btnLoginOut;
+    //语音播报的按钮
+    private CheckBox cboxVoice;
+    private boolean isSpeakVoice = true;
+    private LinearLayout llCbox;
+
 
     /**
      * 侧滑部分
@@ -160,6 +175,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
     private ConnectKickedReceiveBroadCast connectKickedReceiveBroadCast;
 
 
+
     /**
      * 融云登录定义
      */
@@ -170,7 +186,9 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private LoadingDialog mDialog;
     String userName;
-    private int firstLogin = 0;
+    private int firstLogin=0;
+
+
 
     /**
      * jpush
@@ -178,6 +196,9 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
      * @param savedInstanceState
      */
     public static boolean isForeground = false;
+
+
+
 
     @Override
     protected void getIntentData(Bundle savedInstanceState) {
@@ -213,11 +234,14 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         dialog = ProgressDialogHandle.getProgressDialog(HomeActivity.this, null);
         ivAdd = (ImageView) findViewById(R.id.layout_iv_add);
         btnLoginOut = (Button) findViewById(R.id.activity_home_btn_login_out);
+        cboxVoice = (CheckBox) findViewById(R.id.layout_cbox_car_voice);
+        llCbox = (LinearLayout) findViewById(R.id.layout_ll_car_voice);
     }
 
     @Override
     protected void initData() {
         initFragment();
+        initFly();
 
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
         etName.setText(sp.getString("name", ""));
@@ -231,7 +255,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         init();
         mHandler = new Handler(HomeActivity.this);
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        if (!sp.getBoolean("isLogin", true)) {
+        if (!sp.getBoolean("isLogin",true)){
             //自动登录
             antoLogin();
         }
@@ -246,8 +270,8 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         post = new HttpUtils();
         params = new RequestParams();
         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
-        params.addBodyParameter("mobile", sp.getString("mobile", ""));
-        params.addBodyParameter("password", sp.getString("pwd", ""));
+        params.addBodyParameter("mobile", sp.getString("mobile",""));
+        params.addBodyParameter("password",sp.getString("pwd",""));
         params.addBodyParameter("device", JPushInterface.getRegistrationID(getApplicationContext()));
         String url = UrlUtils.POST_URL + UrlUtils.path_login;
         post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
@@ -268,7 +292,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                 int code = login.getCode();
                 if (code == 1) {
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("isLogin", false);
+                    editor.putBoolean("isLogin",false);
                     editor.putString("img", login.getData().getImg());
                     editor.putString("name", login.getData().getName());
                     editor.putString("plate_number", login.getData().getPlate_number());
@@ -359,15 +383,6 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                         }
                     });
 
-                } else if (myFriends.getCode() == 2) {
-                    Toast.makeText(HomeActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }, 10);
                 } else {
                     showShortToast(myFriends.getmsg());
                 }
@@ -483,7 +498,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
             @Override
             public void onClick(View view) {
 //                showPopupWindow(view, INFO_CAMERA, INFO_PHOTO, false);
-                LoadImgPop pop = new LoadImgPop(pw, screenWidth, HomeActivity.this, sp.getString("driving_license", ""));
+                LoadImgPop pop = new LoadImgPop(pw,screenWidth,HomeActivity.this,sp.getString("driving_license", ""));
                 pop.showLookCameraPop();
 
 
@@ -515,13 +530,13 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                         }
                         sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putBoolean("isLogin", true);
-                        editor.putString("start", "");
-                        editor.putString("end", "");
-                        editor.putString("startLat", "");
-                        editor.putString("startLng", "");
-                        editor.putString("endLat", "");
-                        editor.putString("endLng", "");
+                        editor.putBoolean("isLogin",true);
+                        editor.putString("start","");
+                        editor.putString("end","");
+                        editor.putString("startLat","");
+                        editor.putString("startLng","");
+                        editor.putString("endLat","");
+                        editor.putString("endLng","");
                         editor.commit();
                         finish();
                         dialogInterface.dismiss();
@@ -536,6 +551,36 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                 builder.show();
             }
         });
+
+        /**
+         * 声音开启与关闭
+         */
+        cboxVoice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    isSpeakVoice = true;
+                }else{
+                    isSpeakVoice = false;
+                }
+            }
+        });
+        /**
+         * 点击大范围改变声音按钮
+         */
+        llCbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cboxVoice.isChecked()){
+                    cboxVoice.setChecked(false);
+                }else{
+                    cboxVoice.setChecked(true);
+                }
+            }
+        });
+
+
+
     }
 
     /**
@@ -588,27 +633,18 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                     String driving_license = data.getString("driving_license");
                     sp = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("driving_license", driving_license);
+                    editor.putString("driving_license",driving_license);
                     editor.commit();
-                    String id = sp.getString("cloud_id", "");
-                    String name = etName.getText().toString();
+                    String  id = sp.getString("cloud_id","");
+                    String  name = etName.getText().toString();
                     String uritest = data.getString("img");
-                    UserInfo userInfo = new UserInfo(id, name, Uri.parse(uritest));
+                    UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
                     //RongIM.getInstance().setCurrentUserInfo(userInfo);
                     //RongIM.getInstance().refreshUserInfoCache(userInfo);
-                    RongContext.getInstance().getUserInfoCache().put(id, userInfo);
+                    RongContext.getInstance().getUserInfoCache().put(id,userInfo);
 
                     //refreshRCInfo(id);
 
-                } else if (code == 2) {
-                    Toast.makeText(HomeActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }, 10);
                 } else {
                     showShortToast(obj.getString("msg"));
                 }
@@ -669,23 +705,14 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                         f.setUsername(named);
                         f.setPortrait(uritestd);
                         f.setStatus("1");
-                        UserInfo userInfo = new UserInfo(idd, named, Uri.parse(uritestd));
-                        RongContext.getInstance().getUserInfoCache().put(idd, userInfo);
+                        UserInfo userInfo = new UserInfo(idd,named, Uri.parse(uritestd));
+                        RongContext.getInstance().getUserInfoCache().put(idd,userInfo);
                         RongIM.getInstance().refreshUserInfoCache(userInfo);
 
 
                     }
 
 
-                } else if (rcUser.getCode() == 2) {
-                    Toast.makeText(HomeActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }, 10);
                 } else {
 
                     showShortToast(rcUser.getMsg());
@@ -722,6 +749,14 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
+
+    /**
+     * 照片选择弹出框
+     * @param v
+     * @param type1
+     * @param type2
+     * @param isUser
+     */
     private void showPopupWindow(View v, final int type1, final int type2, final boolean isUser) {
         View view = View.inflate(HomeActivity.this, R.layout.popupwindow_1, null);
         tvCamera = (TextView) view.findViewById(R.id.btn_camera);
@@ -939,6 +974,8 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
+    private  ArrayList<String> voiceResorce = new ArrayList<String>();
+
 
     public void registerMessageReceiver() {
         mMessageReceiver = new MessageReceiver();
@@ -947,7 +984,6 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         filter.addAction(MESSAGE_RECEIVED_ACTION);
         registerReceiver(mMessageReceiver, filter);
     }
-
     public void registerConnectKickedReceive() {
         connectKickedReceiveBroadCast = new ConnectKickedReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
@@ -965,6 +1001,12 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
                 String extras = intent.getStringExtra(KEY_EXTRAS);
                 StringBuilder showMsg = new StringBuilder();
                 showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                voiceResorce.add(messge);
+                if (!mTts.isSpeaking()&&voiceResorce.size()!=0&&isSpeakVoice){
+                    startPlay(null,voiceResorce.get(0));
+                }else {
+                    voiceResorce.clear();
+                }
                 if (!ExampleUtil.isEmpty(extras)) {
                     showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                 }
@@ -972,12 +1014,184 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
         }
     }
 
-    public class ConnectKickedReceiveBroadCast extends BroadcastReceiver {
+    private SpeechSynthesizer mTts;
+    // 缓冲进度
+    private int mPercentForBuffering = 0;
+    // 播放进度
+    private int mPercentForPlaying = 0;
+    // 引擎类型
+    private String mEngineType = SpeechConstant.TYPE_CLOUD;
+    // 默认发音人
+    private String voicer = "xiaoyan";
+
+    private SharedPreferences mSharedPreferences;
+    private String[] mCloudVoicersEntries;
+    private String[] mCloudVoicersValue;
+
+
+
+    public void initFly(){
+        // 云端发音人名称列表
+        mCloudVoicersEntries = getResources().getStringArray(R.array.voicer_cloud_entries);
+        mCloudVoicersValue = getResources().getStringArray(R.array.voicer_cloud_values);
+
+        mSharedPreferences = HomeActivity.this.getSharedPreferences(TtsSettings.PREFER_NAME, HomeActivity.MODE_PRIVATE);
+
+        mTts = SpeechSynthesizer.createSynthesizer(HomeActivity.this, null);
+    }
+
+    private void startPlay(ImageView iv_voice, String str) {
+        // 移动数据分析，收集开始合成事件
+        FlowerCollector.onEvent(HomeActivity.this, "tts_play");
+
+        String text = "调用此接口请注释";
+        text = str;
+        // 设置参数
+        setParam();
+
+        int code = mTts.startSpeaking(text, mTtsListener);
+//			/**
+//			 * 只保存音频不进行播放接口,调用此接口请注释startSpeaking接口
+//			 * text:要合成的文本，uri:需要保存的音频全路径，listener:回调接口
+//			*/
+//			String path = Environment.getExternalStorageDirectory()+"/tts.pcm";
+//			int code = mTts.synthesizeToUri(text, path, mTtsListener);
+
+        if (code != ErrorCode.SUCCESS) {
+            if (code == ErrorCode.ERROR_COMPONENT_NOT_INSTALLED) {
+//                未安装则跳转到提示安装页面
+            } else {
+                WinToast.toast(HomeActivity.this, "语音合成失败,错误码: " + code);
+            }
+        }
+    }
+
+    /**
+     * 初始化监听。
+     */
+    private InitListener mTtsInitListener = new InitListener() {
+        @Override
+        public void onInit(int code) {
+
+            if (code != ErrorCode.SUCCESS) {
+                WinToast.toast(HomeActivity.this, "初始化失败,错误码：" + code);
+            } else {
+                // 初始化成功，之后可以调用startSpeaking方法
+                // 注：有的开发者在onCreate方法中创建完合成对象之后马上就调用startSpeaking进行合成，
+                // 正确的做法是将onCreate中的startSpeaking调用移至这里
+            }
+        }
+    };
+    /**
+     * 合成回调监听。
+     */
+    private SynthesizerListener mTtsListener = new SynthesizerListener() {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onSpeakBegin() {
+            // WinToast.toast(homeActivity, "开始播放");
+        }
+
+        @Override
+        public void onSpeakPaused() {
+            WinToast.toast(HomeActivity.this, "暂停播放");
+        }
+
+        @Override
+        public void onSpeakResumed() {
+            WinToast.toast(HomeActivity.this, "继续播放");
+        }
+
+        @Override
+        public void onBufferProgress(int percent, int beginPos, int endPos, String info) {
+            // 合成进度
+            mPercentForBuffering = percent;
+            //WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format), mPercentForBuffering, mPercentForPlaying));
+        }
+
+        @Override
+        public void onSpeakProgress(int percent, int beginPos, int endPos) {
+            // 播放进度
+            mPercentForPlaying = percent;
+            //WinToast.toast(homeActivity, String.format(getString(R.string.tts_toast_format),mPercentForBuffering, mPercentForPlaying));
+
+        }
+
+        @Override
+        public void onCompleted(SpeechError error) {
+            if (error == null) {
+                // WinToast.toast(homeActivity, "播放完成");
+//                Log.i("oye","onCompleted");
+                voiceResorce.remove(0);
+                if (voiceResorce.size()!=0&&isSpeakVoice){
+                    startPlay(null,voiceResorce.get(0));
+                }else if (!isSpeakVoice){
+                    voiceResorce.clear();
+                }
+            } else if (error != null) {
+
+            }
+        }
+
+        @Override
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+            // 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
+            // 若使用本地能力，会话id为null
+            //	if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+            //		String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+            //		Log.d(TAG, "session id =" + sid);
+            //	}
+        }
+    };
+
+    /**
+     * 参数设置
+     *
+     * @return
+     */
+    private void setParam() {
+        // 清空参数
+        mTts.setParameter(SpeechConstant.PARAMS, null);
+        // 根据合成引擎设置相应参数
+        if (mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
+            mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+            // 设置在线合成发音人
+            mTts.setParameter(SpeechConstant.VOICE_NAME, voicer);
+            //设置合成语速
+            mTts.setParameter(SpeechConstant.SPEED, mSharedPreferences.getString("speed_preference", "50"));
+            //设置合成音调
+            mTts.setParameter(SpeechConstant.PITCH, mSharedPreferences.getString("pitch_preference", "50"));
+            //设置合成音量
+            mTts.setParameter(SpeechConstant.VOLUME, mSharedPreferences.getString("volume_preference", "50"));
+        } else {
+            mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_LOCAL);
+            // 设置本地合成发音人 voicer为空，默认通过语记界面指定发音人。
+            mTts.setParameter(SpeechConstant.VOICE_NAME, "");
+            /**
+             * TODO 本地合成不设置语速、音调、音量，默认使用语记设置
+             * 开发者如需自定义参数，请参考在线合成参数设置
+             */
+        }
+        //设置播放器音频流类型
+        mTts.setParameter(SpeechConstant.STREAM_TYPE, mSharedPreferences.getString("stream_preference", "3"));
+        // 设置播放合成音频打断音乐播放，默认为true
+        mTts.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
+
+        // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
+        // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
+        mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+        mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts.wav");
+    }
+
+
+    public class ConnectKickedReceiveBroadCast extends BroadcastReceiver
+    {
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
             showShortToast("该账号已在其他设备上登录");
-            Intent in = new Intent(HomeActivity.this, LoginActivity.class);
+            Intent in =new Intent(HomeActivity.this,LoginActivity.class);
             startActivity(in);
         }
 
@@ -1020,10 +1234,10 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
 //                                    RongYunContext.getInstance().deleteUserInfos();
 //                            }
 
-                            String id = sp.getString("cloud_id", "");
-                            String name = sp.getString("name", "");
-                            String uritest = sp.getString("img", "");
-                            UserInfo userInfo = new UserInfo(id, name, Uri.parse(uritest));
+                            String  id = sp.getString("cloud_id","");
+                            String  name = sp.getString("name","");
+                            String uritest = sp.getString("img","");
+                            UserInfo userInfo = new UserInfo(id,name, Uri.parse(uritest));
                             RongIM.getInstance().setCurrentUserInfo(userInfo);
 
 
@@ -1031,7 +1245,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
-                            Log.e("Tag", "ErrorCode" + e.getValue());
+                            Log.e("Tag","ErrorCode"+e.getValue());
                             mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
                         }
                     }
@@ -1103,6 +1317,7 @@ public class HomeActivity extends BaseActivity implements ApiCallback, Handler.C
 
         return false;
     }
+
 
 
 }

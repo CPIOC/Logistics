@@ -31,6 +31,7 @@ import com.cpic.taylor.logistics.RongCloudModel.MyNewFriends;
 import com.cpic.taylor.logistics.RongCloudWidget.WinToast;
 import com.cpic.taylor.logistics.activity.HomeActivity;
 import com.cpic.taylor.logistics.activity.LoginActivity;
+import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.bean.RouteFriend;
 import com.cpic.taylor.logistics.bean.RouteFriendData;
 import com.cpic.taylor.logistics.utils.ApkInstaller;
@@ -53,6 +54,8 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.ArrayList;
+
+import io.rong.imkit.RongIM;
 
 /**
  * Created by Taylor on 2016/4/29.
@@ -80,7 +83,6 @@ public class HomeRoadFragment extends Fragment {
     private ImageView iv;
     private HttpUtils post;
     private RequestParams params;
-    private SharedPreferences sp;
     MyNewFriends myFriends;
     ArrayList<UserInfos> friendsList = new ArrayList<UserInfos>();
     private RouteFriend routeFriend;
@@ -100,6 +102,9 @@ public class HomeRoadFragment extends Fragment {
     private float mPosY;
     private float mCurrentPosX;
     private float mCurrentPosY;
+
+    private SharedPreferences sp;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -230,7 +235,6 @@ public class HomeRoadFragment extends Fragment {
                         road_info_list.setAdapter(roadInfoListAdapter);
                         handler = new Handler();
                         handler.postDelayed(runnable, 200);
-
                     }
 
                 }else if (routeFriend.getCode() == 2){
@@ -246,9 +250,7 @@ public class HomeRoadFragment extends Fragment {
                 }else {
                     showShortToast(routeFriend.getMsg());
                 }
-
             }
-
         });
     }
 
@@ -425,7 +427,6 @@ public class HomeRoadFragment extends Fragment {
         }
 
         public RoadInfoListAdapter() {
-
         }
 
         @Override
@@ -465,6 +466,22 @@ public class HomeRoadFragment extends Fragment {
 
             vh.timestamp.setText(roadInfoList.get(position).getCreated_at());
             Glide.with(getActivity()).load(roadInfoList.get(position).getUser_img()).placeholder(R.mipmap.empty_photo).fitCenter().into(vh.userLogo);
+
+            vh.userLogo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (RongIM.getInstance() != null && RongYunContext.getInstance() != null) {
+                        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        String cloud_id = sp.getString("cloud_id","");
+                        if (roadInfoList.get(position).getUser_id() != null&&!cloud_id.equals(roadInfoList.get(position).getCloud_id())){
+                            RongIM.getInstance().startPrivateChat(getActivity(), roadInfoList.get(position).getCloud_id(),"");
+                        }else{
+                            Toast.makeText(getActivity(),"您不能和您自己聊天，请加其他人进行对话吧！",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+
             vh.tvAddress.setText(roadInfoList.get(position).getAddress());
             vh.iv_voice.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -487,10 +504,8 @@ public class HomeRoadFragment extends Fragment {
 //                    animationDrawable = (AnimationDrawable) vh.iv_voice.getDrawable();
 //                    animationDrawable.start();
                     road_info_list.performItemClick(view,position,R.id.iv_voice);
-
                 }
             });
-
 
             return convertview;
         }
