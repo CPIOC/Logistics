@@ -2,26 +2,37 @@ package com.cpic.taylor.logistics.RongCloudActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cpic.taylor.logistics.R;
 import com.cpic.taylor.logistics.RongCloudDatabase.UserInfos;
 import com.cpic.taylor.logistics.RongCloudModel.Groups;
+import com.cpic.taylor.logistics.RongCloudModel.RCUser;
 import com.cpic.taylor.logistics.RongCloudModel.RongEvent;
 import com.cpic.taylor.logistics.RongCloudUtils.Constants;
 import com.cpic.taylor.logistics.RongCloudWidget.LoadingDialog;
@@ -31,6 +42,15 @@ import com.cpic.taylor.logistics.base.RongCloudEvent;
 import com.cpic.taylor.logistics.base.RongYunApi;
 import com.cpic.taylor.logistics.base.RongYunContext;
 import com.cpic.taylor.logistics.utils.CloseActivityClass;
+import com.cpic.taylor.logistics.utils.UrlUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -57,8 +77,10 @@ import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.Group;
+import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.PublicServiceProfile;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.ContactNotificationMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
@@ -113,6 +135,17 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     private TextView chatNameTv;
     private ImageView chatLogo;
+
+    private HttpUtils post;
+    private RequestParams params;
+    private SharedPreferences sp;
+    RCUser rcUser;
+    /**
+     * 是否是朋友0：不是朋友   1：是朋友
+     */
+    private int chatType = 0;
+
+    private PopupWindow popupApplyFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,7 +226,18 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         chatLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enterSettingActivity();
+                if(chatType==0){
+
+                    /*Intent intent=new Intent(ConversationActivity.this,PersonalDetailActivity.class);
+                    startActivity(intent);*/
+                    showApplyFriend(chatLogo,mTargetId);
+
+                }else{
+
+                    enterSettingActivity();
+
+                }
+
             }
         });
 
@@ -206,7 +250,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     public void goToNext(View view) {
         enterSettingActivity();
     }
-
 
 
     @Override
@@ -400,7 +443,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             setGroupActionBar(targetId);
         } else if (conversationType.equals(Conversation.ConversationType.DISCUSSION)) {
             setDiscussionActionBar(targetId, mTargetIds);
-           // chatNameTv.setText(title);
+            // chatNameTv.setText(title);
         } else if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
             getSupportActionBar().setTitle(title);
             chatNameTv.setText(title);
@@ -560,12 +603,11 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             UserInfos userInfos = RongYunContext.getInstance().getUserInfosById(targetId);
 
             if (userInfos == null) {
-                getSupportActionBar().setTitle("");
-                chatNameTv.setText("");
-                getSupportActionBar().setTitle("陌生人");
-                chatNameTv.setText("陌生人");
-                chatLogo.setVisibility(View.GONE);
-                Log.e("Tag","chatLogo");
+                /*getSupportActionBar().setTitle("陌生人");
+                chatNameTv.setText("陌生人");*/
+                getUserinfoName(targetId);
+                //chatLogo.setVisibility(View.GONE);
+                Log.e("Tag", "chatLogo");
             } else {
 
                 ArrayList<UserInfo> userInfoList = null;
@@ -573,12 +615,12 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 if (RongYunContext.getInstance() != null) {
                     userInfoList = RongYunContext.getInstance().getFriendList();
                 }
-                int chatType = 0;
+
                 if (null != userInfoList) {
                     for (int i = 0; i < userInfoList.size(); i++) {
 
                         if (userInfos.getUserid().equals(userInfoList.get(i).getUserId())) {
-                            Log.e("Tag",userInfos.getUserid()+userInfoList.get(i).getUserId());
+                            Log.e("Tag", userInfos.getUserid() + userInfoList.get(i).getUserId());
                             chatType = 1;
                         }
                     }
@@ -590,19 +632,221 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
                 } else {
 
-
-                    getSupportActionBar().setTitle("陌生人");
-                    chatNameTv.setText("陌生人");
-                    chatLogo.setVisibility(View.GONE);
+                    getUserinfoName(targetId);
+                   /* getSupportActionBar().setTitle("陌生人");
+                    chatNameTv.setText("陌生人");*/
+                    //chatLogo.setVisibility(View.GONE);
 
                 }
-
-
 
 
             }
         }
 
+    }
+    public void showApplyFriend(View view, final String currentUserId) {
+        LayoutInflater mLayoutInflater = LayoutInflater.from(this);
+        View contentView1 = mLayoutInflater.inflate(R.layout.apply_friend, null);
+        if (popupApplyFriend == null) {
+
+            popupApplyFriend = new PopupWindow(contentView1, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popupApplyFriend.setBackgroundDrawable(cd);
+        // 产生背景变暗效果
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.6f;
+        getWindow().setAttributes(lp);
+        popupApplyFriend.setOutsideTouchable(true);
+        popupApplyFriend.setFocusable(true);
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        popupApplyFriend.setWidth(display.getWidth() * 80 / 100);
+        popupApplyFriend.showAtLocation((View) view.getParent(), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+        popupApplyFriend.update();
+        TextView cancelTv = (TextView) contentView1.findViewById(R.id.cancel_tv);
+        TextView ringTv = (TextView) contentView1.findViewById(R.id.ring_tv);
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                popupApplyFriend.dismiss();
+            }
+        });
+        ringTv.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                applyAddFriend(currentUserId);
+
+                popupApplyFriend.dismiss();
+            }
+        });
+        popupApplyFriend.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            // 在dismiss中恢复透明度
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+
+            }
+        });
+
+    }
+
+    private void setChatName(String name) {
+
+        getSupportActionBar().setTitle(name);
+        chatNameTv.setText(name);
+
+    }
+    private  void applyAddFriend(String currentUserId){
+
+        getUserinfoAndAddFriend(currentUserId);
+        //mUserHttpRequest = RongYunContext.getInstance().getDemoApi().sendFriendInvite(currentUserId, "请添加我为好友 ", PersonalDetailActivity.this);
+        sp = PreferenceManager.getDefaultSharedPreferences(ConversationActivity.this);
+        //ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("cloud_id", ""), currentUserId, "请求添加为好友");
+        //contact.setMessage(currentUserId);
+        ContactNotificationMessage contact = ContactNotificationMessage.obtain(ContactNotificationMessage.CONTACT_OPERATION_REQUEST, sp.getString("cloud_id", ""), currentUserId, "请求添加为好友");
+        contact.setMessage("请求添加你为好友");
+        sendMessage(contact, currentUserId);
+
+    }
+    private void sendMessage(MessageContent messageContent, final String currentUserId) {
+
+        RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, currentUserId, messageContent, "", "",
+                new RongIMClient.SendMessageCallback() {
+                    @Override
+                    public void onSuccess(Integer integer) {
+
+                        RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, currentUserId);
+
+                    }
+
+                    @Override
+                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
+    }
+
+    public void getUserinfoAndAddFriend(String cloud_id) {
+
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", cloud_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (rcUser.getCode() == 1) {
+
+
+                    if (null != rcUser.getData()) {
+                        if (null != rcUser.getData().get(0)) {
+                            addFriend(rcUser.getData().get(0).getId());
+                        }
+
+                    }
+
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(ConversationActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(ConversationActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 10);
+                } else {
+                    showShortToast(rcUser.getMsg());
+                }
+
+            }
+
+        });
+
+    }
+    private void addFriend(String user_id) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        sp = PreferenceManager.getDefaultSharedPreferences(ConversationActivity.this);
+        params.addBodyParameter("token", sp.getString("token", null));
+        params.addBodyParameter("user_id", user_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_apply;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                showShortToast("连接失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result = responseInfo.result;
+                org.json.JSONObject jsonObj = null;
+                try {
+                    jsonObj = new org.json.JSONObject(result);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if ("1".equals(String.valueOf(jsonObj.getInt("code")))) {
+
+                        showShortToast("请求添加成功");
+                        finish();
+
+                    } else if ("2".equals(String.valueOf(jsonObj.getInt("code")))) {
+                        Toast.makeText(ConversationActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(ConversationActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 10);
+                    } else {
+                        showShortToast(jsonObj.getString("msg"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
     @Override
@@ -1065,6 +1309,84 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 break;
         }
         return true;
+    }
+
+
+    private void getUserinfoName(final String cloud_id) {
+        post = new HttpUtils();
+        params = new RequestParams();
+        params.addBodyParameter("cloud_id", cloud_id);
+        String url = UrlUtils.POST_URL + UrlUtils.path_getUserinfo;
+        post.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+
+                showShortToast("登录失败，请检查网络连接");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+
+                String result = responseInfo.result;
+
+
+                try {
+
+                    Gson gson = new Gson();
+                    java.lang.reflect.Type type = new TypeToken<RCUser>() {
+                    }.getType();
+                    rcUser = gson.fromJson(result, type);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (rcUser.getCode() == 1) {
+
+                    if (null != rcUser.getData()) {
+
+                        String idd = rcUser.getData().get(0).getCloud_id();
+                        String named = rcUser.getData().get(0).getName();
+                        String uritestd = rcUser.getData().get(0).getImg();
+                        setChatName(named);
+
+
+                    }
+
+
+                } else if (rcUser.getCode() == 2) {
+                    Toast.makeText(ConversationActivity.this, "身份验证失败，请重新登陆", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(ConversationActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 10);
+                } else {
+
+                    showShortToast(rcUser.getMsg());
+
+                }
+
+            }
+
+        });
+
+
+    }
+
+    /**
+     * Toast短显示
+     *
+     * @param msg
+     */
+    protected void showShortToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 }
